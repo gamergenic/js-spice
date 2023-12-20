@@ -33,7 +33,7 @@ async function getGenericKernel(urlRelative, dirRelative) {
       return resolvedFilePath;
     } catch {
       // File does not exist, proceed with download
-      console.log('File ${resolvedFilePath} does not exist, starting download.');
+      console.log(`File ${resolvedFilePath} does not exist, starting download.`);
     }
 
     // Ensure the directory exists, creating it if necessary
