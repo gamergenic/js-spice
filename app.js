@@ -27,6 +27,13 @@ async function getKernels() {
     console.log(et.toString('C'));
     let result = spice.spkpos('moon', et, 'J2000', 'NONE', 'earth');
     console.log(JSON.stringify(result));
+
+    spice.unload(leapSeconds);
+    spice.unload(pck);
+    spice.unload(gm);
+    spice.unload(spk);
+
+    console.log('done!');
 }
 
 getKernels();
