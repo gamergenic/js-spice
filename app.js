@@ -5,6 +5,7 @@ module.exports = {
     genericKernels
 }
 
+return;
 
 async function getKernels() {
   // Usage example:
