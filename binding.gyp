@@ -3,6 +3,9 @@
     "conditions": [
       ['OS=="linux"', {
       'project_root': '<!(pwd)',
+      }],
+      ['OS=="mac"', {
+      'project_root': '<!(pwd)',
       }]
     ]
   },
@@ -67,7 +70,7 @@
         
         ['OS=="mac"', {
           "defines": [ 'NAPI_DISABLE_CPP_EXCEPTIONS', 'NON_UNIX_STDIO' ],
-          "libraries": [ "cspice.a" ],
+          "libraries": [ "<(project_root)/src/cspice/linux/cspice/lib/cspice.a" ],
           "link_settings": {
                 'library_dirs': [
                     'src/cspice/osx/cspice/lib'
