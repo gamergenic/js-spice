@@ -42,8 +42,21 @@ Napi::Object EphemerisTime::Init(Napi::Env env, Napi::Object exports) {
 }
 
 EphemerisTime::EphemerisTime(const Napi::CallbackInfo& info) : Napi::ObjectWrap<EphemerisTime>(info) {
+    Napi::Env env = info.Env();
+    
     et = j2000_c();
-    if(info.Length() == 1 && CanConvert(info[0])){
+    
+    if(info.Length() == 1 && info[0].IsString()){
+
+      std::string time_str = info[0].As<Napi::String>().Utf8Value();
+      const ConstSpiceChar* time = time_str.c_str();
+
+      double et = 0;
+      str2et_c(time, &et);
+
+      ErrorCheck(env);
+    }
+    else if(info.Length() == 1 && CanConvert(info[0])){
         et = ConvertValue(info[0]);
     }
 }
