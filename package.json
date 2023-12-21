@@ -2,7 +2,7 @@
   "name": "@gamergenic/js-spice",
   "version": "1.0.0",
   "description": "javascript wrapper for NASA/NAIF SPICE spaceflight geometry toolkit",
-  "main": "app.js",
+  "main": "index.js",
   "scripts": {
     "test": "mocha"
   },

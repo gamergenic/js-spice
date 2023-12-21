@@ -1,5 +1,6 @@
 const spice = require('./build/Release/spice');
 const genericKernels = require('./genericKernels');
+
 module.exports = { 
     spice,
     genericKernels
