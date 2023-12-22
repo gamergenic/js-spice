@@ -6,8 +6,6 @@ module.exports = {
     genericKernels
 }
 
-return;
-
 async function getKernels() {
   // Usage example:
     const leapSeconds = await genericKernels.getGenericKernel('lsk/latest_leapseconds.tls', 'data/naif/generic_kernels/lsk/latest_leapseconds.tls');
@@ -15,30 +13,18 @@ async function getKernels() {
     const gm = await genericKernels.getGenericKernel('pck/gm_de431.tpc', 'data/naif/generic_kernels/pck/gm_de431.tpc');
     const spk = await genericKernels.getGenericKernel('spk/planets/de430.bsp', 'data/naif/generic_kernels/spk/planets/de430.bsp');
 
-    console.log(leapSeconds);
-    console.log(pck);
-    console.log(gm);
-    console.log(spk);
-
     spice.furnsh(leapSeconds);
     spice.furnsh(pck);
     spice.furnsh(gm);
     spice.furnsh(spk);
-
-    let et = new spice.EphemerisTime('Dec 17, 2023, 14:10:00');
-    console.log(et.toString('C'));
-    let result = spice.spkpos('moon', et, 'J2000', 'NONE', 'earth');
-    console.log(JSON.stringify(result));
-
-    spice.unload(leapSeconds);
-    spice.unload(pck);
-    spice.unload(gm);
-    spice.unload(spk);
-
-    console.log('done!');
 }
 
-getKernels();
+// getKernels();
+
+let foo = new spice.DistanceVector(0,0,0);
+
+const foostr = foo.toString();
+console.log(foostr);
 
 return;
 

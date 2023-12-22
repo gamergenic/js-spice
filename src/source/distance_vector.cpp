@@ -15,6 +15,7 @@ Napi::Object DistanceVector::Init(Napi::Env env, Napi::Object exports) {
         InstanceMethod("getX", &DistanceVector::GetX),
         InstanceMethod("getY", &DistanceVector::GetY),
         InstanceMethod("getZ", &DistanceVector::GetZ),
+        InstanceMethod("toString", &DistanceVector::ToString),
 
         StaticMethod("isA", &DistanceVector::IsA),
     });
@@ -29,6 +30,8 @@ Napi::Object DistanceVector::Init(Napi::Env env, Napi::Object exports) {
 DistanceVector::DistanceVector(const Napi::CallbackInfo& info) : Napi::ObjectWrap<DistanceVector>(info) {
     Napi::Env env = info.Env();
     Napi::HandleScope scope(env);
+
+    std::cout << "DistanceVector constructed" << std::endl;
 
     // Error handling should be done here as necessary
     this->x = Napi::Persistent(Distance::constructor.New({Napi::Number::New(env, 0)}));    
@@ -83,18 +86,80 @@ bool DistanceVector::IsInstanceOf(Napi::Value value){
 }
 
 
-// Napi::Value DistanceVector::ToString(const Napi::CallbackInfo& info) {
-//     Napi::Env env = info.Env();
-//     Napi::HandleScope scope(env);
 
-//     if(info.Length() == 0){
-//       std::string str = "";
-//       return Napi::String::New(env, str);
-//     }
+Napi::Value DistanceVector::ToString(const Napi::CallbackInfo& info) {
+    Napi::Env env = info.Env();
+    Napi::HandleScope scope(env);
 
-//     Napi::TypeError::New(env, "no parameters expected").ThrowAsJavaScriptException();
-//     return env.Null();
-// }
+
+    if (!x.IsEmpty() && x.Value().IsObject()) {
+        Napi::Object xObj = x.Value().As<Napi::Object>();
+        if (xObj.Has("toString")) { // Use the correct case for "ToString"
+            Napi::Value string = xObj.Get("toString").As<Napi::Function>().Call({});
+            // Handle the string value as needed
+            std::cout << "LEROY 1" << std::endl;
+
+            if(string.IsString()){
+                std::cout << "LEROY 1b" << std::endl;
+            } else {
+                std::cout << "LEROY 1c" << std::endl;
+            }
+        } else {
+            // Handle the case where "ToString" method is not found
+            std::cout << "LEROY 2" << std::endl;
+        }
+    } else {
+        // Handle the case where x is empty or not an object
+        std::cout << "LEROY 3" << std::endl;
+    }
+
+    if(Distance::IsInstanceOf(x.Value())){
+        std::cout << "LEROY JENKINS!!!" << std::endl;
+    }
+
+    // Ensure each child (x, y, z) has a valid reference
+    if (!x.IsEmpty() && !y.IsEmpty() && !z.IsEmpty()) {
+        // Retrieve string representations of x, y, and z
+
+        x.Value();
+        std::cout << "1" << std::endl;
+
+        x.Value().As<Napi::Object>();
+        std::cout << "2" << std::endl;
+
+        x.Value().As<Napi::Object>().Get("toString");
+        std::cout << "3" << std::endl;
+
+        x.Value().As<Napi::Object>().Get("toString").As<Napi::Function>();
+        std::cout << "4" << std::endl;
+
+        Napi::Value string = x.Value().As<Napi::Object>().Get("toString").As<Napi::Function>().Call({});
+        std::cout << "5" << std::endl;
+
+        if(string.IsString())
+        {
+            std::string str = string.As<Napi::String>().Utf8Value();
+            std::cout << str << std::endl;
+        }
+        std::cout << "6" << std::endl;
+
+
+        Napi::Value xString = x.Value().As<Napi::Object>().Get("toString").As<Napi::Function>().Call({});
+        Napi::Value yString = y.Value().As<Napi::Object>().Get("toString").As<Napi::Function>().Call({});
+        Napi::Value zString = z.Value().As<Napi::Object>().Get("toString").As<Napi::Function>().Call({});
+
+        // Concatenate the string representations with commas
+        std::string result = xString.As<Napi::String>().Utf8Value() + ", " +
+                             yString.As<Napi::String>().Utf8Value() + ", " +
+                             zString.As<Napi::String>().Utf8Value();
+
+        // Return the concatenated string
+        return Napi::String::New(env, result);
+    } else {
+        // Return a default string or handle the error appropriately
+        return Napi::String::New(env, "Invalid DistanceVector");
+    }
+}
 
 // Napi::Value DistanceVector::ToJson(const Napi::CallbackInfo& info) {
 //     Napi::Env env = info.Env();

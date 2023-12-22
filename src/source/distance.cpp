@@ -87,6 +87,8 @@ Distance::Distance(const Napi::CallbackInfo& info) : Napi::ObjectWrap<Distance>(
     if(info.Length() == 1 && CanConvert(info[0])){
         km = ConvertValue(info[0]);
     }
+
+    std::cout << "Distance constructed" << std::endl;
 }
 
 Napi::Object Distance::NewInstance(Napi::Env env, Napi::Value arg) {
@@ -178,10 +180,16 @@ Napi::Value Distance::ToString(const Napi::CallbackInfo& info) {
     Napi::Env env = info.Env();
     Napi::HandleScope scope(env);
 
+    std::cout << "Distance::ToString!" << std::endl;
+
     if(info.Length() == 0){
-      std::string kmStr = std::to_string(km);      
-      return Napi::String::New(env, kmStr);
+        std::string kmStr = std::to_string(km);      
+
+        std::cout << "Distance::ToString 1" << std::endl;
+        return Napi::String::New(env, kmStr);
     }
+
+    std::cout << "Distance::ToString 2" << std::endl;
 
     Napi::TypeError::New(env, "no parameters expected").ThrowAsJavaScriptException();
     return env.Null();

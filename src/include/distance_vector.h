@@ -29,7 +29,7 @@ private:
     Napi::ObjectReference y;
     Napi::ObjectReference z;
 
-    // Napi::Value ToString(const Napi::CallbackInfo& info);
+    Napi::Value ToString(const Napi::CallbackInfo& info);
 
     // Napi::Value ToJson(const Napi::CallbackInfo& info);
 
