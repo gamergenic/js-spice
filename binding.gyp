@@ -13,10 +13,6 @@
     {
       "target_name": "spice",
       "sources": [ 
-        "src/source/ephemeris_time.cpp",
-        "src/source/ephemeris_period.cpp",
-        "src/source/distance.cpp",
-        "src/source/distance_vector.cpp",
         "src/source/addon.cpp",
         "src/source/spice.cpp",
         "src/source/str2et.cpp",

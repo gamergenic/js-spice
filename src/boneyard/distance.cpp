@@ -91,6 +91,10 @@ Distance::Distance(const Napi::CallbackInfo& info) : Napi::ObjectWrap<Distance>(
     std::cout << "Distance constructed" << std::endl;
 }
 
+Distance::~Distance() {
+    std::cout << "Distance destructed" << std::endl;
+}
+
 Napi::Object Distance::NewInstance(Napi::Env env, Napi::Value arg) {
     Napi::EscapableHandleScope scope(env);
     Napi::Object obj = constructor.New({ arg });

@@ -1,5 +1,4 @@
 #include "str2et.h"
-#include "ephemeris_time.h"
 #include "spice.h"
 extern "C" {
   #include <SpiceUsr.h>  // Include the CSPICE header
@@ -29,7 +28,5 @@ Napi::Value str2et(const Napi::CallbackInfo& info) {
       return env.Null();
   }  
 
-  Napi::Object obj = EphemerisTime::NewInstance(env, Napi::Number::New(env, et));
-
-  return obj;
+  return Napi::Number::New(env, et);
 }

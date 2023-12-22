@@ -7,6 +7,7 @@ class Distance : public Napi::ObjectWrap<Distance> {
 public:
     static Napi::Object Init(Napi::Env env, Napi::Object exports);
     Distance(const Napi::CallbackInfo& info);
+    ~Distance();
 
     static Napi::Object NewInstance(Napi::Env env, Napi::Value arg);
     static Napi::Value FromJson(const Napi::CallbackInfo& info);

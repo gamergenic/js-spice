@@ -121,32 +121,80 @@ Napi::Value DistanceVector::ToString(const Napi::CallbackInfo& info) {
     if (!x.IsEmpty() && !y.IsEmpty() && !z.IsEmpty()) {
         // Retrieve string representations of x, y, and z
 
-        x.Value();
-        std::cout << "1" << std::endl;
+        //x.Value();
+        //std::cout << "1" << std::endl;
 
-        x.Value().As<Napi::Object>();
-        std::cout << "2" << std::endl;
+        //x.Value().As<Napi::Object>();
+        //std::cout << "2" << std::endl;
 
-        x.Value().As<Napi::Object>().Get("toString");
-        std::cout << "3" << std::endl;
+        //x.Value().As<Napi::Object>().Get("toString");
+        //std::cout << "3" << std::endl;
 
-        x.Value().As<Napi::Object>().Get("toString").As<Napi::Function>();
-        std::cout << "4" << std::endl;
+        //x.Value().As<Napi::Object>().Get("toString").As<Napi::Function>();
+        //std::cout << "4" << std::endl;
 
-        Napi::Value string = x.Value().As<Napi::Object>().Get("toString").As<Napi::Function>().Call({});
-        std::cout << "5" << std::endl;
+        //Napi::Value string = x.Value().As<Napi::Object>().Get("toString").As<Napi::Function>().Call({});
+        //std::cout << "5" << std::endl;
 
-        if(string.IsString())
-        {
-            std::string str = string.As<Napi::String>().Utf8Value();
-            std::cout << str << std::endl;
+        //if(string.IsString())
+        //{
+        //    std::string str = string.As<Napi::String>().Utf8Value();
+        //    std::cout << str << std::endl;
+        //}
+        //std::cout << "6" << std::endl;
+
+        // bool status;
+
+//        Napi::Value xString = x.Value().As<Napi::Object>().ToString();
+//        Napi::Value xString = x.Value().As<Napi::Object>().Get("toString").As<Napi::Function>().Call({});
+
+        Napi::Value xString;
+
+        Napi::Object xObj = x.Value().As<Napi::Object>();
+        Napi::Value toStringValue = xObj.Get("toString");
+
+        if (!toStringValue.IsFunction()) {
+            std::cout << "toString is not a function" << std::endl;
+            // Handle the error or fallback
         }
-        std::cout << "6" << std::endl;
+        else {
+            Napi::Function toStringFunc = toStringValue.As<Napi::Function>();
+            xString = toStringFunc.Call(xObj, {});
+            // Now xString should contain the result of your toString method
+        }
+
+        xObj = x.Value().As<Napi::Object>();
+        if(xObj.IsObject()){
+
+            if(xObj.Get("toString").IsFunction()){
+
+                Napi::Function toStringFunc = xObj.Get("toString").As<Napi::Function>();
+
+                // Now call the function with the correct context (xObj)
+                xString = toStringFunc.Call(xObj, {});
+            }
+        }
+
+        bool status = env.IsExceptionPending();
+
+        if (status) {
+            // Exception is pending
+            Napi::Error error = env.GetAndClearPendingException();
+//            status = env.GetAndClearLastException(&exception);
+
+            if (!error.IsEmpty()) {
+                std::cout << "Exception occurred: " << error.Message() << std::endl;
+            }
+            // Handle the exception as needed
+        }
 
 
-        Napi::Value xString = x.Value().As<Napi::Object>().Get("toString").As<Napi::Function>().Call({});
-        Napi::Value yString = y.Value().As<Napi::Object>().Get("toString").As<Napi::Function>().Call({});
-        Napi::Value zString = z.Value().As<Napi::Object>().Get("toString").As<Napi::Function>().Call({});
+        Napi::Value yString = y.Value().As<Napi::Object>().ToString();
+        Napi::Value zString = z.Value().As<Napi::Object>().ToString();
+
+        // Napi::Value xString = x.Value().As<Napi::Object>().Get("toString").As<Napi::Function>().Call({});
+        //Napi::Value yString = y.Value().As<Napi::Object>().Get("toString").As<Napi::Function>().Call({});
+        //Napi::Value zString = z.Value().As<Napi::Object>().Get("toString").As<Napi::Function>().Call({});
 
         // Concatenate the string representations with commas
         std::string result = xString.As<Napi::String>().Utf8Value() + ", " +

@@ -3,7 +3,6 @@
 extern "C" {
   #include <SpiceUsr.h>  // Include the CSPICE header
 }
-#include "ephemeris_time.h"
 #include <iostream>
 #include <string>
 
@@ -32,11 +31,19 @@ Napi::Value spkpos(const Napi::CallbackInfo& info) {
         return env.Null();
     }
 
-    if(EphemerisTime::CanConvert(info[1])){
-        et = EphemerisTime::ConvertValue(info[1]);            
+    if (info[1].IsNumber()) {
+        et = info[1].As<Napi::Number>().DoubleValue();
+    }
+    else if (info[1].IsString()) {
+        std::string time_str = info[0].As<Napi::String>().Utf8Value();
+        const ConstSpiceChar* time = time_str.c_str();
+        str2et_c(time, &et);
+        if (ErrorCheck(env)) {
+            return env.Null();
+        }
     }
     else {
-        Napi::TypeError::New(env, "spkpos(targ, et, ref, abcorr, obs) expected et as ephemeris time, { et: }, or number representing seconds since J2000").ThrowAsJavaScriptException();    
+        Napi::TypeError::New(env, "spkpos(targ, et, ref, abcorr, obs) expected targ as number or string").ThrowAsJavaScriptException();
         return env.Null();
     }
 

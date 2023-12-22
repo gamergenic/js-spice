@@ -149,3 +149,9 @@ src/cspice/x64/cspice/src/**
 src/cspice/x64/cspice/lib/csupport.lib
 build/*
 data/naif/generic_kernels/**
+.vs/
+.vscode/
+bin/
+js-spice.njsproj
+js-spice.njsproj.user
+obj/
