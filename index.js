@@ -3,7 +3,7 @@ const genericKernels = require('./genericKernels');
 
 module.exports = { 
     spice,
-    genericKernels
+    genericKernels,
 }
 
 async function getKernels() {
@@ -17,9 +17,21 @@ async function getKernels() {
     spice.furnsh(pck);
     spice.furnsh(gm);
     spice.furnsh(spk);
+
+    const etstr = new Date().toISOString();
+    console.log(etstr);
+    const et = spice.str2et(etstr);
+    console.log(et);
+    let result = spice.spkpos("mercury", et, "J2000", "NONE", "earth");
+    console.log(JSON.stringify(spice.recrad(result.ptarg)));
+
+    spice.unload(leapSeconds);
+    spice.unload(pck);
+    spice.unload(gm);
+    spice.unload(spk);
 }
 
-// getKernels();
+getKernels();
 
 try{
     spice.errprt('set', 'short');

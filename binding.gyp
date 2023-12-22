@@ -13,15 +13,16 @@
     {
       "target_name": "spice",
       "sources": [ 
-        "src/source/addon.cpp",
         "src/source/spice.cpp",
-        "src/source/str2et.cpp",
-        "src/source/furnsh.cpp",
-        "src/source/unload.cpp",
         "src/source/erract.cpp",
         "src/source/errdev.cpp",
         "src/source/errprt.cpp",
+        "src/source/furnsh.cpp",
+        "src/source/radrec.cpp",
+        "src/source/recrad.cpp",
         "src/source/spkpos.cpp",
+        "src/source/str2et.cpp",
+        "src/source/unload.cpp",
          ],
       "dependencies": [
         "<!(node -p \"require('node-addon-api').gyp\")"

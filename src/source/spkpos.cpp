@@ -35,7 +35,7 @@ Napi::Value spkpos(const Napi::CallbackInfo& info) {
         et = info[1].As<Napi::Number>().DoubleValue();
     }
     else if (info[1].IsString()) {
-        std::string time_str = info[0].As<Napi::String>().Utf8Value();
+        std::string time_str = info[1].As<Napi::String>().Utf8Value();
         const ConstSpiceChar* time = time_str.c_str();
         str2et_c(time, &et);
         if (ErrorCheck(env)) {
@@ -80,12 +80,15 @@ Napi::Value spkpos(const Napi::CallbackInfo& info) {
 
     spkpos_c(targ, et, ref, abcorr, obs, ptarg, &lt);
 
-    Napi::Object obj = Napi::Object::New(env);
+    Napi::Array ptargArray = Napi::Array::New(env, 3);
+    ptargArray.Set((uint32_t)0, ptarg[0]);
+    ptargArray.Set((uint32_t)1, ptarg[1]);
+    ptargArray.Set((uint32_t)2,ptarg[2]);
+    
 
-    obj.Set("x", ptarg[0]);
-    obj.Set("y", ptarg[1]);
-    obj.Set("z", ptarg[2]);    
-    obj.Set("lt", lt);    
+    Napi::Object result = Napi::Object::New(env);
+    result.Set("ptarg", ptargArray);
+    result.Set("lt", lt);    
 
-    return obj;
+    return result;
 }
