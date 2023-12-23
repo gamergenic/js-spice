@@ -283,8 +283,8 @@ https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/req/gf.html#Natural%20satellit
         of the search interval.
         */
         
-        const et0 = spice.str2et("2009 JAN 1");
-        const et1 = spice.str2et("2009 JAN 5");
+        const et0 = now();
+        const et1 = now() + spice.spd() * 5;
         const cnfine = [[et0, et1]];
 
         /*

@@ -95,7 +95,7 @@ async function getKernels() {
           Set the observer, target and reference frame.
           */
         const obsrvr = "DSS-14";
-        const target = "SATURN";
+        const target = "SUN";
         const frame  = "DSS-14_TOPO";
 
         /*
@@ -115,6 +115,7 @@ async function getKernels() {
         const refval = 6.0 * spice.rpd();
 
         /*
+        
         We're looking for the apparent position of Saturn,
         so apply corrections for light time and stellar
         aberration.
@@ -154,7 +155,7 @@ async function getKernels() {
         /*
         Display the times of rise and set.
         */
-        console.log( "\nTimes of Saturn rise/set as seen from DSS-14:\n\n" );
+        console.log( "\nTimes of Sun rise/set as seen from DSS-14:\n\n" );
 
         const timeformat = "YYYY MON DD HR:MN:SC.###### TDB::RND::TDB";
         if(Array.isArray(result)){
