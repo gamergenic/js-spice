@@ -11,9 +11,10 @@
   },
   "targets": [
     {
-      "target_name": "spice",
+      "target_name": "js-spice",
       "sources": [ 
-        "src/source/wrapped/spice.cpp",
+        "src/source/js-spice.cpp",
+        "src/source/utility/err.cpp",
         "src/source/wrapped/azlrec.cpp",
         "src/source/wrapped/bodvrd.cpp",
         "src/source/wrapped/convrt.cpp",

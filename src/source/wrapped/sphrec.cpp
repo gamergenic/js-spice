@@ -1,5 +1,5 @@
 #include "wrapped/sphrec.h"
-#include "wrapped/spice.h"
+
 extern "C" {
   #include <SpiceUsr.h>  // Include the CSPICE header
 }

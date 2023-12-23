@@ -1,8 +1,9 @@
 #include "wrapped/recpgr.h"
-#include "wrapped/spice.h"
+#include "utility/err.h"
 extern "C" {
   #include <SpiceUsr.h>  // Include the CSPICE header
 }
+#include "js-spice.h"
 
 Napi::Value recpgr(const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();

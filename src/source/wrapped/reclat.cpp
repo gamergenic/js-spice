@@ -1,8 +1,9 @@
 #include "wrapped/reclat.h"
-#include "wrapped/spice.h"
+
 extern "C" {
   #include <SpiceUsr.h>  // Include the CSPICE header
 }
+#include "js-spice.h"
 
 Napi::Value reclat(const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();

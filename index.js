@@ -1,4 +1,4 @@
-const spice = require('./build/Release/spice');
+const spice = require('./build/Release/js-spice');
 const genericKernels = require('./genericKernels');
 
 function now(){

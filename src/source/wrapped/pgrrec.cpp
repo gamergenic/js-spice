@@ -1,5 +1,5 @@
 #include "wrapped/pgrrec.h"
-#include "wrapped/spice.h"
+#include "utility/err.h"
 extern "C" {
   #include <SpiceUsr.h>  // Include the CSPICE header
 }

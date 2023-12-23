@@ -68,34 +68,7 @@ Napi::Object Init(Napi::Env env, Napi::Object exports) {
 
 NODE_API_MODULE(NODE_GYP_MODULE_NAME, Init)
 
-#include "wrapped/spice.h"
-extern "C" {
-  #include <SpiceUsr.h>  // Include the CSPICE header
-}
-
-bool ErrorCheck(Napi::Env& env)
-{
-    SpiceBoolean failed = failed_c();
-
-    if(failed)
-    {
-        char szBuffer[SpiceLongMessageMaxLength];
-
-        szBuffer[0] = '\0';
-        getmsg_c("LONG", sizeof(szBuffer), szBuffer);
-
-        if (!strnlen(szBuffer, sizeof(szBuffer)))
-        {
-            szBuffer[0] = '\0';
-            getmsg_c("SHORT", sizeof(szBuffer), szBuffer);
-        }
-
-        Napi::Error::New(env, szBuffer).ThrowAsJavaScriptException();
-        return true;
-    }
-
-    return false;
-}
+#include "js-spice.h"
 
 bool ExtractRecVector(std::vector<Napi::Value> values, double result[3]){
   if(values.size() == 1 && values[0].IsArray()){

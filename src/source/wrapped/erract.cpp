@@ -1,8 +1,11 @@
 #include "wrapped/erract.h"
+
 extern "C" {
-  #include <SpiceUsr.h>  // Include the CSPICE header
+    #include <SpiceUsr.h>
 }
-#include "wrapped/spice.h"
+
+#include "js-spice.h"
+#include "utility/err.h"
 
 
 Napi::Value erract(const Napi::CallbackInfo& info) {

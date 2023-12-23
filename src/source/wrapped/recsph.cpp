@@ -1,8 +1,9 @@
 #include "wrapped/recsph.h"
-#include "wrapped/spice.h"
+
 extern "C" {
   #include <SpiceUsr.h>  // Include the CSPICE header
 }
+#include "js-spice.h"
 
 Napi::Value recsph(const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();

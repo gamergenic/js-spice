@@ -3,7 +3,7 @@ extern "C" {
   #include <SpiceUsr.h>  // Include the CSPICE header
 }
 
-constexpr SpiceInt SpiceLongMessageMaxLength = 1841;
+#include "js-spice.h"
 
 Napi::Value errdev(const Napi::CallbackInfo& info) {
     Napi::Env env = info.Env();
