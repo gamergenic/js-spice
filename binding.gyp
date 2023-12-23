@@ -25,6 +25,7 @@
         "src/source/georec.cpp",
         "src/source/halfpi.cpp",
         "src/source/latrec.cpp",
+        "src/source/pgrrec.cpp",
         "src/source/pi.cpp",
         "src/source/radrec.cpp",
         "src/source/recazl.cpp",

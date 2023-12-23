@@ -10,6 +10,7 @@
 #include "georec.h"
 #include "halfpi.h"
 #include "latrec.h"
+#include "pgrrec.h"
 #include "pi.h"
 #include "str2et.h"
 #include "sphrec.h"
@@ -37,6 +38,7 @@ Napi::Object Init(Napi::Env env, Napi::Object exports) {
   exports.Set("georec", Napi::Function::New(env, georec));
   exports.Set("halfpi", Napi::Function::New(env, halfpi));
   exports.Set("latrec", Napi::Function::New(env, latrec));
+  exports.Set("pgrrec", Napi::Function::New(env, pgrrec));
   exports.Set("pi",     Napi::Function::New(env, pi));
   exports.Set("radrec", Napi::Function::New(env, radrec));
   exports.Set("recazl", Napi::Function::New(env, recazl));

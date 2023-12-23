@@ -204,6 +204,8 @@ console.log(spice.Distance.isA(newVector.getX()));              // logs 'true'
 # sphrec
     console.log(spice.sphrec({"r" : 10000, "colat" : 2, "slon" : -1 }));
 
+# pgrrec
+    console.log(spice.pgrrec("earth", {"lon" : 1, "lat" : -1, "alt" : 10000 }, 6000, 0));
 
 ##### erract
 
