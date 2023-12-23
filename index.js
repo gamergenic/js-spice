@@ -159,8 +159,8 @@ async function getKernels() {
         const timeformat = "YYYY MON DD HR:MN:SC.###### TDB::RND::TDB";
         if(Array.isArray(result)){
             result.forEach((window)=>{
-                et0str = spice.timeout(window[0], timeformat);
-                et1str = spice.timeout(window[1], timeformat);
+                et0str = spice.timout(window[0], timeformat);
+                et1str = spice.timout(window[1], timeformat);
                 console.log(`${et0str} ${et1str}`);
             });
         }

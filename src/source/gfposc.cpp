@@ -9,7 +9,7 @@ Napi::Value gfposc(const Napi::CallbackInfo& info) {
   Napi::HandleScope scope(env);
 
   bool bInputIsValid = true;
-  bInputIsValid = info.Length() < 11 || info.Length() > 12;
+  bInputIsValid = !(info.Length() < 11 || info.Length() > 12);
 
   if(bInputIsValid){
     bInputIsValid &= info[0].IsString();
@@ -76,7 +76,27 @@ Napi::Value gfposc(const Napi::CallbackInfo& info) {
   for(uint32_t i = 0; i < cnfine_array.Length(); ++i){
     Napi::Value val = cnfine_array.Get(i);
     double start, stop;
-    if(val.IsObject()){
+    if (val.IsArray()){
+      Napi::Array arr = val.As<Napi::Array>();
+
+      bool bArrayIsValid = true;
+      bArrayIsValid &= arr.Length() == 2;
+      if(bArrayIsValid){
+        Napi::Value startValue = arr.Get((uint32_t)0);
+        Napi::Value stopValue = arr.Get((uint32_t)1);
+        bArrayIsValid &= startValue.IsNumber();
+        bArrayIsValid &= stopValue.IsNumber();
+        if(bArrayIsValid){
+          start = startValue.As<Napi::Number>().DoubleValue();
+          stop = stopValue.As<Napi::Number>().DoubleValue();
+        }
+      }
+      if(!bArrayIsValid){
+        Napi::TypeError::New(env, "gfposc expected confinement window array child array [x, y]").ThrowAsJavaScriptException();    
+        return env.Null();
+      }
+    }
+    else if(val.IsObject()){
       Napi::Object obj = val.As<Napi::Object>();
       bool bObjectIsValid = true;
       bObjectIsValid &= obj.HasOwnProperty("start");
@@ -97,26 +117,6 @@ Napi::Value gfposc(const Napi::CallbackInfo& info) {
       }
       if(!bObjectIsValid){
         Napi::TypeError::New(env, "gfposc expected confinement window array member object { start: x, stop: y }").ThrowAsJavaScriptException();    
-        return env.Null();
-      }
-    }
-    else if (val.IsArray()){
-      Napi::Array arr = val.As<Napi::Array>();
-
-      bool bArrayIsValid = true;
-      bArrayIsValid &= arr.Length() == 2;
-      if(bArrayIsValid){
-        Napi::Value startValue = arr.Get((uint32_t)0);
-        Napi::Value stopValue = arr.Get((uint32_t)1);
-        bArrayIsValid &= startValue.IsNumber();
-        bArrayIsValid &= stopValue.IsNumber();
-        if(bArrayIsValid){
-          start = startValue.As<Napi::Number>().DoubleValue();
-          stop = stopValue.As<Napi::Number>().DoubleValue();
-        }
-      }
-      if(!bArrayIsValid){
-        Napi::TypeError::New(env, "gfposc expected confinement window array child array [x, y]").ThrowAsJavaScriptException();    
         return env.Null();
       }
     }
