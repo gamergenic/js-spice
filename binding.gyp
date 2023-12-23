@@ -35,6 +35,7 @@
         "src/source/recpgr.cpp",
         "src/source/recrad.cpp",
         "src/source/recsph.cpp",
+        "src/source/spd.cpp",
         "src/source/sphrec.cpp",
         "src/source/spkpos.cpp",
         "src/source/str2et.cpp",

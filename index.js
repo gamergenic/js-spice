@@ -1,9 +1,16 @@
 const spice = require('./build/Release/spice');
 const genericKernels = require('./genericKernels');
 
+function now(){
+    const etstr = new Date().toISOString();
+    const et = spice.str2et(etstr);
+    return et;
+}
+
 module.exports = { 
     spice,
     genericKernels,
+    now,
 }
 
 async function getKernels() {
@@ -18,11 +25,7 @@ async function getKernels() {
     spice.furnsh(gm);
     spice.furnsh(spk);
 
-    const etstr = new Date().toISOString();
-    console.log(etstr);
-    const et = spice.str2et(etstr);
-    console.log(et);
-    let result = spice.spkpos("mercury", et, "J2000", "NONE", "earth");
+    let result = spice.spkpos("mercury", now(), "J2000", "NONE", "earth");
     console.log(JSON.stringify(spice.recrad(result.ptarg)));
 
     console.log(spice.pi());
@@ -42,6 +45,8 @@ async function getKernels() {
     console.log(spice.latrec({"radius" : 10000, "lon" : 2, "lat" : -1 }));
     console.log(spice.sphrec({"r" : 10000, "colat" : 2, "slon" : -1 }));
     console.log(spice.pgrrec("earth", {"lon" : 1, "lat" : -1, "alt" : 10000 }, 6000, 0));
+
+    console.log(spice.spd());
 
     spice.unload(leapSeconds);
     spice.unload(pck);
