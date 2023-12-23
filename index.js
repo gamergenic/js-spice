@@ -48,6 +48,8 @@ async function getKernels() {
 
     console.log(spice.spd());
 
+    console.log(spice.timout(now(), 'MON DD,YYYY  HR:MN:SC.#### (TDB) ::TDB'));
+
     spice.unload(leapSeconds);
     spice.unload(pck);
     spice.unload(gm);

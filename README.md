@@ -261,5 +261,9 @@ let result = spice.spkpos('moon', new spice.EphemerisTime('Dec 17, 2023, 14:10:0
 console.log(result.toString());
 ```
 
+##### timout
+
+console.log(spice.timout(now(), 'MON DD,YYYY  HR:MN:SC.#### (TDB) ::TDB'));
+
 ### License
 MIT License.

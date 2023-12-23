@@ -16,6 +16,7 @@
 #include "spd.h"
 #include "sphrec.h"
 #include "spkpos.h"
+#include "timout.h"
 #include "radrec.h"
 #include "recazl.h"
 #include "reccyl.h"
@@ -53,6 +54,7 @@ Napi::Object Init(Napi::Env env, Napi::Object exports) {
   exports.Set("spd",    Napi::Function::New(env, spd));
   exports.Set("sphrec", Napi::Function::New(env, sphrec));
   exports.Set("spkpos", Napi::Function::New(env, spkpos));
+  exports.Set("timout", Napi::Function::New(env, timout));
   exports.Set("twopi",  Napi::Function::New(env, twopi));
   exports.Set("unload", Napi::Function::New(env, unload));
   return exports;

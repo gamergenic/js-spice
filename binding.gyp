@@ -39,6 +39,7 @@
         "src/source/sphrec.cpp",
         "src/source/spkpos.cpp",
         "src/source/str2et.cpp",
+        "src/source/timout.cpp",
         "src/source/twopi.cpp",
         "src/source/unload.cpp",
          ],

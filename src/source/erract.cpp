@@ -23,7 +23,6 @@ Napi::Value erract(const Napi::CallbackInfo& info) {
     const ConstSpiceChar* op = op_str.c_str();
     SpiceInt actlen = SpiceLongMessageMaxLength-1;
     SpiceChar action[SpiceLongMessageMaxLength];
-    action[0] = '\0';
     if(info.Length() > 1)
     {
         std::string action_str = info[1].ToString().Utf8Value();
