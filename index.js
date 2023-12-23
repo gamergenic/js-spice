@@ -32,6 +32,10 @@ async function getKernels() {
     console.log(spice.bodvrd("earth", "GM"));
     console.log(spice.bodvrd("earth", "RADII"));
 
+    console.log(spice.convrt(1, "FEET", "INCHES"));
+
+    console.log(spice.convrt([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10], "YARDS", "FEET"));
+
     spice.unload(leapSeconds);
     spice.unload(pck);
     spice.unload(gm);

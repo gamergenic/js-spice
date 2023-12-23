@@ -15,6 +15,7 @@
       "sources": [ 
         "src/source/spice.cpp",
         "src/source/bodvrd.cpp",
+        "src/source/convrt.cpp",
         "src/source/erract.cpp",
         "src/source/errdev.cpp",
         "src/source/errprt.cpp",
