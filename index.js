@@ -38,6 +38,8 @@ async function getKernels() {
     console.log(spice.azlrec({"range" : 10000, "az" : 2, "el" : -1}, true, true));
     console.log(spice.cylrec({"r" : 10000, "clon" : 2, "z" : -100 }));
 
+    console.log(spice.georec({"lon" : 1, "lat" : -1, "alt" : 1000 }, 10000, 0));
+
     spice.unload(leapSeconds);
     spice.unload(pck);
     spice.unload(gm);

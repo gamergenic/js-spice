@@ -7,6 +7,7 @@
 #include "errdev.h"
 #include "errprt.h"
 #include "furnsh.h"
+#include "georec.h"
 #include "halfpi.h"
 #include "pi.h"
 #include "str2et.h"
@@ -31,6 +32,7 @@ Napi::Object Init(Napi::Env env, Napi::Object exports) {
   exports.Set("errdev", Napi::Function::New(env, errdev));
   exports.Set("errprt", Napi::Function::New(env, errprt));
   exports.Set("furnsh", Napi::Function::New(env, furnsh));
+  exports.Set("georec", Napi::Function::New(env, georec));
   exports.Set("halfpi", Napi::Function::New(env, halfpi));
   exports.Set("pi",     Napi::Function::New(env, pi));
   exports.Set("radrec", Napi::Function::New(env, radrec));

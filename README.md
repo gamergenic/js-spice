@@ -172,6 +172,36 @@ console.log(spice.Distance.isA(newVector.getX()));              // logs 'true'
 
 #### Functions
 
+# pi
+    console.log(spice.pi());
+
+# halfpi
+    console.log(spice.halfpi());
+    console.log(spice.twopi());
+
+# twopi
+
+# bodvrd
+    console.log(spice.bodvrd("earth", "GM"));
+    console.log(spice.bodvrd("earth", "RADII"));
+
+# convrt
+    console.log(spice.convrt(1, "FEET", "INCHES"));
+    console.log(spice.convrt([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10], "YARDS", "FEET"));
+
+# azlrec
+    console.log(spice.azlrec({"range" : 10000, "az" : 2, "el" : -1}, true, true));
+
+# cylrec
+    console.log(spice.cylrec({"r" : 10000, "clon" : 2, "z" : -100 }));
+
+# georec
+    console.log(spice.georec({"lon" : 1, "lat" : -1, "alt" : 1000 }, 10000, 0));
+
+
+
+
+
 ##### erract
 
 ###### Usage

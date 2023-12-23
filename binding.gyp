@@ -22,6 +22,7 @@
         "src/source/errdev.cpp",
         "src/source/errprt.cpp",
         "src/source/furnsh.cpp",
+        "src/source/georec.cpp",
         "src/source/halfpi.cpp",
         "src/source/pi.cpp",
         "src/source/radrec.cpp",
