@@ -3,6 +3,7 @@
 #include "bodvrd.h"
 #include "convrt.h"
 #include "cylrec.h"
+#include "dpr.h"
 #include "erract.h"
 #include "errdev.h"
 #include "errprt.h"
@@ -12,6 +13,7 @@
 #include "latrec.h"
 #include "pgrrec.h"
 #include "pi.h"
+#include "rpd.h"
 #include "str2et.h"
 #include "spd.h"
 #include "sphrec.h"
@@ -33,6 +35,7 @@ Napi::Object Init(Napi::Env env, Napi::Object exports) {
   exports.Set("bodvrd", Napi::Function::New(env, bodvrd));
   exports.Set("convrt", Napi::Function::New(env, convrt));
   exports.Set("cylrec", Napi::Function::New(env, cylrec));
+  exports.Set("dpr",    Napi::Function::New(env, dpr));
   exports.Set("erract", Napi::Function::New(env, erract));
   exports.Set("errdev", Napi::Function::New(env, errdev));
   exports.Set("errprt", Napi::Function::New(env, errprt));
@@ -50,6 +53,7 @@ Napi::Object Init(Napi::Env env, Napi::Object exports) {
   exports.Set("recpgr", Napi::Function::New(env, recpgr));
   exports.Set("recrad", Napi::Function::New(env, recrad));
   exports.Set("recsph", Napi::Function::New(env, recsph));
+  exports.Set("rpd",    Napi::Function::New(env, rpd));
   exports.Set("str2et", Napi::Function::New(env, str2et));
   exports.Set("spd",    Napi::Function::New(env, spd));
   exports.Set("sphrec", Napi::Function::New(env, sphrec));
