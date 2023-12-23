@@ -12,6 +12,7 @@
 #include "latrec.h"
 #include "pi.h"
 #include "str2et.h"
+#include "sphrec.h"
 #include "spkpos.h"
 #include "radrec.h"
 #include "recazl.h"
@@ -46,6 +47,7 @@ Napi::Object Init(Napi::Env env, Napi::Object exports) {
   exports.Set("recrad", Napi::Function::New(env, recrad));
   exports.Set("recsph", Napi::Function::New(env, recsph));
   exports.Set("str2et", Napi::Function::New(env, str2et));
+  exports.Set("sphrec", Napi::Function::New(env, sphrec));
   exports.Set("spkpos", Napi::Function::New(env, spkpos));
   exports.Set("twopi",  Napi::Function::New(env, twopi));
   exports.Set("unload", Napi::Function::New(env, unload));

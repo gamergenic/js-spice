@@ -40,6 +40,7 @@ async function getKernels() {
 
     console.log(spice.georec({"lon" : 1, "lat" : -1, "alt" : 1000 }, 10000, 0));
     console.log(spice.latrec({"radius" : 10000, "lon" : 2, "lat" : -1 }));
+    console.log(spice.sphrec({"r" : 10000, "colat" : 2, "slon" : -1 }));
 
     spice.unload(leapSeconds);
     spice.unload(pck);
