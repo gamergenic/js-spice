@@ -3,8 +3,6 @@
 extern "C" {
   #include <SpiceUsr.h>  // Include the CSPICE header
 }
-#include <iostream>
-#include <string>
 
 Napi::Value radrec(const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();

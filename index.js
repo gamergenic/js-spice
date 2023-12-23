@@ -24,6 +24,14 @@ async function getKernels() {
     console.log(et);
     let result = spice.spkpos("mercury", et, "J2000", "NONE", "earth");
     console.log(JSON.stringify(spice.recrad(result.ptarg)));
+    const rec = [1, 2, 3];
+    console.log(JSON.stringify(spice.recazl(rec, true, true)));
+    console.log(JSON.stringify(spice.reccyl(rec)));
+    console.log(JSON.stringify(spice.recgeo(rec, 10000, 0)));
+    console.log(JSON.stringify(spice.reclat(rec)));
+    console.log(JSON.stringify(spice.recpgr("moon", rec, 10000, 0)));
+    console.log(JSON.stringify(spice.recrad(rec)));
+    console.log(JSON.stringify(spice.recsph(rec)));
 
     spice.unload(leapSeconds);
     spice.unload(pck);

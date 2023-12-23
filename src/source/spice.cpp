@@ -7,8 +7,13 @@
 #include "str2et.h"
 #include "spkpos.h"
 #include "radrec.h"
+#include "recazl.h"
+#include "reccyl.h"
+#include "recgeo.h"
+#include "reclat.h"
+#include "recpgr.h"
 #include "recrad.h"
-
+#include "recsph.h"
 
 Napi::Object Init(Napi::Env env, Napi::Object exports) {
   exports.Set("str2et", Napi::Function::New(env, str2et));
@@ -19,8 +24,14 @@ Napi::Object Init(Napi::Env env, Napi::Object exports) {
   exports.Set("errprt", Napi::Function::New(env, errprt));
   exports.Set("str2et", Napi::Function::New(env, str2et));
   exports.Set("spkpos", Napi::Function::New(env, spkpos));
-  exports.Set("recrad", Napi::Function::New(env, recrad));
   exports.Set("radrec", Napi::Function::New(env, radrec));
+  exports.Set("recazl", Napi::Function::New(env, recazl));
+  exports.Set("reccyl", Napi::Function::New(env, reccyl));
+  exports.Set("recgeo", Napi::Function::New(env, recgeo));
+  exports.Set("reclat", Napi::Function::New(env, reclat));
+  exports.Set("recpgr", Napi::Function::New(env, recpgr));
+  exports.Set("recrad", Napi::Function::New(env, recrad));
+  exports.Set("recsph", Napi::Function::New(env, recsph));
   return exports;
 }
 

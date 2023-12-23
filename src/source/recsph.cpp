@@ -1,10 +1,10 @@
-#include "recrad.h"
+#include "recsph.h"
 #include "spice.h"
 extern "C" {
   #include <SpiceUsr.h>  // Include the CSPICE header
 }
 
-Napi::Value recrad(const Napi::CallbackInfo& info) {
+Napi::Value recsph(const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();
   Napi::HandleScope scope(env);
 
@@ -17,18 +17,18 @@ Napi::Value recrad(const Napi::CallbackInfo& info) {
     SpiceDouble rectan[3];
     if(ExtractRecVector(input, rectan))
     {
-        SpiceDouble range, ra, dec;
-        recrad_c(rectan, &range, &ra, &dec);
+        SpiceDouble r, colat, slon;
+        recsph_c(rectan, &r, &colat, &slon);
 
         Napi::Object result = Napi::Object::New(env);
-        result.Set("range", range);
-        result.Set("ra", ra);
-        result.Set("dec", dec);
+        result.Set("r", r);
+        result.Set("colat", colat);
+        result.Set("slon", slon);
 
         return result;
     }
   }
 
-  Napi::TypeError::New(env, "recrad expected 1 input vector").ThrowAsJavaScriptException();    
+  Napi::TypeError::New(env, "recsph expected 1 input vector").ThrowAsJavaScriptException();    
   return env.Null();
 }
