@@ -36,6 +36,7 @@ async function getKernels() {
 
     console.log(spice.convrt([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10], "YARDS", "FEET"));
     console.log(spice.azlrec({"range" : 10000, "az" : 2, "el" : -1}, true, true));
+    console.log(spice.cylrec({"r" : 10000, "clon" : 2, "z" : -100 }));
 
     spice.unload(leapSeconds);
     spice.unload(pck);
