@@ -29,6 +29,9 @@ async function getKernels() {
     console.log(spice.halfpi());
     console.log(spice.twopi());
 
+    console.log(spice.bodvrd("earth", "GM"));
+    console.log(spice.bodvrd("earth", "RADII"));
+
     spice.unload(leapSeconds);
     spice.unload(pck);
     spice.unload(gm);

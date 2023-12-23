@@ -1,4 +1,5 @@
 #include <napi.h>
+#include "bodvrd.h"
 #include "erract.h"
 #include "errdev.h"
 #include "errprt.h"
@@ -19,6 +20,7 @@
 #include "unload.h"
 
 Napi::Object Init(Napi::Env env, Napi::Object exports) {
+  exports.Set("bodvrd", Napi::Function::New(env, bodvrd));
   exports.Set("erract", Napi::Function::New(env, erract));
   exports.Set("errdev", Napi::Function::New(env, errdev));
   exports.Set("errprt", Napi::Function::New(env, errprt));

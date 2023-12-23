@@ -14,7 +14,7 @@ Napi::Value str2et(const Napi::CallbackInfo& info) {
   if(info.Length() == 1 && info[0].IsString()){
 
       double et = 0;
-      std::string time_str = info[0].As<Napi::String>().Utf8Value();
+      const std::string time_str = info[0].As<Napi::String>().Utf8Value();
       const ConstSpiceChar* time = time_str.c_str();
 
       str2et_c(time, &et);
