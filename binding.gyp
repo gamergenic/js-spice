@@ -24,6 +24,7 @@
         "src/source/errprt.cpp",
         "src/source/furnsh.cpp",
         "src/source/georec.cpp",
+        "src/source/gfposc.cpp",
         "src/source/halfpi.cpp",
         "src/source/latrec.cpp",
         "src/source/pgrrec.cpp",

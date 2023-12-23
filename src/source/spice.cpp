@@ -9,6 +9,7 @@
 #include "errprt.h"
 #include "furnsh.h"
 #include "georec.h"
+#include "gfposc.h"
 #include "halfpi.h"
 #include "latrec.h"
 #include "pgrrec.h"
@@ -41,6 +42,7 @@ Napi::Object Init(Napi::Env env, Napi::Object exports) {
   exports.Set("errprt", Napi::Function::New(env, errprt));
   exports.Set("furnsh", Napi::Function::New(env, furnsh));
   exports.Set("georec", Napi::Function::New(env, georec));
+  exports.Set("gfposc", Napi::Function::New(env, gfposc));
   exports.Set("halfpi", Napi::Function::New(env, halfpi));
   exports.Set("latrec", Napi::Function::New(env, latrec));
   exports.Set("pgrrec", Napi::Function::New(env, pgrrec));
