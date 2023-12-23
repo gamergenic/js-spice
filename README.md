@@ -198,7 +198,8 @@ console.log(spice.Distance.isA(newVector.getX()));              // logs 'true'
 # georec
     console.log(spice.georec({"lon" : 1, "lat" : -1, "alt" : 1000 }, 10000, 0));
 
-
+#latrec
+    console.log(spice.latrec({"radius" : 10000, "lon" : 2, "lat" : -1 }));
 
 
 

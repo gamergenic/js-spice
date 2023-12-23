@@ -24,6 +24,10 @@ Napi::Value georec(const Napi::CallbackInfo& info) {
           SpiceDouble rectan[3];
           georec_c(lon, lat, alt, re, f, rectan);
 
+          if(ErrorCheck(env)){
+            return env.Null();
+          }                 
+
           Napi::Array result = Napi::Array::New(env, 3);
           result.Set((uint32_t)0, rectan[0]);
           result.Set((uint32_t)1, rectan[1]);

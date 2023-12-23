@@ -9,6 +9,7 @@
 #include "furnsh.h"
 #include "georec.h"
 #include "halfpi.h"
+#include "latrec.h"
 #include "pi.h"
 #include "str2et.h"
 #include "spkpos.h"
@@ -34,6 +35,7 @@ Napi::Object Init(Napi::Env env, Napi::Object exports) {
   exports.Set("furnsh", Napi::Function::New(env, furnsh));
   exports.Set("georec", Napi::Function::New(env, georec));
   exports.Set("halfpi", Napi::Function::New(env, halfpi));
+  exports.Set("latrec", Napi::Function::New(env, latrec));
   exports.Set("pi",     Napi::Function::New(env, pi));
   exports.Set("radrec", Napi::Function::New(env, radrec));
   exports.Set("recazl", Napi::Function::New(env, recazl));
