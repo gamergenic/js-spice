@@ -1,9 +1,10 @@
 #include <napi.h>
-#include "furnsh.h"
-#include "unload.h"
 #include "erract.h"
 #include "errdev.h"
 #include "errprt.h"
+#include "furnsh.h"
+#include "halfpi.h"
+#include "pi.h"
 #include "str2et.h"
 #include "spkpos.h"
 #include "radrec.h"
@@ -14,16 +15,16 @@
 #include "recpgr.h"
 #include "recrad.h"
 #include "recsph.h"
+#include "twopi.h"
+#include "unload.h"
 
 Napi::Object Init(Napi::Env env, Napi::Object exports) {
-  exports.Set("str2et", Napi::Function::New(env, str2et));
-  exports.Set("furnsh", Napi::Function::New(env, furnsh));
-  exports.Set("unload", Napi::Function::New(env, unload));
   exports.Set("erract", Napi::Function::New(env, erract));
   exports.Set("errdev", Napi::Function::New(env, errdev));
   exports.Set("errprt", Napi::Function::New(env, errprt));
-  exports.Set("str2et", Napi::Function::New(env, str2et));
-  exports.Set("spkpos", Napi::Function::New(env, spkpos));
+  exports.Set("furnsh", Napi::Function::New(env, furnsh));
+  exports.Set("halfpi", Napi::Function::New(env, halfpi));
+  exports.Set("pi",     Napi::Function::New(env, pi));
   exports.Set("radrec", Napi::Function::New(env, radrec));
   exports.Set("recazl", Napi::Function::New(env, recazl));
   exports.Set("reccyl", Napi::Function::New(env, reccyl));
@@ -32,6 +33,10 @@ Napi::Object Init(Napi::Env env, Napi::Object exports) {
   exports.Set("recpgr", Napi::Function::New(env, recpgr));
   exports.Set("recrad", Napi::Function::New(env, recrad));
   exports.Set("recsph", Napi::Function::New(env, recsph));
+  exports.Set("str2et", Napi::Function::New(env, str2et));
+  exports.Set("spkpos", Napi::Function::New(env, spkpos));
+  exports.Set("twopi",  Napi::Function::New(env, twopi));
+  exports.Set("unload", Napi::Function::New(env, unload));
   return exports;
 }
 

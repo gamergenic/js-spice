@@ -18,6 +18,8 @@
         "src/source/errdev.cpp",
         "src/source/errprt.cpp",
         "src/source/furnsh.cpp",
+        "src/source/halfpi.cpp",
+        "src/source/pi.cpp",
         "src/source/radrec.cpp",
         "src/source/recazl.cpp",
         "src/source/reccyl.cpp",
@@ -28,6 +30,7 @@
         "src/source/recsph.cpp",
         "src/source/spkpos.cpp",
         "src/source/str2et.cpp",
+        "src/source/twopi.cpp",
         "src/source/unload.cpp",
          ],
       "dependencies": [
