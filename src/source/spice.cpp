@@ -1,4 +1,5 @@
 #include <napi.h>
+#include "azlrec.h"
 #include "bodvrd.h"
 #include "convrt.h"
 #include "erract.h"
@@ -21,6 +22,7 @@
 #include "unload.h"
 
 Napi::Object Init(Napi::Env env, Napi::Object exports) {
+  exports.Set("azlrec", Napi::Function::New(env, azlrec));
   exports.Set("bodvrd", Napi::Function::New(env, bodvrd));
   exports.Set("convrt", Napi::Function::New(env, convrt));
   exports.Set("erract", Napi::Function::New(env, erract));
