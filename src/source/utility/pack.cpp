@@ -1,0 +1,110 @@
+#include "utility/pack.h"
+
+Packer::Packer(Napi::Env _env) : env(_env) {
+}
+
+
+NObject Packer::azl(SpiceDouble range, SpiceDouble az, SpiceDouble el){
+    Napi::HandleScope scope(env);
+    NObject result(env);
+
+    result.obj().Set("range", range);
+    result.obj().Set("az", az);
+    result.obj().Set("el", el);
+
+    return result;
+}
+
+NObject Packer::cyl(SpiceDouble r, SpiceDouble clon, SpiceDouble z){
+    Napi::HandleScope scope(env);
+    NObject result(env);
+
+    result.obj().Set("r", r);
+    result.obj().Set("clon", clon);
+    result.obj().Set("z", z);
+
+    return result;
+}
+
+NObject Packer::geo(SpiceDouble lon, SpiceDouble lat, SpiceDouble alt){
+    Napi::HandleScope scope(env);
+    NObject result(env);
+
+    result.obj().Set("lon", lon);
+    result.obj().Set("lat", lat);
+    result.obj().Set("alt", alt);
+
+    return result;
+}
+
+NObject Packer::lat(SpiceDouble radius, SpiceDouble lon, SpiceDouble lat){
+    Napi::HandleScope scope(env);
+    NObject result(env);
+
+    result.obj().Set("radius", radius);
+    result.obj().Set("lon", lon);
+    result.obj().Set("lat", lat);
+
+    return result;
+}
+
+NObject Packer::pgr(SpiceDouble lon, SpiceDouble lat, SpiceDouble alt){
+    Napi::HandleScope scope(env);
+    NObject result(env);
+
+    result.obj().Set("lon", lon);
+    result.obj().Set("lat", lat);
+    result.obj().Set("alt", alt);
+
+    return result;
+}
+
+NObject Packer::rad(SpiceDouble range, SpiceDouble ra, SpiceDouble dec){
+    Napi::HandleScope scope(env);
+    NObject result(env);
+
+    result.obj().Set("range", range);
+    result.obj().Set("ra", ra);
+    result.obj().Set("dec", dec);
+
+    return result;
+}
+
+NArrayDouble3 Packer::rec(ConstSpiceDouble (&rectan)[3]){
+    Napi::HandleScope scope(env);
+    return NArrayDouble3(env, rectan);    
+}
+
+NObject Packer::sph(SpiceDouble r, SpiceDouble colat, SpiceDouble slon){
+    Napi::HandleScope scope(env);
+    NObject result(env);
+
+    result.obj().Set("r", r);
+    result.obj().Set("colat", colat);
+    result.obj().Set("slon", slon);
+
+    return result;
+}
+
+NDouble Packer::et(SpiceDouble et){
+    Napi::HandleScope scope(env);
+    return NDouble(env, et);
+}
+
+NDouble Packer::dt(SpiceDouble dt){
+    Napi::HandleScope scope(env);
+    return NDouble(env, dt);
+}
+
+NFlag Packer::flag(SpiceBoolean flag){
+    Napi::HandleScope scope(env);
+    return NFlag(env, flag != SPICEFALSE);
+}
+
+Packer Pack(const Napi::CallbackInfo& _info){
+    return Packer(_info.Env());
+}
+
+Packer Pack(Napi::Env _env){
+    return Packer(_env);
+}

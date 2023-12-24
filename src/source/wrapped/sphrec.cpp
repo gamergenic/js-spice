@@ -3,34 +3,26 @@
 extern "C" {
   #include <SpiceUsr.h>  // Include the CSPICE header
 }
+#include "utility/pack.h"
+#include "utility/unpack.h"
 
 Napi::Value sphrec(const Napi::CallbackInfo& info) {
-  Napi::Env env = info.Env();
-  Napi::HandleScope scope(env);
 
-  if(info.Length() == 1 && info[0].IsObject()){
+    Napi::Env env = info.Env();
+    Napi::HandleScope scope(env);
 
-    Napi::Object input = info[0].As<Napi::Object>();
-    if(input.HasOwnProperty("r") && input.HasOwnProperty("colat") && input.HasOwnProperty("slon")){
-
-      Napi::Value rValue = input.Get("r"), colatValue = input.Get("colat"), slonValue = input.Get("slon");
-      if(rValue.IsNumber() && colatValue.IsNumber() && slonValue.IsNumber()){
-        SpiceDouble r = rValue.As<Napi::Number>().DoubleValue();
-        SpiceDouble colat = colatValue.As<Napi::Number>().DoubleValue();
-        SpiceDouble slon = slonValue.As<Napi::Number>().DoubleValue();
-
-        SpiceDouble rectan[3];
-        sphrec_c(r, colat, slon, rectan);
-
-        Napi::Array result = Napi::Array::New(env, 3);
-        result.Set((uint32_t)0, rectan[0]);
-        result.Set((uint32_t)1, rectan[1]);
-        result.Set((uint32_t)2, rectan[2]);
-        return result;
-      }
+    SpiceDouble r, colat, slon;
+    if(
+      Unpack("sphrec", info)
+      .sph(r, colat, slon)
+      .check( [&](const std::string& error) {
+            Napi::TypeError::New(env, error).ThrowAsJavaScriptException();
+        })){
+        return env.Null();
     }
-  }
 
-  Napi::TypeError::New(env, "sphrec expected object like { r:0, colat:0, slon:0 }").ThrowAsJavaScriptException();    
-  return env.Null();
+    SpiceDouble rectan[3];
+    sphrec_c(r, colat, slon, rectan);
+
+    return Pack(info).rec(rectan).nocheck();   
 }

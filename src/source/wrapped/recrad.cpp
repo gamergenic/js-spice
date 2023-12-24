@@ -3,33 +3,26 @@
 extern "C" {
   #include <SpiceUsr.h>  // Include the CSPICE header
 }
-#include "js-spice.h"
+#include "utility/pack.h"
+#include "utility/unpack.h"
+
 
 Napi::Value recrad(const Napi::CallbackInfo& info) {
-  Napi::Env env = info.Env();
-  Napi::HandleScope scope(env);
+    Napi::Env env = info.Env();
+    Napi::HandleScope scope(env);
 
-  if(info.Length() == 1 || info.Length() == 3){
-    std::vector<Napi::Value> input = std::vector<Napi::Value>({ info[0] });
-    if(info.Length() == 3){
-      input.push_back(info[1]);
-      input.push_back(info[2]);
-    }
     SpiceDouble rectan[3];
-    if(ExtractRecVector(input, rectan))
-    {
-        SpiceDouble range, ra, dec;
-        recrad_c(rectan, &range, &ra, &dec);
-
-        Napi::Object result = Napi::Object::New(env);
-        result.Set("range", range);
-        result.Set("ra", ra);
-        result.Set("dec", dec);
-
-        return result;
+    if(
+      Unpack("recrad", info)
+      .rec(rectan)
+      .check( [&](const std::string& error) {
+            Napi::TypeError::New(env, error).ThrowAsJavaScriptException();;
+        })){
+        return env.Null();
     }
-  }
 
-  Napi::TypeError::New(env, "recrad expected 1 input vector").ThrowAsJavaScriptException();    
-  return env.Null();
+    SpiceDouble range, ra, dec;
+    recrad_c(rectan, &range, &ra, &dec);
+
+    return Pack(info).rad(range, ra, dec).nocheck();
 }

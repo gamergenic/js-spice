@@ -3,34 +3,25 @@
 extern "C" {
   #include <SpiceUsr.h>  // Include the CSPICE header
 }
+#include "utility/pack.h"
+#include "utility/unpack.h"
 
 Napi::Value radrec(const Napi::CallbackInfo& info) {
-  Napi::Env env = info.Env();
-  Napi::HandleScope scope(env);
+    Napi::Env env = info.Env();
+    Napi::HandleScope scope(env);
 
-  if(info.Length() == 1 && info[0].IsObject()){
-
-    Napi::Object input = info[0].As<Napi::Object>();
-    if(input.HasOwnProperty("range") && input.HasOwnProperty("ra") && input.HasOwnProperty("dec")){
-
-      Napi::Value rangeValue = input.Get("range"), raValue = input.Get("ra"), decValue = input.Get("dec");
-      if(rangeValue.IsNumber() && raValue.IsNumber() && decValue.IsNumber()){
-        SpiceDouble range = rangeValue.As<Napi::Number>().DoubleValue();
-        SpiceDouble ra = raValue.As<Napi::Number>().DoubleValue();
-        SpiceDouble dec = decValue.As<Napi::Number>().DoubleValue();
-
-        SpiceDouble rectan[3];
-        radrec_c(range, ra, dec, rectan);
-
-        Napi::Array result = Napi::Array::New(env, 3);
-        result.Set((uint32_t)0, rectan[0]);
-        result.Set((uint32_t)1, rectan[1]);
-        result.Set((uint32_t)2, rectan[2]);
-        return result;
-      }
+    SpiceDouble range, ra, dec;
+    if(
+      Unpack("radrec", info)
+      .rad(range, ra, dec)
+      .check( [&](const std::string& error) {
+            Napi::TypeError::New(env, error).ThrowAsJavaScriptException();
+        })){
+        return env.Null();
     }
-  }
 
-  Napi::TypeError::New(env, "radrec expected object like { range:0, ra:0, dec:0 }").ThrowAsJavaScriptException();    
-  return env.Null();
+    SpiceDouble rectan[3];
+    radrec_c(range, ra, dec, rectan);
+
+    return Pack(info).rec(rectan).nocheck(); 
 }

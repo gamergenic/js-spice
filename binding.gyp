@@ -15,6 +15,8 @@
       "sources": [ 
         "src/source/js-spice.cpp",
         "src/source/utility/err.cpp",
+        "src/source/utility/pack.cpp",
+        "src/source/utility/unpack.cpp",
         "src/source/wrapped/azlrec.cpp",
         "src/source/wrapped/bodvrd.cpp",
         "src/source/wrapped/convrt.cpp",

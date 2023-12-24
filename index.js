@@ -41,7 +41,41 @@ async function getKernels() {
         await Promise.all(operations);
         console.log("done loading kernels");
     }
-    await loadAndProcessFiles(kernelsToLoad);    
+    await loadAndProcessFiles(kernelsToLoad);
+    
+    console.log(JSON.stringify(spice.recrad(1,1,1)));
+    console.log("---azlrec---");
+    try{ console.log(JSON.stringify(spice.azlrec()))} catch (error) { console.error(error);};
+    console.log("---2---");
+    try{ console.log(JSON.stringify(spice.azlrec(1)))} catch (error) { console.error(error);};
+    console.log("---3---");
+    try{ console.log(JSON.stringify(spice.azlrec({},{})))} catch (error) { console.error(error);};
+    console.log("---4---");
+    try{ console.log(JSON.stringify(spice.azlrec({range:1, az:1, el:1}, true, true)))} catch (error) { console.error(error);};
+    console.log("---cylrec---");
+    try{ console.log(JSON.stringify(spice.cylrec()))} catch (error) { console.error(error);};
+    console.log("---georec---");
+    try{ console.log(JSON.stringify(spice.georec()))} catch (error) { console.error(error);};
+    console.log("---pgrrec---");
+    try{ console.log(JSON.stringify(spice.pgrrec()))} catch (error) { console.error(error);};
+    console.log("---radrec---");
+    try{ console.log(JSON.stringify(spice.radrec()))} catch (error) { console.error(error);};
+    console.log("---sphrec---");
+    try{ console.log(JSON.stringify(spice.sphrec()))} catch (error) { console.error(error);};
+    console.log("---recazl---");
+    try{ console.log(JSON.stringify(spice.recazl()))} catch (error) { console.error(error);};
+    console.log("---reccyl---");
+    try{ console.log(JSON.stringify(spice.reccyl()))} catch (error) { console.error(error);};
+    console.log("---recgeo---");
+    try{ console.log(JSON.stringify(spice.recgeo()))} catch (error) { console.error(error);};
+    console.log("---reclat---");
+    try{ console.log(JSON.stringify(spice.reclat()))} catch (error) { console.error(error);};
+    console.log("---recpgr---");
+    try{ console.log(JSON.stringify(spice.recpgr()))} catch (error) { console.error(error);};
+    console.log("---recrad---");
+    try{ console.log(JSON.stringify(spice.recrad()))} catch (error) { console.error(error);};
+    console.log("---recsph---");
+    try{ console.log(JSON.stringify(spice.recsph()))} catch (error) { console.error(error);};
 
     // spice.furnsh(leapSeconds);
     // spice.furnsh(pck);
