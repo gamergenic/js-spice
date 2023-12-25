@@ -1,27 +1,28 @@
-#include "wrapped/radrec.h"
-
+#include "wrapped/axisar.h"
+#include "utility/err.h"
 extern "C" {
   #include <SpiceUsr.h>  // Include the CSPICE header
 }
 #include "utility/pack.h"
 #include "utility/unpack.h"
 
-Napi::Value radrec(const Napi::CallbackInfo& info) {
+Napi::Value axisar(const Napi::CallbackInfo& info) {
     Napi::Env& env = info.Env();
     Napi::HandleScope scope(env);
 
-    SpiceDouble range, ra, dec;
+    SpiceDouble axis[3], angle;
     if(
-      Unpack("radrec", info)
-      .rad(range, ra, dec)
+      Unpack("axisar", info)
+      .rec(axis)
+      .angle(angle, "angle")
       .check( [=](const std::string& error) {
             Napi::TypeError::New(env, error).ThrowAsJavaScriptException();
         })){
         return env.Null();
     }
 
-    SpiceDouble rectan[3];
-    radrec_c(range, ra, dec, rectan);
+    SpiceDouble r[3][3];
+    axisar_c(axis, angle, r);
 
-    return Pack(info).rec(rectan).nocheck(); 
+    return Pack(info).mat(r).nocheck(); 
 }

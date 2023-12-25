@@ -68,6 +68,23 @@ public:
     Napi::Array& array() { return value; }
 };
 
+class NArrayDouble3x3 : public NValue<Napi::Array> {
+public:    
+    NArrayDouble3x3(Napi::Env& env, const double (&_value)[3][3]) {
+        const uint32_t m = 3, n = 3;
+        value = Napi::Array::New(env, m);
+        for(uint32_t i = 0; i < m; ++i){
+            Napi::Array row = Napi::Array::New(env, n);
+            for(uint32_t j = 0; j < n; ++j){
+                row.Set(j, _value[i][j]);
+            }
+            value.Set(i, row);
+        }
+    }
+
+    Napi::Array& array() { return value; }
+};
+
 
 
 class Packer{
@@ -85,7 +102,9 @@ public:
     NObject sph(SpiceDouble r, SpiceDouble colat, SpiceDouble slon);
     NDouble et(SpiceDouble et);
     NDouble dt(SpiceDouble dt);
+    NDouble d(SpiceDouble d);
     NFlag flag(SpiceBoolean flag);
+    NArrayDouble3x3 mat(SpiceDouble (&m)[3][3]);
 
 private:
     Napi::Env env;

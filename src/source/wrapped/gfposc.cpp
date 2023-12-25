@@ -5,7 +5,7 @@ extern "C" {
 }
 
 Napi::Value gfposc(const Napi::CallbackInfo& info) {
-  Napi::Env env = info.Env();
+  Napi::Env& env = info.Env();
   Napi::HandleScope scope(env);
 
   bool bInputIsValid = true;

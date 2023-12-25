@@ -96,9 +96,19 @@ NDouble Packer::dt(SpiceDouble dt){
     return NDouble(env, dt);
 }
 
+NDouble Packer::d(SpiceDouble d){
+    Napi::HandleScope scope(env);
+    return NDouble(env, d);
+}
+
 NFlag Packer::flag(SpiceBoolean flag){
     Napi::HandleScope scope(env);
     return NFlag(env, flag != SPICEFALSE);
+}
+
+NArrayDouble3x3 Packer::mat(SpiceDouble (&m)[3][3]){
+    Napi::HandleScope scope(env);
+    return NArrayDouble3x3(env, m);    
 }
 
 Packer Pack(const Napi::CallbackInfo& _info){

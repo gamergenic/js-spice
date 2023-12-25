@@ -9,7 +9,7 @@ extern "C" {
 
 
 Napi::Value recazl(const Napi::CallbackInfo& info) {
-    Napi::Env env = info.Env();
+    Napi::Env& env = info.Env();
     Napi::HandleScope scope(env);
 
     SpiceDouble rectan[3];
@@ -19,7 +19,7 @@ Napi::Value recazl(const Napi::CallbackInfo& info) {
       .rec(rectan)
       .flag(azccw, "azccw")
       .flag(elplsz, "elplsz")
-      .check( [&](const std::string& error) {
+      .check( [=](const std::string& error) {
             Napi::TypeError::New(env, error).ThrowAsJavaScriptException();;
         })){
         return env.Null();

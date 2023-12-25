@@ -7,14 +7,14 @@ extern "C" {
 #include "utility/unpack.h"
 
 Napi::Value cylrec(const Napi::CallbackInfo& info) {
-    Napi::Env env = info.Env();
+    Napi::Env& env = info.Env();
     Napi::HandleScope scope(env);
 
     SpiceDouble r, clon, z;
     if(
       Unpack("cylrec", info)
       .cyl(r, clon, z)
-      .check( [&](const std::string& error) {
+      .check( [=](const std::string& error) {
             Napi::TypeError::New(env, error).ThrowAsJavaScriptException();
         })){
         return env.Null();

@@ -8,14 +8,14 @@ extern "C" {
 
 
 Napi::Value recsph(const Napi::CallbackInfo& info) {
-    Napi::Env env = info.Env();
+    Napi::Env& env = info.Env();
     Napi::HandleScope scope(env);
 
     SpiceDouble rectan[3];
     if(
       Unpack("recsph", info)
       .rec(rectan)
-      .check( [&](const std::string& error) {
+      .check( [=](const std::string& error) {
             Napi::TypeError::New(env, error).ThrowAsJavaScriptException();;
         })){
         return env.Null();

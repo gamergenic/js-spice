@@ -1,27 +1,28 @@
-#include "wrapped/radrec.h"
-
+#include "wrapped/mxm.h"
+#include "utility/err.h"
 extern "C" {
   #include <SpiceUsr.h>  // Include the CSPICE header
 }
 #include "utility/pack.h"
 #include "utility/unpack.h"
 
-Napi::Value radrec(const Napi::CallbackInfo& info) {
+Napi::Value mxm(const Napi::CallbackInfo& info) {
     Napi::Env& env = info.Env();
     Napi::HandleScope scope(env);
 
-    SpiceDouble range, ra, dec;
+    SpiceDouble m1[3][3], m2[3][3];
     if(
-      Unpack("radrec", info)
-      .rad(range, ra, dec)
+      Unpack("mxm", info)
+      .mat(m1)
+      .mat(m2)
       .check( [=](const std::string& error) {
             Napi::TypeError::New(env, error).ThrowAsJavaScriptException();
         })){
         return env.Null();
     }
 
-    SpiceDouble rectan[3];
-    radrec_c(range, ra, dec, rectan);
+    SpiceDouble mout[3][3];
+    mxm_c(m1, m2, mout);
 
-    return Pack(info).rec(rectan).nocheck(); 
+    return Pack(info).mat(mout).nocheck(); 
 }

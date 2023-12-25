@@ -7,14 +7,14 @@ extern "C" {
 #include "utility/unpack.h"
 
 Napi::Value latrec(const Napi::CallbackInfo& info) {
-    Napi::Env env = info.Env();
+    Napi::Env& env = info.Env();
     Napi::HandleScope scope(env);
 
     SpiceDouble radius, lon, lat;
     if(
       Unpack("latrec", info)
       .lat(radius, lon, lat)
-      .check( [&](const std::string& error) {
+      .check( [=](const std::string& error) {
             Napi::TypeError::New(env, error).ThrowAsJavaScriptException();
         })){
         return env.Null();

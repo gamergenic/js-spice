@@ -7,7 +7,7 @@ extern "C" {
 #include "utility/unpack.h"
 
 Napi::Value azlrec(const Napi::CallbackInfo& info) {
-    Napi::Env env = info.Env();
+    Napi::Env& env = info.Env();
     Napi::HandleScope scope(env);
 
     SpiceDouble range, az, el;
@@ -17,7 +17,7 @@ Napi::Value azlrec(const Napi::CallbackInfo& info) {
       .azl(range, az, el)
       .flag(azccw, "azccw")
       .flag(elplsz, "elplsz")
-      .check( [&](const std::string& error) {
+      .check( [=](const std::string& error) {
             Napi::TypeError::New(env, error).ThrowAsJavaScriptException();
         })){
         return env.Null();

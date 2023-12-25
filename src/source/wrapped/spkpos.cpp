@@ -8,7 +8,7 @@ extern "C" {
 #include <string>
 
 Napi::Value spkpos(const Napi::CallbackInfo& info) {
-    Napi::Env env = info.Env();
+    Napi::Env& env = info.Env();
 
     Napi::HandleScope scope(env);
 

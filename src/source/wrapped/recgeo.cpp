@@ -8,7 +8,7 @@ extern "C" {
 
 
 Napi::Value recgeo(const Napi::CallbackInfo& info) {
-    Napi::Env env = info.Env();
+    Napi::Env& env = info.Env();
     Napi::HandleScope scope(env);
 
     SpiceDouble rectan[3], re, f;
@@ -17,7 +17,7 @@ Napi::Value recgeo(const Napi::CallbackInfo& info) {
       .rec(rectan)
       .d(re, "Re equatorial radius of the reference spheroid in km")
       .d(f, "f flattening coefficient")
-      .check( [&](const std::string& error) {
+      .check( [=](const std::string& error) {
             Napi::TypeError::New(env, error).ThrowAsJavaScriptException();;
         })){
         return env.Null();

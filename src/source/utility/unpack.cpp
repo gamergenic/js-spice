@@ -1,6 +1,7 @@
 #include "utility/unpack.h"
 #include <iomanip>
 #include <sstream>
+#include <iostream>
 
 Unpacker::Unpacker(std::string _name, const Napi::CallbackInfo& _info) 
     : info(_info), name(_name)
@@ -68,7 +69,7 @@ Unpacker& Unpacker::_rec(SpiceDouble (&rec)[3]){
     return error(stream.str());    
 }
 
-Unpacker& Unpacker::_unpackdouble3(const char* name1, const char* name2, const char* name3, double& v1, double& v2, double& v3){
+Unpacker& Unpacker::_unpackdouble3(const char* name1, const char* name2, const char* name3, SpiceDouble& v1, SpiceDouble& v2, SpiceDouble& v3){
     Napi::Env env = info.Env();
     Napi::HandleScope scope(env);
     
@@ -96,24 +97,68 @@ Unpacker& Unpacker::_unpackdouble3(const char* name1, const char* name2, const c
     }
 
     std::stringstream stream;
-    stream << "expected object {\"";
-    stream << name1;
-    stream << "\":";
-    stream << name1;
-    stream << ", \"";
-    stream << name2;
-    stream << "\":";
-    stream << name2;
-    stream << ", \"";
-    stream << name3;
-    stream << "\":";
-    stream << name3;
-    stream << "} at arg ";
-    stream << nextIndex + 1;
+    stream << "expected object {\"" << name1 << "\":" << name1 << ", \"";
+    stream << name2 << "\":" << name2 << ", \"";
+    stream << name3 << "\":" << name3  << "} at arg " << nextIndex + 1;
     return error(stream.str());
 }
 
-Unpacker& Unpacker::_unpackdouble(double& value, std::string name){
+Unpacker& Unpacker::_unpackdouble3x3(SpiceDouble (&mat)[3][3], std::string name){
+    Napi::Env env = info.Env();
+    Napi::HandleScope scope(env);
+
+    std::stringstream dbg;
+
+    if(remaining() > 0 && next().IsArray()){
+        const uint32_t m = 3, n = 3;
+        const Napi::Array inArray = next().As<Napi::Array>();
+
+        dbg << inArray.Length() << " ";
+
+        if(inArray.Length() == m){
+            bool bSuccess = true;
+            SpiceDouble temp[3][3];
+            for(uint32_t i = 0; i < inArray.Length(); ++i){
+                Napi::Value arrayValue = inArray.Get(i);
+                bSuccess &= arrayValue.IsArray();
+                if(bSuccess){
+                    Napi::Array array = arrayValue.As<Napi::Array>();
+
+                    dbg << array.Length() << std::endl;
+
+                    bSuccess &= array.Length() == n;
+                    if(bSuccess){
+                        for(uint32_t j = 0; j < array.Length(); ++j){
+                            Napi::Value rowValue = array.Get(j);
+                            bSuccess &= rowValue.IsNumber();
+                            if(bSuccess){
+                                temp[i][j]= rowValue.As<Napi::Number>().DoubleValue();
+                            }
+                            if(!bSuccess) break;
+                        }
+                    }
+                }
+                if(!bSuccess) break;
+            }
+            if(bSuccess){
+                memcpy(mat, temp, sizeof(m));
+                return advance();
+            }
+        }
+    }
+
+    std::cout << dbg.str();
+
+    std::stringstream stream;
+    stream << "expected 3x3 double-precision numeric array ([[a,b,c],[d,e,f],[g,h,i]]) ";
+    if(!name.empty()){
+        stream << "'" << name << "' ";
+    }
+    stream << "at arg " << nextIndex + 1;
+    return error(stream.str());    
+}
+
+Unpacker& Unpacker::_unpackdouble(SpiceDouble& value, std::string name){
     Napi::Env env = info.Env();
     Napi::HandleScope scope(env);
 
@@ -122,37 +167,33 @@ Unpacker& Unpacker::_unpackdouble(double& value, std::string name){
         return advance();
     }
 
+    std::cout << "_unpackdouble errored" << std::endl;
+
     std::stringstream stream;
     stream << "expected double-precision numeric ";
     if(!name.empty()){
-        stream << "'";
-        stream << name;
-        stream << "' ";
+        stream << "'" << name << "' ";
     }
-    stream << "at arg ";
-    stream << nextIndex + 1;
+    stream << "at arg " << nextIndex + 1;
     return error(stream.str());
 }
 
 
-Unpacker& Unpacker::_unpackbool(bool& value, std::string name){
+Unpacker& Unpacker::_unpackbool(SpiceBoolean& value, std::string name){
     Napi::Env env = info.Env();
     Napi::HandleScope scope(env);
 
     if(remaining() > 0 && next().IsBoolean()){
-        value = next().As<Napi::Boolean>().Value();
+        value = next().As<Napi::Boolean>().Value() ? SPICETRUE : SPICEFALSE;
         return advance();
     }
 
     std::stringstream stream;
     stream << "expected bool ";
     if(!name.empty()){
-        stream << "'";
-        stream << name;
-        stream << "' ";
+        stream << "'" << name << "' ";
     }    
-    stream << "at arg ";
-    stream << nextIndex + 1;
+    stream << "at arg " << nextIndex + 1;
     return error(stream.str());
 }
 
@@ -165,15 +206,14 @@ Unpacker& Unpacker::_unpackstring(std::string& value, std::string name){
         return advance();
     }
 
+    std::cout << "__unpackstring errored" << std::endl;
+
     std::stringstream stream;
     stream << "expected string ";
     if(!name.empty()){
-        stream << "'";
-        stream << name;
-        stream << "' ";
+        stream << "'" << name  << "' ";
     }    
-    stream << "at arg ";
-    stream << nextIndex + 1;
+    stream << "at arg " << nextIndex + 1;
     return error(stream.str());
 }
 

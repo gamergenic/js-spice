@@ -23,8 +23,10 @@ public:
     Unpacker& d(SpiceDouble& d, std::string name = "") { if(!isErred) { return _unpackdouble(d, name); } return *this; }
     Unpacker& et(SpiceDouble& et) { if(!isErred) { return _unpackdouble(et, "et"); } return *this; }
     Unpacker& dt(SpiceDouble& dt) { if(!isErred) { return _unpackdouble(dt, "dt"); } return *this; }
-    Unpacker& flag(SpiceBoolean& flag, std::string name="") { if(!isErred) { bool _flag; Unpacker& returnValue = _unpackbool(_flag, name); flag = _flag ? SPICETRUE : SPICEFALSE; return returnValue; } return *this; }
-    Unpacker& str(std::string& string, std::string name="") { if(!isErred) { return _unpackstring(string, name); } return *this; }
+    Unpacker& angle(SpiceDouble& dt, std::string name = "rads") { if(!isErred) { return _unpackdouble(dt, name); } return *this; }
+    Unpacker& flag(SpiceBoolean& _flag, std::string name="") { if(!isErred) { return _unpackbool(_flag, name);  } return *this; }
+    Unpacker& str(std::string& _string, std::string name="") { if(!isErred) { return _unpackstring(_string, name); } return *this; }
+    Unpacker& mat(SpiceDouble (&m)[3][3], std::string name="") { if(!isErred) { return _unpackdouble3x3(m, name); } return *this; }
 
     template<typename T>
     bool check(T handleError){
@@ -51,11 +53,11 @@ public:
 
 private:
     Unpacker& _rec(SpiceDouble (&rec)[3]);
-    Unpacker& _unpackdouble3(const char* name1, const char* name2, const char* name3, double& v1, double& v2, double& v3);
-    Unpacker& _unpackdouble(double& value, std::string name);
-    Unpacker& _unpackbool(bool& value, std::string name);
+    Unpacker& _unpackdouble3(const char* name1, const char* name2, const char* name3, SpiceDouble& v1, SpiceDouble& v2, SpiceDouble& v3);
+    Unpacker& _unpackdouble3x3(SpiceDouble (&m)[3][3], std::string name);
+    Unpacker& _unpackdouble(SpiceDouble& value, std::string name);
+    Unpacker& _unpackbool(SpiceBoolean& value, std::string name);
     Unpacker& _unpackstring(std::string& value, std::string name);
-
 
     const Napi::CallbackInfo& info;
     const std::string name;

@@ -77,6 +77,37 @@ async function getKernels() {
     console.log("---recsph---");
     try{ console.log(JSON.stringify(spice.recsph()))} catch (error) { console.error(error);};
 
+    console.log("---convrt---");
+    try{ console.log(JSON.stringify(spice.convrt(1, "STATUTE_MILES", "FEET")))} catch (error) { console.error(error);};
+
+    // console.log("---convrt---");
+    // try{
+    //     console.log(JSON.stringify(spice.convrt(1)))
+    // }
+    // catch (error) {
+    //     console.error(error);
+    // };
+    console.log("---axisar---");
+    try{ console.log(JSON.stringify(spice.axisar([0,1,0],spice.halfpi())))} catch (error) { console.error(error);};
+    console.log("---axisar---");
+    try{ console.log(JSON.stringify(spice.axisar()))} catch (error) { console.error(error);};
+    
+    console.log("---mxm, mxv---");
+    try{
+        let m1 = [[1,0,0],[0,1,0],[0,0,1]];
+        let m2 = [[1,0,0],[0,1,0],[0,0,1]];
+        let m3 = spice.mxm(m1, m2);
+        console.log(JSON.stringify(m3));
+
+        let v1 = [1,0,0];
+        let v2 = spice.mxv(m3, v1);
+        console.log(JSON.stringify(v2));
+    }
+    catch(error){
+        console.error(error);
+    }
+
+    
     // spice.furnsh(leapSeconds);
     // spice.furnsh(pck);
     // spice.furnsh(gm);

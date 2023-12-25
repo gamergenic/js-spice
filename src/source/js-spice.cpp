@@ -1,4 +1,5 @@
 #include <napi.h>
+#include "wrapped/axisar.h"
 #include "wrapped/azlrec.h"
 #include "wrapped/bodvrd.h"
 #include "wrapped/convrt.h"
@@ -12,6 +13,8 @@
 #include "wrapped/gfposc.h"
 #include "wrapped/halfpi.h"
 #include "wrapped/latrec.h"
+#include "wrapped/mxm.h"
+#include "wrapped/mxv.h"
 #include "wrapped/pgrrec.h"
 #include "wrapped/pi.h"
 #include "wrapped/rpd.h"
@@ -32,6 +35,7 @@
 #include "wrapped/unload.h"
 
 Napi::Object Init(Napi::Env env, Napi::Object exports) {
+  exports.Set("axisar", Napi::Function::New(env, axisar));
   exports.Set("azlrec", Napi::Function::New(env, azlrec));
   exports.Set("bodvrd", Napi::Function::New(env, bodvrd));
   exports.Set("convrt", Napi::Function::New(env, convrt));
@@ -45,6 +49,8 @@ Napi::Object Init(Napi::Env env, Napi::Object exports) {
   exports.Set("gfposc", Napi::Function::New(env, gfposc));
   exports.Set("halfpi", Napi::Function::New(env, halfpi));
   exports.Set("latrec", Napi::Function::New(env, latrec));
+  exports.Set("mxm",    Napi::Function::New(env, mxm));
+  exports.Set("mxv",    Napi::Function::New(env, mxv));
   exports.Set("pgrrec", Napi::Function::New(env, pgrrec));
   exports.Set("pi",     Napi::Function::New(env, pi));
   exports.Set("radrec", Napi::Function::New(env, radrec));
