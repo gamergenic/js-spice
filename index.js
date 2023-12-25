@@ -30,6 +30,14 @@ try {
     console.log(JSON.stringify(spice.vdist(v1,[0,1,0])));
     console.log(JSON.stringify(spice.vhat(v1)));
     console.log(JSON.stringify(spice.vnorm(v1)));
+    console.log(JSON.stringify(spice.clight()));
+    console.log(JSON.stringify(spice.j1900()));
+    console.log(JSON.stringify(spice.j1950()));
+    console.log(JSON.stringify(spice.j2000()));
+    console.log(JSON.stringify(spice.j2100()));
+    console.log(JSON.stringify(spice.jyear()));
+    console.log(JSON.stringify(spice.b1900()));
+    console.log(JSON.stringify(spice.b1950()));
    
 
     console.log("---ident---");
