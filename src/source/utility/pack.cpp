@@ -137,6 +137,12 @@ NElts Packer::conics(ConstSpiceDouble (&elts)[8]){
     return NElts(env, members, elts);
 }
 
+NElts Packer::elms(ConstSpiceDouble (&elms)[10]){
+    Napi::HandleScope scope(env);
+    std::string members[] {"ndt20", "ndd60", "bstar", "incl", "node0", "ecc", "omega", "m0", "n0", "epoch"};
+    return NElts(env, members, elms);
+}
+
 Packer Pack(const Napi::CallbackInfo& _info){
     return Packer(_info.Env());
 }

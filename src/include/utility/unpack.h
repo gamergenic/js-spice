@@ -29,7 +29,18 @@ public:
     Unpacker& mat(SpiceDouble (&m)[3][3], std::string name="") { if(!isErred) { return _unpackdouble3x3(m, name); } return *this; }
     Unpacker& i(SpiceInt& i, std::string name = "") { if(!isErred) { return _unpackint(i, name); } return *this; }
     Unpacker& conics(SpiceDouble (&elts)[8]) { if(!isErred) { return _unpackconics(elts); } return *this; }
+    Unpacker& geophs(SpiceDouble (&geophs)[8]) { if(!isErred) { return _unpackgeophs(geophs); } return *this; }
+    Unpacker& tlelems(SpiceDouble (&tlelems)[10]) { if(!isErred) { return _unpackelems(tlelems); } return *this; }
     Unpacker& state(SpiceDouble (&state)[6], std::string name = "state") { if(!isErred) { return _unpackstate(state, name); } return *this; }
+    
+    template<typename T>
+    Unpacker& punt(T callback){
+        if(!isErred) {
+            int unpacked = callback(next(), *this);
+            return advance(unpacked);
+        }
+        return *this;
+    }
 
     template<typename T>
     bool check(T handleError){
@@ -52,6 +63,11 @@ public:
         return *this;
     }
 
+    void setError(std::string err){
+        error(err);
+    }
+
+
     static Unpacker end;
 
 private:
@@ -63,6 +79,8 @@ private:
     Unpacker& _unpackint(SpiceInt& value, std::string name);
     Unpacker& _unpackstring(std::string& value, std::string name);
     Unpacker& _unpackconics(SpiceDouble (&elts)[8]);
+    Unpacker& _unpackgeophs(SpiceDouble (&elts)[8]);
+    Unpacker& _unpackelems(SpiceDouble (&elems)[10]);
     template<int size>
     Unpacker& _unpackelts(SpiceDouble (&elts)[size], std::string (&members)[size], std::string name);
     Unpacker& _unpackstate(SpiceDouble (&state)[6], std::string name);

@@ -138,6 +138,7 @@ public:
 };
 
 
+
 class Packer{
 
 public:
@@ -161,6 +162,7 @@ public:
     NArrayDouble3x3 mat(SpiceDouble (&m)[3][3]);
     NString str(ConstSpiceChar* str);
     NElts conics(ConstSpiceDouble (&elts)[8]);
+    NElts elms(ConstSpiceDouble (&elms)[10]);
 private:
     Napi::Env env;
 };

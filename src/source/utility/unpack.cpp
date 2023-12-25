@@ -291,6 +291,17 @@ Unpacker& Unpacker::_unpackconics(SpiceDouble (&elts)[8]){
 }
 
 
+Unpacker& Unpacker::_unpackgeophs(SpiceDouble (&elts)[8]){
+    std::string members[] {"j2", "j3", "j4", "ke", "qo", "so", "re", "ae"};
+    return _unpackelts(elts, members, "geophs");
+}
+
+Unpacker& Unpacker::_unpackelems(SpiceDouble (&elems)[10]){
+    std::string members[] {"ndt20", "ndd60", "bstar", "incl", "node0", "ecc", "omega", "m0", "n0", "epoch"};
+    return _unpackelts(elems, members, "elems");
+}
+
+
 Unpacker& Unpacker::_unpackstate(SpiceDouble (&state)[6], std::string name){
     Napi::Env env = info.Env();
     Napi::HandleScope scope(env);
