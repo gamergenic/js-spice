@@ -110,15 +110,28 @@ public:
         value = Napi::Object::New(env);
 
         Napi::Array r = Napi::Array::New(env, 3);
-        for(uint32_t i = 0; i < 3; ++i){
-            r.Set(i, _value[i]);
-        }
         Napi::Array v = Napi::Array::New(env, 3);
         for(uint32_t i = 0; i < 3; ++i){
+            r.Set(i, _value[i]);
             v.Set(i, _value[3 + i]);
         }
         value.Set("r", r);
-        value.Set("v", r);
+        value.Set("v", v);
+    }
+
+    Napi::Object object() { return value; }
+};
+
+class NElts : public NValue<Napi::Object> {
+public:
+
+    template<int size>
+    NElts(Napi::Env& env, const std::string (&members)[size], ConstSpiceDouble (&_value)[size]) {
+        value = Napi::Object::New(env);
+
+        for(uint32_t i = 0; i < size; ++i){
+            value.Set(members[i], _value[i]);
+        }
     }
 
     Napi::Object object() { return value; }
@@ -147,6 +160,7 @@ public:
     NFlag flag(SpiceBoolean flag);
     NArrayDouble3x3 mat(SpiceDouble (&m)[3][3]);
     NString str(ConstSpiceChar* str);
+    NElts conics(ConstSpiceDouble (&elts)[8]);
 private:
     Napi::Env env;
 };

@@ -29,6 +29,7 @@
 #include "wrapped/latrec.h"
 #include "wrapped/mxm.h"
 #include "wrapped/mxv.h"
+#include "wrapped/oscelt.h"
 #include "wrapped/pgrrec.h"
 #include "wrapped/pi.h"
 #include "wrapped/rpd.h"
@@ -86,6 +87,7 @@ Napi::Object Init(Napi::Env env, Napi::Object exports) {
   exports.Set("latrec", Napi::Function::New(env, latrec));
   exports.Set("mxm",    Napi::Function::New(env, mxm));
   exports.Set("mxv",    Napi::Function::New(env, mxv));
+  exports.Set("oscelt", Napi::Function::New(env, oscelt));
   exports.Set("pgrrec", Napi::Function::New(env, pgrrec));
   exports.Set("pi",     Napi::Function::New(env, pi));
   exports.Set("radrec", Napi::Function::New(env, radrec));

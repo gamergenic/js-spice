@@ -131,6 +131,12 @@ NString Packer::str(ConstSpiceChar* str){
     return NString(env, str);
 }
 
+NElts Packer::conics(ConstSpiceDouble (&elts)[8]){
+    Napi::HandleScope scope(env);
+    std::string members[] {"rp", "ecc", "inc", "lnode", "argp", "m0", "t0", "mu"};
+    return NElts(env, members, elts);
+}
+
 Packer Pack(const Napi::CallbackInfo& _info){
     return Packer(_info.Env());
 }

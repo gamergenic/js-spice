@@ -47,6 +47,7 @@
         "src/source/wrapped/latrec.cpp",
         "src/source/wrapped/mxm.cpp",
         "src/source/wrapped/mxv.cpp",
+        "src/source/wrapped/oscelt.cpp",
         "src/source/wrapped/pgrrec.cpp",
         "src/source/wrapped/pi.cpp",
         "src/source/wrapped/radrec.cpp",

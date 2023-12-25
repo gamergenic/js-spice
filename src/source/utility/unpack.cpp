@@ -291,6 +291,53 @@ Unpacker& Unpacker::_unpackconics(SpiceDouble (&elts)[8]){
 }
 
 
+Unpacker& Unpacker::_unpackstate(SpiceDouble (&state)[6], std::string name){
+    Napi::Env env = info.Env();
+    Napi::HandleScope scope(env);
+    
+    if(remaining() > 0 && next().IsObject()){
+        const Napi::Object inObject = next().As<Napi::Object>();
+        if(inObject.HasOwnProperty("r") && inObject.HasOwnProperty("v")){
+            const Napi::Value rValue = inObject.Get("r");
+            const Napi::Value vValue = inObject.Get("v");
+            if(rValue.IsArray() && vValue.IsArray()){
+                const Napi::Array rArray = rValue.As<Napi::Array>();
+                const Napi::Array vArray = vValue.As<Napi::Array>();
+                if(rArray.Length() == 3 && vArray.Length() == 3){
+                    bool bIsState = true;
+                    SpiceDouble temp[6];
+                    for(uint32_t i = 0; i < 3; ++i){
+                        const Napi::Value rMember = rArray.Get(i);
+                        const Napi::Value vMember = vArray.Get(i);
+
+                        bIsState &= rMember.IsNumber() && vMember.IsNumber();
+                        if(bIsState){
+                            temp[i] = rMember.As<Napi::Number>().DoubleValue();
+                            temp[3 + i] = vMember.As<Napi::Number>().DoubleValue();
+                        }
+                        else {
+                            break;
+                        }
+                    }
+
+                    if(bIsState){
+                        memcpy(state, temp, sizeof state);
+                        return advance();
+                    }
+                }
+            }
+        }
+    }
+
+    std::stringstream stream;
+    stream << "expected object {\"r\":[x, y, z], \"v\":[dx, dy, dz]} ";
+    if(!name.empty()){
+        stream << "'" << name << "' ";
+    }
+    stream << "at arg " << nextIndex + 1;
+    return error(stream.str());      
+}
+
 Unpacker Unpack(std::string _name, const Napi::CallbackInfo& _info){
     return Unpacker(_name, _info);
 }

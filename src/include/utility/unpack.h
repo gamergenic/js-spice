@@ -29,6 +29,7 @@ public:
     Unpacker& mat(SpiceDouble (&m)[3][3], std::string name="") { if(!isErred) { return _unpackdouble3x3(m, name); } return *this; }
     Unpacker& i(SpiceInt& i, std::string name = "") { if(!isErred) { return _unpackint(i, name); } return *this; }
     Unpacker& conics(SpiceDouble (&elts)[8]) { if(!isErred) { return _unpackconics(elts); } return *this; }
+    Unpacker& state(SpiceDouble (&state)[6], std::string name = "state") { if(!isErred) { return _unpackstate(state, name); } return *this; }
 
     template<typename T>
     bool check(T handleError){
@@ -64,6 +65,7 @@ private:
     Unpacker& _unpackconics(SpiceDouble (&elts)[8]);
     template<int size>
     Unpacker& _unpackelts(SpiceDouble (&elts)[size], std::string (&members)[size], std::string name);
+    Unpacker& _unpackstate(SpiceDouble (&state)[6], std::string name);
 
     const Napi::CallbackInfo& info;
     const std::string name;

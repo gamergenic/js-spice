@@ -19,6 +19,10 @@ try {
     let elts = {"rp":6000, "ecc":0.1, "inc":0.1, "lnode":0.1, "argp":0.1, "m0":0.1, "t0":555, "mu":22222 };
     let foo = spice.conics(elts, 3333);
     console.log(JSON.stringify(foo));
+    let newelts = spice.oscelt(foo, 3333, 22222);
+    console.log(JSON.stringify(newelts));
+    foo = spice.conics(newelts, 3333);
+    console.log(JSON.stringify(foo));
 
     let m1 = [[1, 0, 0], [0, 1, 0], [0, 0, 1]];
     let m2 = [[0, 1, 0], [-1, 0, 0], [0, 0, 1]];
