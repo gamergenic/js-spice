@@ -43,10 +43,19 @@ public:
 class NDouble : public NValue<Napi::Number> {
 
 public:    
-    NDouble(Napi::Env& env, double _value) {
+    NDouble(Napi::Env& env, SpiceDouble _value) {
         value = Napi::Number::New(env, _value);
     }
 };
+
+class NInt : public NValue<Napi::Number> {
+
+public:    
+    NInt(Napi::Env& env, SpiceInt _value) {
+        value = Napi::Number::New(env, _value);
+    }
+};
+
 
 class NFlag : public NValue<Napi::Boolean> {
 
@@ -86,6 +95,14 @@ public:
 };
 
 
+class NString : public NValue<Napi::String> {
+
+public:    
+    NString(Napi::Env& env, ConstSpiceChar* _value) {
+        value = Napi::String::New(env, _value);
+    }
+};
+
 
 class Packer{
 
@@ -104,9 +121,10 @@ public:
     NDouble dt(SpiceDouble dt);
     NDouble d(SpiceDouble d);
     NDouble dist(SpiceDouble dist);
+    NInt i(SpiceInt i);
     NFlag flag(SpiceBoolean flag);
     NArrayDouble3x3 mat(SpiceDouble (&m)[3][3]);
-
+    NString str(ConstSpiceChar* str);
 private:
     Napi::Env env;
 };

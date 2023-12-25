@@ -82,6 +82,8 @@ async function getKernels() {
     await loadAndProcessFiles(kernelsToLoad);
     
     console.log(JSON.stringify(spice.deltet(100,"UTC")));
+    console.log(JSON.stringify(spice.et2utc(spice.jyear(),"ISOC", 5)));
+    console.log(JSON.stringify(spice.etcal(spice.jyear())));
        
     console.log(JSON.stringify(spice.recrad(1,1,1)));
     console.log("---azlrec---");

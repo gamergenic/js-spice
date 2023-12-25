@@ -27,6 +27,7 @@ public:
     Unpacker& flag(SpiceBoolean& _flag, std::string name="") { if(!isErred) { return _unpackbool(_flag, name);  } return *this; }
     Unpacker& str(std::string& _string, std::string name="") { if(!isErred) { return _unpackstring(_string, name); } return *this; }
     Unpacker& mat(SpiceDouble (&m)[3][3], std::string name="") { if(!isErred) { return _unpackdouble3x3(m, name); } return *this; }
+    Unpacker& i(SpiceInt& i, std::string name = "") { if(!isErred) { return _unpackint(i, name); } return *this; }
 
     template<typename T>
     bool check(T handleError){
@@ -57,6 +58,7 @@ private:
     Unpacker& _unpackdouble3x3(SpiceDouble (&m)[3][3], std::string name);
     Unpacker& _unpackdouble(SpiceDouble& value, std::string name);
     Unpacker& _unpackbool(SpiceBoolean& value, std::string name);
+    Unpacker& _unpackint(SpiceInt& value, std::string name);
     Unpacker& _unpackstring(std::string& value, std::string name);
 
     const Napi::CallbackInfo& info;

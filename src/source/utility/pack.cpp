@@ -106,6 +106,11 @@ NDouble Packer::dist(SpiceDouble dist){
     return NDouble(env, dist);
 }
 
+NInt Packer::i(SpiceInt i){
+    Napi::HandleScope scope(env);
+    return NInt(env, i);
+}
+
 NFlag Packer::flag(SpiceBoolean flag){
     Napi::HandleScope scope(env);
     return NFlag(env, flag != SPICEFALSE);
@@ -118,6 +123,11 @@ NArrayDouble3x3 Packer::mat(SpiceDouble (&m)[3][3]){
 
 Packer Pack(const Napi::CallbackInfo& _info){
     return Packer(_info.Env());
+}
+
+NString Packer::str(ConstSpiceChar* str){
+    Napi::HandleScope scope(env);
+    return NString(env, str);
 }
 
 Packer Pack(Napi::Env _env){

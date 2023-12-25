@@ -12,6 +12,8 @@
 #include "wrapped/erract.h"
 #include "wrapped/errdev.h"
 #include "wrapped/errprt.h"
+#include "wrapped/et2utc.h"
+#include "wrapped/etcal.h"
 #include "wrapped/furnsh.h"
 #include "wrapped/georec.h"
 #include "wrapped/gfposc.h"
@@ -65,6 +67,8 @@ Napi::Object Init(Napi::Env env, Napi::Object exports) {
   exports.Set("erract", Napi::Function::New(env, erract));
   exports.Set("errdev", Napi::Function::New(env, errdev));
   exports.Set("errprt", Napi::Function::New(env, errprt));
+  exports.Set("et2utc", Napi::Function::New(env, et2utc));
+  exports.Set("etcal",  Napi::Function::New(env, etcal));
   exports.Set("furnsh", Napi::Function::New(env, furnsh));
   exports.Set("georec", Napi::Function::New(env, georec));
   exports.Set("gfposc", Napi::Function::New(env, gfposc));

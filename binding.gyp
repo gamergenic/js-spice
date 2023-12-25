@@ -30,6 +30,8 @@
         "src/source/wrapped/erract.cpp",
         "src/source/wrapped/errdev.cpp",
         "src/source/wrapped/errprt.cpp",
+        "src/source/wrapped/et2utc.cpp",
+        "src/source/wrapped/etcal.cpp",
         "src/source/wrapped/furnsh.cpp",
         "src/source/wrapped/georec.cpp",
         "src/source/wrapped/gfposc.cpp",

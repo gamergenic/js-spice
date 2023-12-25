@@ -1,12 +1,6 @@
-#ifndef _SPICE_
-#define _SPICE_
-
-#include <vector>
-
-#include <napi.h>
-bool ErrorCheck(Napi::Env& env);
-bool ExtractRecVector(std::vector<Napi::Value> values, double result[3]);
+#ifndef _JSSPICE_
+#define _JSSPICE_
 
 constexpr int SpiceLongMessageMaxLength = 1841;
 
-#endif // _SPICE_
+#endif // _JSSPICE_

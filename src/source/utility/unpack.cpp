@@ -178,6 +178,26 @@ Unpacker& Unpacker::_unpackdouble(SpiceDouble& value, std::string name){
     return error(stream.str());
 }
 
+Unpacker& Unpacker::_unpackint(SpiceInt& value, std::string name){
+    Napi::Env env = info.Env();
+    Napi::HandleScope scope(env);
+
+    if(remaining() > 0 && next().IsNumber()){
+        value = next().As<Napi::Number>().Int32Value();
+        return advance();
+    }
+
+    std::cout << "_unpackint errored" << std::endl;
+
+    std::stringstream stream;
+    stream << "expected int (" << ((sizeof(int)) * 8) << "-bit) ";
+    if(!name.empty()){
+        stream << "'" << name << "' ";
+    }
+    stream << "at arg " << nextIndex + 1;
+    return error(stream.str());
+}
+
 
 Unpacker& Unpacker::_unpackbool(SpiceBoolean& value, std::string name){
     Napi::Env env = info.Env();
