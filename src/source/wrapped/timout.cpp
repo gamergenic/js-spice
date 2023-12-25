@@ -7,7 +7,7 @@ extern "C" {
 
 
 Napi::Value timout(const Napi::CallbackInfo& info) {
-  Napi::Env& env = info.Env();
+  Napi::Env env = info.Env();
   Napi::HandleScope scope(env);
 
   if(info.Length() == 2 && info[0].IsNumber() && info[1].IsString()){

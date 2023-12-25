@@ -4,7 +4,7 @@ extern "C" {
   #include <SpiceUsr.h>  // Include the CSPICE header
 }
 
-bool ErrorCheck(Napi::Env& env)
+bool ErrorCheck(Napi::Env env)
 {
     SpiceBoolean failed = failed_c();
 

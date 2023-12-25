@@ -5,7 +5,7 @@ extern "C" {
 }
 
 Napi::Value dpr(const Napi::CallbackInfo& info) {
-  Napi::Env& env = info.Env();
+  Napi::Env env = info.Env();
   Napi::HandleScope scope(env);
 
   if(info.Length() == 0){

@@ -8,7 +8,7 @@ extern "C" {
 
 Napi::Value sphrec(const Napi::CallbackInfo& info) {
 
-    Napi::Env& env = info.Env();
+    Napi::Env env = info.Env();
     Napi::HandleScope scope(env);
 
     SpiceDouble r, colat, slon;

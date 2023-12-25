@@ -8,7 +8,7 @@ extern "C" {
 
 
 Napi::Value recpgr(const Napi::CallbackInfo& info) {
-    Napi::Env& env = info.Env();
+    Napi::Env env = info.Env();
     Napi::HandleScope scope(env);
 
     std::string body_str;

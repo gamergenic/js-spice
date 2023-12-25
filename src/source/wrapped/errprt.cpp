@@ -5,7 +5,7 @@ extern "C" {
 #include "js-spice.h"
 
 Napi::Value errprt(const Napi::CallbackInfo& info) {
-    Napi::Env& env = info.Env();
+    Napi::Env env = info.Env();
 
     if (info.Length() < 1) {
         Napi::TypeError::New(env, "Wrong number of arguments").ThrowAsJavaScriptException();

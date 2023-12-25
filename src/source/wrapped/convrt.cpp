@@ -8,7 +8,7 @@ extern "C" {
 #include <iostream>
 
 Napi::Value convrt(const Napi::CallbackInfo& info) {
-    Napi::Env& env = info.Env();
+    Napi::Env env = info.Env();
     Napi::HandleScope scope(env);
 
     SpiceDouble x;

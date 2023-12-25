@@ -7,7 +7,7 @@ extern "C" {
 #include "utility/unpack.h"
 
 Napi::Value axisar(const Napi::CallbackInfo& info) {
-    Napi::Env& env = info.Env();
+    Napi::Env env = info.Env();
     Napi::HandleScope scope(env);
 
     SpiceDouble axis[3], angle;

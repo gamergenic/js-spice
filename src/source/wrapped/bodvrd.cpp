@@ -5,7 +5,7 @@ extern "C" {
 }
 
 Napi::Value bodvrd(const Napi::CallbackInfo& info) {
-  Napi::Env& env = info.Env();
+  Napi::Env env = info.Env();
   Napi::HandleScope scope(env);
 
   if(info.Length() >= 2 && info.Length() <= 3){

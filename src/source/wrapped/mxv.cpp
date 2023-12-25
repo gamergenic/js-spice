@@ -7,7 +7,7 @@ extern "C" {
 #include "utility/unpack.h"
 
 Napi::Value mxv(const Napi::CallbackInfo& info) {
-    Napi::Env& env = info.Env();
+    Napi::Env env = info.Env();
     Napi::HandleScope scope(env);
 
     SpiceDouble m[3][3], vin[3];

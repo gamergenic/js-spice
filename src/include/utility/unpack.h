@@ -68,7 +68,7 @@ private:
     bool isErrHandled { false };
 
     int32_t remaining() { return info.Length() - nextIndex; }
-    const Napi::Value& next(int32_t plus = 0) { return info[nextIndex + plus]; }
+    const Napi::Value next(int32_t plus = 0) { return info[nextIndex + plus]; }
     Unpacker& advance(int32_t plus = 1) { nextIndex += plus; return *this; }
 
     Unpacker& error(std::string message){

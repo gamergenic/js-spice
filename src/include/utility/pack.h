@@ -37,7 +37,7 @@ public:
         value = Napi::Object::New(env);
     }
 
-    Napi::Object& obj() { return value; }
+    Napi::Object obj() { return value; }
 };
 
 class NDouble : public NValue<Napi::Number> {
@@ -65,7 +65,7 @@ public:
         value.Set((uint32_t)2, _value[2]);
     }
 
-    Napi::Array& array() { return value; }
+    Napi::Array array() { return value; }
 };
 
 class NArrayDouble3x3 : public NValue<Napi::Array> {
@@ -82,7 +82,7 @@ public:
         }
     }
 
-    Napi::Array& array() { return value; }
+    Napi::Array array() { return value; }
 };
 
 

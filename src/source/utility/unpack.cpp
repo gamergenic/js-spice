@@ -141,7 +141,7 @@ Unpacker& Unpacker::_unpackdouble3x3(SpiceDouble (&mat)[3][3], std::string name)
                 if(!bSuccess) break;
             }
             if(bSuccess){
-                memcpy(mat, temp, sizeof(m));
+                memcpy(mat, temp, sizeof(mat));
                 return advance();
             }
         }

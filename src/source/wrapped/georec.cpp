@@ -7,7 +7,7 @@ extern "C" {
 #include "utility/unpack.h"
 
 Napi::Value georec(const Napi::CallbackInfo& info) {
-    Napi::Env& env = info.Env();
+    Napi::Env env = info.Env();
     Napi::HandleScope scope(env);
 
     SpiceDouble lon, lat, alt, re, f;

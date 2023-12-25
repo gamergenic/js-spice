@@ -13,6 +13,22 @@ module.exports = {
     now,
 }
 
+
+console.log("---mxm, mxv---");
+try {
+    let m1 = [[1, 0, 0], [0, 1, 0], [0, 0, 1]];
+    let m2 = [[1, 0, 0], [0, 1, 0], [0, 0, 1]];
+    let m3 = spice.mxm(m1, m2);
+    console.log(JSON.stringify(m3));
+
+    let v1 = [1, 0, 0];
+    let v2 = spice.mxv(m3, v1);
+    console.log(JSON.stringify(v2));
+}
+catch (error) {
+    console.error(error);
+}
+
 async function getKernels() {
   // Usage example:
     // const leapSeconds = await genericKernels.getGenericKernel('lsk/latest_leapseconds.tls', 'data/naif/generic_kernels/lsk/latest_leapseconds.tls');
