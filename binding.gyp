@@ -30,6 +30,7 @@
         "src/source/wrapped/georec.cpp",
         "src/source/wrapped/gfposc.cpp",
         "src/source/wrapped/halfpi.cpp",
+        "src/source/wrapped/ident.cpp",
         "src/source/wrapped/latrec.cpp",
         "src/source/wrapped/mxm.cpp",
         "src/source/wrapped/mxv.cpp",
@@ -51,6 +52,7 @@
         "src/source/wrapped/timout.cpp",
         "src/source/wrapped/twopi.cpp",
         "src/source/wrapped/unload.cpp",
+        "src/source/wrapped/xpose.cpp",
          ],
       "dependencies": [
         "<!(node -p \"require('node-addon-api').gyp\")"

@@ -1,4 +1,4 @@
-#include "wrapped/axisar.h"
+#include "wrapped/xpose.h"
 #include "utility/err.h"
 extern "C" {
   #include <SpiceUsr.h>  // Include the CSPICE header
@@ -6,24 +6,23 @@ extern "C" {
 #include "utility/pack.h"
 #include "utility/unpack.h"
 
-Napi::Value axisar(const Napi::CallbackInfo& info) {
+Napi::Value xpose(const Napi::CallbackInfo& info) {
     Napi::Env env = info.Env();
     Napi::HandleScope scope(env);
 
-    SpiceDouble axis[3], angle;
+    SpiceDouble m1[3][3];
     if(
-      Unpack("axisar", info)
-      .rec(axis)
-      .angle(angle, "angle")
+      Unpack("xpose", info)
+      .mat(m1)
       .check( [=](const std::string& error) {
             Napi::TypeError::New(env, error).ThrowAsJavaScriptException();
         })){
         return env.Null();
     }
 
-    SpiceDouble r[3][3];
-    // https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/axisar_c.html
-    axisar_c(axis, angle, r);
+    SpiceDouble mout[3][3];
+    // https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/xpose_c.html
+    xpose_c(m1, mout);
 
-    return Pack(info).mat(r).nocheck(); 
+    return Pack(info).mat(mout).nocheck(); 
 }

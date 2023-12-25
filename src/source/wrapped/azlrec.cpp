@@ -24,6 +24,7 @@ Napi::Value azlrec(const Napi::CallbackInfo& info) {
     }
 
     SpiceDouble rectan[3];
+    // https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/azlrec_c.html
     azlrec_c(range, az, el, azccw, elplsz, rectan);
 
     return Pack(info).rec(rectan).nocheck(); 

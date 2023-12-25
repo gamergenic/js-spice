@@ -12,6 +12,7 @@
 #include "wrapped/georec.h"
 #include "wrapped/gfposc.h"
 #include "wrapped/halfpi.h"
+#include "wrapped/ident.h"
 #include "wrapped/latrec.h"
 #include "wrapped/mxm.h"
 #include "wrapped/mxv.h"
@@ -33,6 +34,7 @@
 #include "wrapped/recsph.h"
 #include "wrapped/twopi.h"
 #include "wrapped/unload.h"
+#include "wrapped/xpose.h"
 
 Napi::Object Init(Napi::Env env, Napi::Object exports) {
   exports.Set("axisar", Napi::Function::New(env, axisar));
@@ -48,6 +50,7 @@ Napi::Object Init(Napi::Env env, Napi::Object exports) {
   exports.Set("georec", Napi::Function::New(env, georec));
   exports.Set("gfposc", Napi::Function::New(env, gfposc));
   exports.Set("halfpi", Napi::Function::New(env, halfpi));
+  exports.Set("ident",  Napi::Function::New(env, ident));
   exports.Set("latrec", Napi::Function::New(env, latrec));
   exports.Set("mxm",    Napi::Function::New(env, mxm));
   exports.Set("mxv",    Napi::Function::New(env, mxv));
@@ -69,6 +72,7 @@ Napi::Object Init(Napi::Env env, Napi::Object exports) {
   exports.Set("timout", Napi::Function::New(env, timout));
   exports.Set("twopi",  Napi::Function::New(env, twopi));
   exports.Set("unload", Napi::Function::New(env, unload));
+  exports.Set("xpose",  Napi::Function::New(env, xpose));
   return exports;
 }
 
