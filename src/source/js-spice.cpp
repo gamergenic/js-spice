@@ -7,6 +7,7 @@
 #include "wrapped/clight.h"
 #include "wrapped/convrt.h"
 #include "wrapped/cylrec.h"
+#include "wrapped/deltet.h"
 #include "wrapped/dpr.h"
 #include "wrapped/erract.h"
 #include "wrapped/errdev.h"
@@ -59,6 +60,7 @@ Napi::Object Init(Napi::Env env, Napi::Object exports) {
   exports.Set("clight", Napi::Function::New(env, clight));
   exports.Set("convrt", Napi::Function::New(env, convrt));
   exports.Set("cylrec", Napi::Function::New(env, cylrec));
+  exports.Set("deltet", Napi::Function::New(env, deltet));
   exports.Set("dpr",    Napi::Function::New(env, dpr));
   exports.Set("erract", Napi::Function::New(env, erract));
   exports.Set("errdev", Napi::Function::New(env, errdev));

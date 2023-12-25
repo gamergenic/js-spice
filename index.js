@@ -38,7 +38,7 @@ try {
     console.log(JSON.stringify(spice.jyear()));
     console.log(JSON.stringify(spice.b1900()));
     console.log(JSON.stringify(spice.b1950()));
-   
+    
 
     console.log("---ident---");
     let ident = spice.ident();
@@ -81,6 +81,8 @@ async function getKernels() {
     }
     await loadAndProcessFiles(kernelsToLoad);
     
+    console.log(JSON.stringify(spice.deltet(100,"UTC")));
+       
     console.log(JSON.stringify(spice.recrad(1,1,1)));
     console.log("---azlrec---");
     try{ console.log(JSON.stringify(spice.azlrec()))} catch (error) { console.error(error);};

@@ -25,6 +25,7 @@
         "src/source/wrapped/clight.cpp",
         "src/source/wrapped/convrt.cpp",
         "src/source/wrapped/cylrec.cpp",
+        "src/source/wrapped/deltet.cpp",
         "src/source/wrapped/dpr.cpp",
         "src/source/wrapped/erract.cpp",
         "src/source/wrapped/errdev.cpp",
