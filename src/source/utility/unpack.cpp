@@ -237,6 +237,60 @@ Unpacker& Unpacker::_unpackstring(std::string& value, std::string name){
     return error(stream.str());
 }
 
+template<int size>
+Unpacker& Unpacker::_unpackelts(SpiceDouble (&elts)[size], std::string (&members)[size], std::string name){
+    Napi::Env env = info.Env();
+    Napi::HandleScope scope(env);
+
+    SpiceDouble temp[size];
+    if(remaining() > 0 && next().IsObject()){
+
+        const Napi::Object inObject = next().As<Napi::Object>();
+
+        bool bIsEltsObject = true;
+        for(int i = 0; i < size; ++i){
+            bIsEltsObject &= inObject.HasOwnProperty(members[i]);
+            if(bIsEltsObject){
+                const Napi::Value memberValue = inObject.Get(members[i]);
+                bIsEltsObject &= memberValue.IsNumber();
+                if(bIsEltsObject){
+                    temp[i] = memberValue.As<Napi::Number>().DoubleValue();
+                }
+            }
+            if(!bIsEltsObject) break;
+        }
+
+        if(bIsEltsObject){
+            memcpy(elts, temp, sizeof elts);
+            return advance();
+        }
+    }
+
+    std::stringstream stream;
+    stream << "expected object {";
+
+    for(int i = 0; i < size; ++i){
+        if(i > 0){
+            stream << ", ";
+        }
+        stream << "\"" << members[i] << "\":" << members[i];
+    }
+
+    stream << "} ";
+
+    if(!name.empty()){
+        stream << "'" << name  << "' ";
+    }    
+    stream << "at arg " << nextIndex + 1;
+    return error(stream.str());
+}
+
+Unpacker& Unpacker::_unpackconics(SpiceDouble (&elts)[8]){
+    std::string members[] {"rp", "ecc", "inc", "lnode", "argp", "m0", "t0", "mu"};
+    return _unpackelts(elts, members, "elts");
+}
+
+
 Unpacker Unpack(std::string _name, const Napi::CallbackInfo& _info){
     return Unpacker(_name, _info);
 }

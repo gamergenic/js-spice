@@ -16,10 +16,16 @@ module.exports = {
 
 console.log("---mxm, mxv---");
 try {
+    let elts = {"rp":6000, "ecc":0.1, "inc":0.1, "lnode":0.1, "argp":0.1, "m0":0.1, "t0":555, "mu":22222 };
+    let foo = spice.conics(elts, 3333);
+    console.log(JSON.stringify(foo));
+
     let m1 = [[1, 0, 0], [0, 1, 0], [0, 0, 1]];
-    let m2 = [[1, 0, 0], [0, 1, 0], [0, 0, 1]];
+    let m2 = [[0, 1, 0], [-1, 0, 0], [0, 0, 1]];
     let m3 = spice.mxm(m1, m2);
     console.log(JSON.stringify(m3));
+    let m4 = spice.invert(m2);
+    console.log(JSON.stringify(m4));
 
     let v1 = [1, 0, 0];
     let v2 = spice.mxv(m3, v1);
@@ -44,8 +50,8 @@ try {
     let ident = spice.ident();
     console.log(JSON.stringify(ident));
 
-    let m4 = [[1, 2, 3], [4, 5, 6], [7, 8, 9]];
-    console.log(JSON.stringify(spice.xpose(m4)));
+    let m5 = [[1, 2, 3], [4, 5, 6], [7, 8, 9]];
+    console.log(JSON.stringify(spice.xpose(m5)));
 }
 catch (error) {
     console.error(error);

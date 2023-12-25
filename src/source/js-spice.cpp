@@ -5,6 +5,7 @@
 #include "wrapped/b1950.h"
 #include "wrapped/bodvrd.h"
 #include "wrapped/clight.h"
+#include "wrapped/conics.h"
 #include "wrapped/convrt.h"
 #include "wrapped/cylrec.h"
 #include "wrapped/deltet.h"
@@ -19,6 +20,7 @@
 #include "wrapped/gfposc.h"
 #include "wrapped/halfpi.h"
 #include "wrapped/ident.h"
+#include "wrapped/invert.h"
 #include "wrapped/j1900.h"
 #include "wrapped/j1950.h"
 #include "wrapped/j2000.h"
@@ -60,6 +62,7 @@ Napi::Object Init(Napi::Env env, Napi::Object exports) {
   exports.Set("b1950",  Napi::Function::New(env, b1950));
   exports.Set("bodvrd", Napi::Function::New(env, bodvrd));
   exports.Set("clight", Napi::Function::New(env, clight));
+  exports.Set("conics", Napi::Function::New(env, conics));
   exports.Set("convrt", Napi::Function::New(env, convrt));
   exports.Set("cylrec", Napi::Function::New(env, cylrec));
   exports.Set("deltet", Napi::Function::New(env, deltet));
@@ -74,6 +77,7 @@ Napi::Object Init(Napi::Env env, Napi::Object exports) {
   exports.Set("gfposc", Napi::Function::New(env, gfposc));
   exports.Set("halfpi", Napi::Function::New(env, halfpi));
   exports.Set("ident",  Napi::Function::New(env, ident));
+  exports.Set("invert", Napi::Function::New(env, invert));
   exports.Set("j1900",  Napi::Function::New(env, j1900));
   exports.Set("j1950",  Napi::Function::New(env, j1950));
   exports.Set("j2000",  Napi::Function::New(env, j2000));

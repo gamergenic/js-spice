@@ -104,6 +104,27 @@ public:
 };
 
 
+class NState : public NValue<Napi::Object> {
+public:    
+    NState(Napi::Env& env, ConstSpiceDouble (&_value)[6]) {
+        value = Napi::Object::New(env);
+
+        Napi::Array r = Napi::Array::New(env, 3);
+        for(uint32_t i = 0; i < 3; ++i){
+            r.Set(i, _value[i]);
+        }
+        Napi::Array v = Napi::Array::New(env, 3);
+        for(uint32_t i = 0; i < 3; ++i){
+            v.Set(i, _value[3 + i]);
+        }
+        value.Set("r", r);
+        value.Set("v", r);
+    }
+
+    Napi::Object object() { return value; }
+};
+
+
 class Packer{
 
 public:
@@ -121,6 +142,7 @@ public:
     NDouble dt(SpiceDouble dt);
     NDouble d(SpiceDouble d);
     NDouble dist(SpiceDouble dist);
+    NState state(ConstSpiceDouble (&state)[6]);
     NInt i(SpiceInt i);
     NFlag flag(SpiceBoolean flag);
     NArrayDouble3x3 mat(SpiceDouble (&m)[3][3]);

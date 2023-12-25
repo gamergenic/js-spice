@@ -121,13 +121,18 @@ NArrayDouble3x3 Packer::mat(SpiceDouble (&m)[3][3]){
     return NArrayDouble3x3(env, m);    
 }
 
-Packer Pack(const Napi::CallbackInfo& _info){
-    return Packer(_info.Env());
+NState Packer::state(ConstSpiceDouble (&state)[6]){
+    Napi::HandleScope scope(env);
+    return NState(env, state);    
 }
 
 NString Packer::str(ConstSpiceChar* str){
     Napi::HandleScope scope(env);
     return NString(env, str);
+}
+
+Packer Pack(const Napi::CallbackInfo& _info){
+    return Packer(_info.Env());
 }
 
 Packer Pack(Napi::Env _env){
