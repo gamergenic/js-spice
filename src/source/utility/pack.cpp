@@ -101,6 +101,11 @@ NDouble Packer::d(SpiceDouble d){
     return NDouble(env, d);
 }
 
+NDouble Packer::dist(SpiceDouble dist){
+    Napi::HandleScope scope(env);
+    return NDouble(env, dist);
+}
+
 NFlag Packer::flag(SpiceBoolean flag){
     Napi::HandleScope scope(env);
     return NFlag(env, flag != SPICEFALSE);

@@ -52,6 +52,12 @@
         "src/source/wrapped/timout.cpp",
         "src/source/wrapped/twopi.cpp",
         "src/source/wrapped/unload.cpp",
+        "src/source/wrapped/vadd.cpp",
+        "src/source/wrapped/vcrss.cpp",
+        "src/source/wrapped/vdist.cpp",
+        "src/source/wrapped/vdot.cpp",
+        "src/source/wrapped/vhat.cpp",
+        "src/source/wrapped/vnorm.cpp",
         "src/source/wrapped/xpose.cpp",
          ],
       "dependencies": [

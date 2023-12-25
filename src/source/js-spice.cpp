@@ -34,6 +34,12 @@
 #include "wrapped/recsph.h"
 #include "wrapped/twopi.h"
 #include "wrapped/unload.h"
+#include "wrapped/vadd.h"
+#include "wrapped/vcrss.h"
+#include "wrapped/vdist.h"
+#include "wrapped/vdot.h"
+#include "wrapped/vhat.h"
+#include "wrapped/vnorm.h"
 #include "wrapped/xpose.h"
 
 Napi::Object Init(Napi::Env env, Napi::Object exports) {
@@ -72,64 +78,14 @@ Napi::Object Init(Napi::Env env, Napi::Object exports) {
   exports.Set("timout", Napi::Function::New(env, timout));
   exports.Set("twopi",  Napi::Function::New(env, twopi));
   exports.Set("unload", Napi::Function::New(env, unload));
+  exports.Set("vadd",   Napi::Function::New(env, vadd));
+  exports.Set("vcrss",  Napi::Function::New(env, vcrss));
+  exports.Set("vdist",  Napi::Function::New(env, vdist));
+  exports.Set("vdot",   Napi::Function::New(env, vdot));
+  exports.Set("vhat",   Napi::Function::New(env, vhat));
+  exports.Set("vnorm",  Napi::Function::New(env, vnorm));
   exports.Set("xpose",  Napi::Function::New(env, xpose));
   return exports;
 }
 
 NODE_API_MODULE(NODE_GYP_MODULE_NAME, Init)
-
-#include "js-spice.h"
-
-bool ExtractRecVector(std::vector<Napi::Value> values, double result[3]){
-  if(values.size() == 1 && values[0].IsArray()){
-    const Napi::Array inArray = values[0].As<Napi::Array>();
-
-    bool bIsVectorArray = inArray.Length() == 3;
-    if(bIsVectorArray){
-      const Napi::Value xValue = inArray.Get((uint32_t)0);       
-      const Napi::Value yValue = inArray.Get((uint32_t)1);       
-      const Napi::Value zValue = inArray.Get((uint32_t)2);
-      bIsVectorArray &= xValue.IsNumber();       
-      bIsVectorArray &= yValue.IsNumber();       
-      bIsVectorArray &= zValue.IsNumber();       
-      if(bIsVectorArray){
-        result[0] = xValue.As<Napi::Number>().DoubleValue();
-        result[1] = yValue.As<Napi::Number>().DoubleValue();
-        result[2] = zValue.As<Napi::Number>().DoubleValue();
-        return true;
-      }
-    }
-  }
-  else if(values.size() == 1 && values[0].IsObject()) {
-    const Napi::Object inObject = values[0].As<Napi::Object>();
-
-    bool bIsVectorObject = true;
-    bIsVectorObject &= inObject.HasOwnProperty("x");
-    bIsVectorObject &= inObject.HasOwnProperty("y");
-    bIsVectorObject &= inObject.HasOwnProperty("z");
-    if(bIsVectorObject){
-      const Napi::Value xValue = inObject.Get("x");       
-      const Napi::Value yValue = inObject.Get("y");       
-      const Napi::Value zValue = inObject.Get("z");
-      bIsVectorObject &= xValue.IsNumber();       
-      bIsVectorObject &= yValue.IsNumber();       
-      bIsVectorObject &= zValue.IsNumber();       
-      if(bIsVectorObject){
-        result[0] = xValue.As<Napi::Number>().DoubleValue();
-        result[1] = yValue.As<Napi::Number>().DoubleValue();
-        result[2] = zValue.As<Napi::Number>().DoubleValue();
-        return bIsVectorObject;
-      }
-    }
-  }
-  else if (values.size() == 3){
-    if(values[0].IsNumber() && values[1].IsNumber() && values[2].IsNumber()){
-      result[0] = values[0].As<Napi::Number>().DoubleValue();
-      result[1] = values[1].As<Napi::Number>().DoubleValue();
-      result[2] = values[2].As<Napi::Number>().DoubleValue();
-      return true;
-    }
-  }
-
-  return false;
-}

@@ -24,6 +24,13 @@ try {
     let v1 = [1, 0, 0];
     let v2 = spice.mxv(m3, v1);
     console.log(JSON.stringify(v2));
+    console.log(JSON.stringify(spice.vadd(v1,v2)));
+    console.log(JSON.stringify(spice.vcrss(v1,[0,1,0])));
+    console.log(JSON.stringify(spice.vdot(v1,v2)));
+    console.log(JSON.stringify(spice.vdist(v1,[0,1,0])));
+    console.log(JSON.stringify(spice.vhat(v1)));
+    console.log(JSON.stringify(spice.vnorm(v1)));
+   
 
     console.log("---ident---");
     let ident = spice.ident();
@@ -103,13 +110,13 @@ async function getKernels() {
     console.log("---convrt---");
     try{ console.log(JSON.stringify(spice.convrt(1, "STATUTE_MILES", "FEET")))} catch (error) { console.error(error);};
 
-    console.log("---convrt---");
-    try{
-        console.log(JSON.stringify(spice.convrt(1)))
-    }
-    catch (error) {
-        console.error(error);
-    };
+    // console.log("---convrt---");
+    // try{
+    //     console.log(JSON.stringify(spice.convrt(1)))
+    // }
+    // catch (error) {
+    //     console.error(error);
+    // };
     console.log("---axisar---");
     try{ console.log(JSON.stringify(spice.axisar([0,1,0],spice.halfpi())))} catch (error) { console.error(error);};
     console.log("---axisar---");

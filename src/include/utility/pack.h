@@ -103,6 +103,7 @@ public:
     NDouble et(SpiceDouble et);
     NDouble dt(SpiceDouble dt);
     NDouble d(SpiceDouble d);
+    NDouble dist(SpiceDouble dist);
     NFlag flag(SpiceBoolean flag);
     NArrayDouble3x3 mat(SpiceDouble (&m)[3][3]);
 
