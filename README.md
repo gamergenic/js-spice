@@ -420,12 +420,53 @@ console.log(result.toString());
 ```js
 // init js-spice, load kernels
 let result = spice.spkpos('moon', new spice.EphemerisTime('Dec 17, 2023, 14:10:00'), 'J2000', 'NONE', 'earth');
-console.log(result.toString());
+```
+
+##### spkgps
+###### Usage
+```js
+// init js-spice, load kernels
+let result = spice.spkgps(199, et_now(), "J2000", 399);;
+```
+
+
+##### spkgeo
+###### Usage
+```js
+// init js-spice, load kernels
+let result = spice.spkgeo(199, et_now(), "J2000", 399);
+```
+
+##### spkcpo
+###### Usage
+```js
+result = spice.spkcpo("mercury", et_now(), "J2000", "OBSERVER", "NONE", [1,1,1], "EARTH", "J2000");
+```
+
+##### spkcpt
+###### Usage
+```js
+result = spice.spkcpt([1,1,1], "mercury", "J2000", et_now(), "J2000", "OBSERVER", "NONE", "EARTH");
+```
+
+##### spkcvo
+###### Usage
+```js
+result = spice.spkcvo("mercury", et_now(), "J2000", "OBSERVER", "NONE", {r:[1,1,1],v:[0,0,0]}, et_now(), "EARTH", "J2000");
+```
+
+##### spkcvt
+###### Usage
+```js
+result = spice.spkcvt({r:[1,1,1],v:[0,0,0]}, et_now(), "mercury", "J2000", et_now(), "J2000", "OBSERVER", "NONE", "EARTH");
 ```
 
 ##### timout
 
+###### Usage
+```js
 console.log(spice.timout(now(), 'MON DD,YYYY  HR:MN:SC.#### (TDB) ::TDB'));
+```
 
 ### License
 MIT License.

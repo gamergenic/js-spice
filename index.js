@@ -213,6 +213,26 @@ async function getKernels() {
     console.log('---result---');
     console.log(JSON.stringify(result));
 
+    console.log('---spkcpo---');
+    result = spice.spkcpo("mercury", et_now(), "J2000", "OBSERVER", "NONE", [1,1,1], "EARTH", "J2000");
+    console.log('---result---');
+    console.log(JSON.stringify(result));
+
+    console.log('---spkcpt---');
+    result = spice.spkcpt([1,1,1], "mercury", "J2000", et_now(), "J2000", "OBSERVER", "NONE", "EARTH");
+    console.log('---result---');
+    console.log(JSON.stringify(result));
+
+    console.log('---spkcvo---');
+    result = spice.spkcvo("mercury", et_now(), "J2000", "OBSERVER", "NONE", {r:[1,1,1],v:[0,0,0]}, et_now(), "EARTH", "J2000");
+    console.log('---result---');
+    console.log(JSON.stringify(result));
+
+    console.log('---spkcvt---');
+    result = spice.spkcvt({r:[1,1,1],v:[0,0,0]}, et_now(), "mercury", "J2000", et_now(), "J2000", "OBSERVER", "NONE", "EARTH");
+    console.log('---result---');
+    console.log(JSON.stringify(result));    
+
     // console.log(JSON.stringify(spice.recrad(result.ptarg)));
 
     // console.log(spice.pi());

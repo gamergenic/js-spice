@@ -9,7 +9,7 @@ Unpacker::Unpacker(std::string _name, const Napi::CallbackInfo& _info)
 }
 
 
-Unpacker& Unpacker::_rec(SpiceDouble (&rec)[3]){
+Unpacker& Unpacker::_rec(SpiceDouble (&rec)[3], std::string name){
     Napi::Env env = info.Env();
     Napi::HandleScope scope(env);
 
@@ -64,7 +64,11 @@ Unpacker& Unpacker::_rec(SpiceDouble (&rec)[3]){
     }
 
     std::stringstream stream;
-    stream << "expected array [x, y, z], object {\"x\":x, \"y\":y, \"z\":z}, or 3 numeric args (x, y, z) at arg ";
+    stream << "expected array [x, y, z], object {\"x\":x, \"y\":y, \"z\":z}, or 3 numeric args (x, y, z) ";
+    if(!name.empty()){
+        stream << "'" << name << "' ";
+    }    
+    stream << "at arg ";
     stream << nextIndex + 1;
     return error(stream.str());    
 }
