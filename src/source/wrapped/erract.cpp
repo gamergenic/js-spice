@@ -30,7 +30,7 @@ Napi::Value erract(const Napi::CallbackInfo& info) {
     {
         std::string action_str = info[1].ToString().Utf8Value();
         const ConstSpiceChar* action_input = action_str.c_str();        
-        strncpy(action, action_input, SpiceLongMessageMaxLength);
+        strncpy(action, action_input, actlen);
     }
 
 

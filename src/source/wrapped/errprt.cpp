@@ -27,7 +27,7 @@ Napi::Value errprt(const Napi::CallbackInfo& info) {
     {
         std::string list_str = info[1].ToString().Utf8Value();
         const ConstSpiceChar* list_input = list_str.c_str();        
-        strncpy(list, list_input, SpiceLongMessageMaxLength);
+        strncpy(list, list_input, lislen);
     }
     errprt_c(op, lislen, list);
 

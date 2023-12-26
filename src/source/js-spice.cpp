@@ -38,6 +38,9 @@
 #include "wrapped/str2et.h"
 #include "wrapped/spd.h"
 #include "wrapped/sphrec.h"
+#include "wrapped/spkezr.h"
+#include "wrapped/spkgeo.h"
+#include "wrapped/spkgps.h"
 #include "wrapped/spkpos.h"
 #include "wrapped/timout.h"
 #include "wrapped/radrec.h"
@@ -106,6 +109,9 @@ Napi::Object Init(Napi::Env env, Napi::Object exports) {
   exports.Set("str2et", Napi::Function::New(env, str2et));
   exports.Set("spd",    Napi::Function::New(env, spd));
   exports.Set("sphrec", Napi::Function::New(env, sphrec));
+  exports.Set("spkezr", Napi::Function::New(env, spkezr));
+  exports.Set("spkgeo", Napi::Function::New(env, spkgeo));
+  exports.Set("spkgps", Napi::Function::New(env, spkgps));
   exports.Set("spkpos", Napi::Function::New(env, spkpos));
   exports.Set("timout", Napi::Function::New(env, timout));
   exports.Set("twopi",  Napi::Function::New(env, twopi));

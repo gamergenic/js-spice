@@ -198,6 +198,21 @@ async function getKernels() {
     console.log('---result---');
     console.log(JSON.stringify(result));
 
+    console.log('---spkezr---');
+    result = spice.spkezr("mercury", et_now(), "J2000", "NONE", "earth");
+    console.log('---result---');
+    console.log(JSON.stringify(result));
+
+    console.log('---spkgeo---');
+    result = spice.spkgeo(199, et_now(), "J2000", 399);
+    console.log('---result---');
+    console.log(JSON.stringify(result));
+
+    console.log('---spkgps---');
+    result = spice.spkgps(199, et_now(), "J2000", 399);
+    console.log('---result---');
+    console.log(JSON.stringify(result));
+
     // console.log(JSON.stringify(spice.recrad(result.ptarg)));
 
     // console.log(spice.pi());

@@ -405,6 +405,16 @@ const spice = require('js-spice');
 spice.unload("C:\\naif\\kernels\\Generic\\LSK\\latest_leapseconds.tls");
 ```
 
+##### spkezr
+https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/spkezr_c.html
+
+###### Usage
+```js
+// init js-spice, load kernels
+let result = spice.spkezr('moon', new spice.EphemerisTime('Dec 17, 2023, 14:10:00'), 'J2000', 'NONE', 'earth');
+console.log(result.toString());
+```
+
 ##### spkpos
 ###### Usage
 ```js

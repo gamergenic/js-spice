@@ -28,7 +28,7 @@ Napi::Value errdev(const Napi::CallbackInfo& info) {
     {
         std::string device_str = info[1].ToString().Utf8Value();
         const ConstSpiceChar* device_input = device_str.c_str();        
-        strncpy(device, device_input, SpiceLongMessageMaxLength);
+        strncpy(device, device_input, devlen);
     }
 
     errdev_c(op, devlen, device);
