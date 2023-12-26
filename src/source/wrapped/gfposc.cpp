@@ -3,6 +3,7 @@
 extern "C" {
   #include <SpiceUsr.h>  // Include the CSPICE header
 }
+#include <cmath>
 
 Napi::Value gfposc(const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();
@@ -138,7 +139,7 @@ Napi::Value gfposc(const Napi::CallbackInfo& info) {
   } else {
     int n = cnfine_array.Length();
     double m = totalWindow;
-    nintvls = (SpiceInt)ceill(2 * n + m / step);
+    nintvls = (SpiceInt)std::ceill(2 * n + m / step);
   }
 
 
