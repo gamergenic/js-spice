@@ -78,6 +78,17 @@ NObject Packer::sph(SpiceDouble r, SpiceDouble colat, SpiceDouble slon){
     return result;
 }
 
+NObject Packer::q(ConstSpiceDouble (&q)[4]){
+    NObject result(env);
+
+    result.obj().Set("w", q[0]);
+    result.obj().Set("x", q[1]);
+    result.obj().Set("y", q[2]);
+    result.obj().Set("z", q[3]);
+
+    return result;
+}
+
 NDouble Packer::et(SpiceDouble et){
     return NDouble(env, et);
 }

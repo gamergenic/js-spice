@@ -237,6 +237,18 @@ async function getKernels() {
     result = spice.raxisa(spice.ident());
     console.log(JSON.stringify(result)); 
 
+    console.log('---m2q---');
+    result = spice.m2q(spice.ident());
+    console.log(JSON.stringify(result)); 
+
+    console.log('---qxq---');
+    result = spice.qxq(result, result);
+    console.log(JSON.stringify(result)); 
+
+    console.log('---q2m---');
+    result = spice.q2m(result);
+    console.log(JSON.stringify(result)); 
+
     // console.log(JSON.stringify(spice.recrad(result.ptarg)));
 
     // console.log(spice.pi());

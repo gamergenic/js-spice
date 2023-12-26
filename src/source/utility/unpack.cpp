@@ -107,6 +107,47 @@ Unpacker& Unpacker::_unpackdouble3(const char* name1, const char* name2, const c
     return error(stream.str());
 }
 
+
+Unpacker& Unpacker::_unpackquat(SpiceDouble (&quat)[4], std::string name){
+    Napi::Env env = info.Env();
+    Napi::HandleScope scope(env);
+    
+    if(remaining() > 0 && next().IsObject()){
+        const Napi::Object inObject = next().As<Napi::Object>();
+
+        bool bIsQuat = true;
+        bIsQuat &= inObject.HasOwnProperty("w");
+        bIsQuat &= inObject.HasOwnProperty("x");
+        bIsQuat &= inObject.HasOwnProperty("y");
+        bIsQuat &= inObject.HasOwnProperty("z");
+        if(bIsQuat){
+            const Napi::Value wValue = inObject.Get("w");       
+            const Napi::Value xValue = inObject.Get("x");       
+            const Napi::Value yValue = inObject.Get("y");
+            const Napi::Value zValue = inObject.Get("z");
+            bIsQuat &= wValue.IsNumber();       
+            bIsQuat &= xValue.IsNumber();       
+            bIsQuat &= yValue.IsNumber();       
+            bIsQuat &= zValue.IsNumber();       
+            if(bIsQuat){
+                quat[0] = wValue.As<Napi::Number>().DoubleValue();
+                quat[1] = xValue.As<Napi::Number>().DoubleValue();
+                quat[2] = yValue.As<Napi::Number>().DoubleValue();
+                quat[3] = zValue.As<Napi::Number>().DoubleValue();
+                return advance();
+            }
+        }
+    }
+
+    std::stringstream stream;
+    stream << "expected object {\"w\":w, \"x\":x, \"y\":y, \"z\":z} ";
+    if(!name.empty()){
+        stream << "'" << name << "' ";
+    }    
+    stream << "at arg " << nextIndex + 1;
+    return error(stream.str());
+}
+
 Unpacker& Unpacker::_unpackdouble3x3(SpiceDouble (&mat)[3][3], std::string name){
     Napi::Env env = info.Env();
     Napi::HandleScope scope(env);

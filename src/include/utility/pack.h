@@ -167,6 +167,7 @@ public:
     NObject rad(SpiceDouble range, SpiceDouble ra, SpiceDouble dec);
     NArrayDouble3  rec(ConstSpiceDouble (&rectan)[3]);
     NObject sph(SpiceDouble r, SpiceDouble colat, SpiceDouble slon);
+    NObject q(ConstSpiceDouble (&q)[4]);
     NDouble et(SpiceDouble et);
     NDouble dt(SpiceDouble dt);
     NDouble d(SpiceDouble d);

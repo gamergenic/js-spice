@@ -29,11 +29,14 @@
 #include "wrapped/j2100.h"
 #include "wrapped/jyear.h"
 #include "wrapped/latrec.h"
+#include "wrapped/m2q.h"
 #include "wrapped/mxm.h"
 #include "wrapped/mxv.h"
 #include "wrapped/oscelt.h"
 #include "wrapped/pgrrec.h"
 #include "wrapped/pi.h"
+#include "wrapped/q2m.h"
+#include "wrapped/qxq.h"
 #include "wrapped/rpd.h"
 #include "wrapped/str2et.h"
 #include "wrapped/spd.h"
@@ -97,11 +100,14 @@ Napi::Object Init(Napi::Env env, Napi::Object exports) {
   exports.Set("j2100",  Napi::Function::New(env, j2100));
   exports.Set("jyear",  Napi::Function::New(env, jyear));
   exports.Set("latrec", Napi::Function::New(env, latrec));
+  exports.Set("m2q",    Napi::Function::New(env, m2q));
   exports.Set("mxm",    Napi::Function::New(env, mxm));
   exports.Set("mxv",    Napi::Function::New(env, mxv));
   exports.Set("oscelt", Napi::Function::New(env, oscelt));
   exports.Set("pgrrec", Napi::Function::New(env, pgrrec));
   exports.Set("pi",     Napi::Function::New(env, pi));
+  exports.Set("q2m",    Napi::Function::New(env, q2m));
+  exports.Set("qxq",    Napi::Function::New(env, qxq));
   exports.Set("radrec", Napi::Function::New(env, radrec));
   exports.Set("raxisa", Napi::Function::New(env, raxisa));
   exports.Set("recazl", Napi::Function::New(env, recazl));
