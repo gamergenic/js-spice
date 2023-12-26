@@ -43,10 +43,5 @@ Napi::Value getelm(const Napi::CallbackInfo& info) {
     // https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/vcrss_c.html
     getelm_c(frstyr, SpiceLongMessageMaxLength, tle, &epoch, elems);
 
-    Napi::Object result = Napi::Object::New(env);
-    result.Set("epoch", Napi::Number::New(env, epoch));
-    Napi::Value resultElems = Pack(info).elms(elems).check();
-    result.Set("elems", resultElems);
-
-    return result; 
+    return Pack(info).elms(elems).as("elems").with(epoch, "epoch").check();
 }

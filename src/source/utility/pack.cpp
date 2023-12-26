@@ -124,6 +124,11 @@ NElts Packer::elms(ConstSpiceDouble (&elms)[10]){
     return NElts(env, members, elms);
 }
 
+NElts Packer::geophs(ConstSpiceDouble (&elts)[8]){
+    std::string members[] {"j2", "j3", "j4", "ke", "qo", "so", "er", "ae"};
+    return NElts(env, members, elts);
+}
+
 Packer Pack(const Napi::CallbackInfo& _info){
     return Packer(_info.Env());
 }

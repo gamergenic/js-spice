@@ -7,6 +7,8 @@ extern "C" {
 }
 #include "utility/err.h"
 
+class NObject;
+
 template <typename T>
 class NValue : public T {
 
@@ -20,10 +22,11 @@ public:
         return value;
     }
 
+    NObject as(std::string recName);
+
     Napi::Value nocheck(){
         return value;
     }
-
 
 protected:
     T value;
@@ -37,8 +40,20 @@ public:
         value = Napi::Object::New(env);
     }
 
+    NObject& with(SpiceDouble value, std::string name){
+        obj().Set(name, Napi::Number::New(obj().Env(), value));
+        return *this;
+    }
+
     Napi::Object obj() { return value; }
 };
+
+template <typename T>
+NObject NValue<T>::as(std::string recName){
+    NObject result = NObject(value.Env());
+    result.obj().Set(recName, value);
+    return result;
+}
 
 class NDouble : public NValue<Napi::Number> {
 
@@ -163,6 +178,7 @@ public:
     NString str(ConstSpiceChar* str);
     NElts conics(ConstSpiceDouble (&elts)[8]);
     NElts elms(ConstSpiceDouble (&elms)[10]);
+    NElts geophs(ConstSpiceDouble (&elms)[8]);
 private:
     Napi::Env env;
 };

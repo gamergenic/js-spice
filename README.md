@@ -365,6 +365,32 @@ https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/req/gf.html#Natural%20satellit
         console.error(error);
     }
 ```
+
+##### evpsg4
+
+https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/getelm_c.html
+
+###### Usage
+
+```js
+const {spice, geophysical} = require('js-spice');
+
+const tles = [
+        "1 43908U 18111AJ  20146.60805006  .00000806  00000-0  34965-4 0  9999",
+        "2 43908  97.2676  47.2136 0020001 220.6050 139.3698 15.24999521 78544"
+    ];
+// use spice to parse the tle data into useable form (epoch and elements are returned as 'epoch' and 'elems')
+const getelm_result = spice.getelm(1957, tles);
+const elems = getelm_result.elems;
+
+// download https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/geophysical.ker if necessary and furnsh it
+const geophs = await geophysical.getGeophysicalConstants(true);
+
+const stateVector = spice.evsgp4(spice.str2et('2020-05-26 02:25:00'), geophs, elems);
+
+console.log(JSON.stringify(stateVector));
+```
+
 ##### unload
 ###### Usage
 ```js

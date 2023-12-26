@@ -292,7 +292,7 @@ Unpacker& Unpacker::_unpackconics(SpiceDouble (&elts)[8]){
 
 
 Unpacker& Unpacker::_unpackgeophs(SpiceDouble (&elts)[8]){
-    std::string members[] {"j2", "j3", "j4", "ke", "qo", "so", "re", "ae"};
+    std::string members[] {"j2", "j3", "j4", "ke", "qo", "so", "er", "ae"};
     return _unpackelts(elts, members, "geophs");
 }
 

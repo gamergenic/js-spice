@@ -1,16 +1,28 @@
 const spice = require('./build/Release/js-spice');
 const genericKernels = require('./genericKernels');
+const geophysical = require('./geophysical');
 
-function now(){
+function et_now(){
     const etstr = new Date().toISOString();
     const et = spice.str2et(etstr);
     return et;
 }
 
+try{
+    spice.errprt('set', 'short');
+    spice.errdev('set', 'null');
+    spice.erract('set', 'return');
+}
+catch(error){
+    console.error('error: ', error);
+}
+
+
 module.exports = { 
     spice,
     genericKernels,
-    now,
+    et_now,
+    geophysical
 }
 
 
@@ -75,7 +87,7 @@ async function getKernels() {
         'spk/satellites/a_old_versions/sat288.bsp',
         'spk/stations/a_old_versions/earthstns_itrf93_050714.bsp',
         'fk/stations/a_old_versions/earth_topo_050714.tf',
-        'pck/a_old_versions/earth_070425_370426_predict.bpc',
+        'pck/a_old_versions/earth_070425_370426_predict.bpc'
     ];
 
 
@@ -96,9 +108,15 @@ async function getKernels() {
         "2 43908  97.2676  47.2136 0020001 220.6050 139.3698 15.24999521 78544"
     ];
     console.log('---tle---')
-    let rslt = spice.getelm(1957, tle);
-    console.log(JSON.stringify(rslt));
+    const rslt = spice.getelm(1957, tle);
+    const elems = rslt.elems;
+    console.log(JSON.stringify(elems));
     console.log('///tle---')
+
+    const geophs = await geophysical.getGeophysicalConstants(true);
+    console.log(JSON.stringify(geophs));
+    console.log(JSON.stringify(elems));
+    console.log(spice.evsgp4(spice.str2et('2020-05-26 02:25:00'), geophs, elems));
 
     
     console.log(JSON.stringify(spice.deltet(100,"UTC")));
@@ -175,7 +193,11 @@ async function getKernels() {
     // spice.furnsh(gm);
     // spice.furnsh(spk);
 
-    // let result = spice.spkpos("mercury", now(), "J2000", "NONE", "earth");
+    console.log('---spkpos---');
+    let result = spice.spkpos("mercury", et_now(), "J2000", "NONE", "earth");
+    console.log('---result---');
+    console.log(JSON.stringify(result));
+
     // console.log(JSON.stringify(spice.recrad(result.ptarg)));
 
     // console.log(spice.pi());
@@ -198,7 +220,7 @@ async function getKernels() {
 
     // console.log(spice.spd());
 
-    // console.log(spice.timout(now(), 'MON DD,YYYY  HR:MN:SC.#### (TDB) ::TDB'));
+    // console.log(spice.timout(et_now(), 'MON DD,YYYY  HR:MN:SC.#### (TDB) ::TDB'));
 
     // console.log(spice.dpr());
     // console.log(spice.rpd());
@@ -305,12 +327,4 @@ async function getKernels() {
 
 getKernels();
 
-try{
-    spice.errprt('set', 'short');
-    spice.errdev('set', 'null');
-    spice.erract('set', 'return');
-}
-catch(error){
-    console.error('error: ', error);
-}
 
