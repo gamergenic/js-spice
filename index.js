@@ -233,12 +233,16 @@ async function getKernels() {
     console.log('---result---');
     console.log(JSON.stringify(result));    
 
+    console.log('---eul2m---');
+    let mat1 = spice.eul2m(spice.halfpi()/2, 0, 0, 1, 2, 3);
+    console.log(JSON.stringify(result)); 
+
     console.log('---raxisa---');
-    result = spice.raxisa(spice.ident());
+    result = spice.raxisa(mat1);
     console.log(JSON.stringify(result)); 
 
     console.log('---m2q---');
-    result = spice.m2q(spice.ident());
+    result = spice.m2q(mat1);
     console.log(JSON.stringify(result)); 
 
     console.log('---qxq---');
@@ -247,6 +251,14 @@ async function getKernels() {
 
     console.log('---q2m---');
     result = spice.q2m(result);
+    console.log(JSON.stringify(result)); 
+
+    console.log('---eul2m---');
+    result = spice.eul2m(spice.halfpi()/2, 0, 0, 1, 2, 3);
+    console.log(JSON.stringify(result)); 
+
+    console.log('---m2eul---');
+    result = spice.m2eul(result, 1, 2, 3);
     console.log(JSON.stringify(result)); 
 
     // console.log(JSON.stringify(spice.recrad(result.ptarg)));
