@@ -48,6 +48,7 @@
 #include "wrapped/spkpos.h"
 #include "wrapped/timout.h"
 #include "wrapped/radrec.h"
+#include "wrapped/raxisa.h"
 #include "wrapped/recazl.h"
 #include "wrapped/reccyl.h"
 #include "wrapped/recgeo.h"
@@ -102,6 +103,7 @@ Napi::Object Init(Napi::Env env, Napi::Object exports) {
   exports.Set("pgrrec", Napi::Function::New(env, pgrrec));
   exports.Set("pi",     Napi::Function::New(env, pi));
   exports.Set("radrec", Napi::Function::New(env, radrec));
+  exports.Set("raxisa", Napi::Function::New(env, raxisa));
   exports.Set("recazl", Napi::Function::New(env, recazl));
   exports.Set("reccyl", Napi::Function::New(env, reccyl));
   exports.Set("recgeo", Napi::Function::New(env, recgeo));

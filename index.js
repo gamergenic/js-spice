@@ -233,6 +233,10 @@ async function getKernels() {
     console.log('---result---');
     console.log(JSON.stringify(result));    
 
+    console.log('---raxisa---');
+    result = spice.raxisa(spice.ident());
+    console.log(JSON.stringify(result)); 
+
     // console.log(JSON.stringify(spice.recrad(result.ptarg)));
 
     // console.log(spice.pi());

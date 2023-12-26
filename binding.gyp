@@ -53,6 +53,7 @@
         "src/source/wrapped/pgrrec.cpp",
         "src/source/wrapped/pi.cpp",
         "src/source/wrapped/radrec.cpp",
+        "src/source/wrapped/raxisa.cpp",
         "src/source/wrapped/recazl.cpp",
         "src/source/wrapped/reccyl.cpp",
         "src/source/wrapped/recgeo.cpp",
