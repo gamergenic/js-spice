@@ -139,7 +139,7 @@ Napi::Value gfposc(const Napi::CallbackInfo& info) {
   } else {
     int n = cnfine_array.Length();
     double m = totalWindow;
-    nintvls = (SpiceInt)std::ceill(2 * n + m / step);
+    nintvls = (SpiceInt)std::ceil(2 * n + m / step);
   }
 
 
