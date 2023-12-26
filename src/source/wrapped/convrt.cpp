@@ -1,3 +1,6 @@
+// Copyright Gamergenic, LLC.  See full copyright notice and license in index.js.
+// Author: chucknoble@gamergenic.com|https://www.gamergenic.com
+
 #include "wrapped/convrt.h"
 #include "utility/err.h"
 extern "C" {
@@ -21,11 +24,8 @@ Napi::Value convrt(const Napi::CallbackInfo& info) {
       .str(in_str, "in")
       .str(out_str, "out")
       .check( [=](const std::string& error) {
-            std::cout << "convrt handle error enter" << std::endl;
             Napi::TypeError::New(env, error).ThrowAsJavaScriptException();
-            std::cout << "convrt handle error exit" << std::endl;
         })){
-        std::cout << "convrt exit null" << std::endl;
         return env.Null();
     }
     std::cout << "convrt exit" << std::endl;

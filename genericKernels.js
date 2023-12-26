@@ -1,3 +1,6 @@
+// Copyright Gamergenic, LLC.  See full copyright notice and license in index.js.
+// Author: chucknoble@gamergenic.com|https://www.gamergenic.com
+
 const axios = require('axios');
 const fs = require('fs'); // Use the original fs module
 const fsPromises = fs.promises; // For promise-based fs operations

@@ -1,7 +1,10 @@
+// Copyright Gamergenic, LLC.  See full copyright notice and license in index.js.
+// Author: chucknoble@gamergenic.com|https://www.gamergenic.com
+
 #include "wrapped/rpd.h"
 
 extern "C" {
-  #include <SpiceUsr.h>  // Include the CSPICE header
+  #include <SpiceUsr.h>
 }
 
 Napi::Value rpd(const Napi::CallbackInfo& info) {
