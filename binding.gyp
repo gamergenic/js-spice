@@ -66,6 +66,7 @@
         "src/source/wrapped/recpgr.cpp",
         "src/source/wrapped/recrad.cpp",
         "src/source/wrapped/recsph.cpp",
+        "src/source/wrapped/rotate.cpp",
         "src/source/wrapped/rpd.cpp",
         "src/source/wrapped/spd.cpp",
         "src/source/wrapped/sphrec.cpp",

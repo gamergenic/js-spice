@@ -39,6 +39,7 @@
 #include "wrapped/pi.h"
 #include "wrapped/q2m.h"
 #include "wrapped/qxq.h"
+#include "wrapped/rotate.h"
 #include "wrapped/rpd.h"
 #include "wrapped/str2et.h"
 #include "wrapped/spd.h"
@@ -121,6 +122,7 @@ Napi::Object Init(Napi::Env env, Napi::Object exports) {
   exports.Set("recpgr", Napi::Function::New(env, recpgr));
   exports.Set("recrad", Napi::Function::New(env, recrad));
   exports.Set("recsph", Napi::Function::New(env, recsph));
+  exports.Set("rotate", Napi::Function::New(env, rotate));
   exports.Set("rpd",    Napi::Function::New(env, rpd));
   exports.Set("str2et", Napi::Function::New(env, str2et));
   exports.Set("spd",    Napi::Function::New(env, spd));

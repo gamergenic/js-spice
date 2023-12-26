@@ -261,6 +261,10 @@ async function getKernels() {
     result = spice.m2eul(result, 1, 2, 3);
     console.log(JSON.stringify(result)); 
 
+    console.log('---rotate---');
+    result = spice.rotate(spice.halfpi(), 1);
+    console.log(JSON.stringify(result)); 
+
     // console.log(JSON.stringify(spice.recrad(result.ptarg)));
 
     // console.log(spice.pi());
