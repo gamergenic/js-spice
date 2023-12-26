@@ -38,6 +38,7 @@
 #include "wrapped/mxm.h"
 #include "wrapped/mxv.h"
 #include "wrapped/oscelt.h"
+#include "wrapped/pckfrm.h"
 #include "wrapped/pgrrec.h"
 #include "wrapped/pi.h"
 #include "wrapped/pxform.h"
@@ -117,6 +118,7 @@ Napi::Object Init(Napi::Env env, Napi::Object exports) {
   exports.Set("mxv",    Napi::Function::New(env, mxv));
   exports.Set("oscelt", Napi::Function::New(env, oscelt));
   exports.Set("pgrrec", Napi::Function::New(env, pgrrec));
+  exports.Set("pckfrm", Napi::Function::New(env, pckfrm));
   exports.Set("pi",     Napi::Function::New(env, pi));
   exports.Set("pxform", Napi::Function::New(env, pxform));
   exports.Set("pxfrm2", Napi::Function::New(env, pxfrm2));

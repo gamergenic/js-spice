@@ -141,6 +141,11 @@ async function getKernels() {
     let ids = spice.spkobj('data/naif/generic_kernels/spk/planets/a_old_versions/de421.bsp');
     console.log(JSON.stringify(ids));
 
+
+    console.log('---pckfrm---')
+    ids = spice.pckfrm('data/naif/generic_kernels/pck/a_old_versions/earth_070425_370426_predict.bpc');
+    console.log(JSON.stringify(ids));
+    
     let tle = [
         "1 43908U 18111AJ  20146.60805006  .00000806  00000-0  34965-4 0  9999",
         "2 43908  97.2676  47.2136 0020001 220.6050 139.3698 15.24999521 78544"
