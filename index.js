@@ -95,8 +95,10 @@ async function getKernels() {
         "1 43908U 18111AJ  20146.60805006  .00000806  00000-0  34965-4 0  9999",
         "2 43908  97.2676  47.2136 0020001 220.6050 139.3698 15.24999521 78544"
     ];
+    console.log('---tle---')
     let rslt = spice.getelm(1957, tle);
     console.log(JSON.stringify(rslt));
+    console.log('///tle---')
 
     
     console.log(JSON.stringify(spice.deltet(100,"UTC")));

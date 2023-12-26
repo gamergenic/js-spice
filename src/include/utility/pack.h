@@ -33,7 +33,7 @@ protected:
 class NObject : public NValue<Napi::Object> {
 
 public:    
-    NObject(Napi::Env& env) {
+    NObject(Napi::Env env) {
         value = Napi::Object::New(env);
     }
 
@@ -43,7 +43,7 @@ public:
 class NDouble : public NValue<Napi::Number> {
 
 public:    
-    NDouble(Napi::Env& env, SpiceDouble _value) {
+    NDouble(Napi::Env env, SpiceDouble _value) {
         value = Napi::Number::New(env, _value);
     }
 };
@@ -51,7 +51,7 @@ public:
 class NInt : public NValue<Napi::Number> {
 
 public:    
-    NInt(Napi::Env& env, SpiceInt _value) {
+    NInt(Napi::Env env, SpiceInt _value) {
         value = Napi::Number::New(env, _value);
     }
 };
@@ -60,14 +60,14 @@ public:
 class NFlag : public NValue<Napi::Boolean> {
 
 public:    
-    NFlag(Napi::Env& env, bool _value) {
+    NFlag(Napi::Env env, bool _value) {
         value = Napi::Boolean::New(env, _value);
     }
 };
 
 class NArrayDouble3 : public NValue<Napi::Array> {
 public:    
-    NArrayDouble3(Napi::Env& env, const double (&_value)[3]) {
+    NArrayDouble3(Napi::Env env, const double (&_value)[3]) {
         value = Napi::Array::New(env, 3);
         value.Set((uint32_t)0, _value[0]);
         value.Set((uint32_t)1, _value[1]);
@@ -79,7 +79,7 @@ public:
 
 class NArrayDouble3x3 : public NValue<Napi::Array> {
 public:    
-    NArrayDouble3x3(Napi::Env& env, const double (&_value)[3][3]) {
+    NArrayDouble3x3(Napi::Env env, const double (&_value)[3][3]) {
         const uint32_t m = 3, n = 3;
         value = Napi::Array::New(env, m);
         for(uint32_t i = 0; i < m; ++i){
@@ -98,7 +98,7 @@ public:
 class NString : public NValue<Napi::String> {
 
 public:    
-    NString(Napi::Env& env, ConstSpiceChar* _value) {
+    NString(Napi::Env env, ConstSpiceChar* _value) {
         value = Napi::String::New(env, _value);
     }
 };
@@ -106,7 +106,7 @@ public:
 
 class NState : public NValue<Napi::Object> {
 public:    
-    NState(Napi::Env& env, ConstSpiceDouble (&_value)[6]) {
+    NState(Napi::Env env, ConstSpiceDouble (&_value)[6]) {
         value = Napi::Object::New(env);
 
         Napi::Array r = Napi::Array::New(env, 3);
@@ -126,7 +126,7 @@ class NElts : public NValue<Napi::Object> {
 public:
 
     template<int size>
-    NElts(Napi::Env& env, const std::string (&members)[size], ConstSpiceDouble (&_value)[size]) {
+    NElts(Napi::Env env, const std::string (&members)[size], ConstSpiceDouble (&_value)[size]) {
         value = Napi::Object::New(env);
 
         for(uint32_t i = 0; i < size; ++i){
