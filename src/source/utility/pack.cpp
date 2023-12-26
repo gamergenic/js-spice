@@ -71,6 +71,10 @@ NArrayDouble3 Packer::rec(ConstSpiceDouble (&rectan)[3]){
     return NArrayDouble3(env, rectan);    
 }
 
+NArrayInt Packer::ints(const std::vector<SpiceInt>& ints){
+    return NArrayInt(env, ints);    
+}
+
 NObject Packer::sph(SpiceDouble r, SpiceDouble colat, SpiceDouble slon){
     NObject result(env);
 

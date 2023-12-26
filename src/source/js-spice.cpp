@@ -56,6 +56,7 @@
 #include "wrapped/spkezr.h"
 #include "wrapped/spkgeo.h"
 #include "wrapped/spkgps.h"
+#include "wrapped/spkobj.h"
 #include "wrapped/spkpos.h"
 #include "wrapped/sxform.h"
 #include "wrapped/timout.h"
@@ -142,6 +143,7 @@ Napi::Object Init(Napi::Env env, Napi::Object exports) {
   exports.Set("spkezr", Napi::Function::New(env, spkezr));
   exports.Set("spkgeo", Napi::Function::New(env, spkgeo));
   exports.Set("spkgps", Napi::Function::New(env, spkgps));
+  exports.Set("spkobj", Napi::Function::New(env, spkobj));
   exports.Set("spkpos", Napi::Function::New(env, spkpos));
   exports.Set("sxform", Napi::Function::New(env, sxform));
   exports.Set("timout", Napi::Function::New(env, timout));

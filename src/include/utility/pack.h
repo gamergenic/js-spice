@@ -9,6 +9,7 @@ extern "C" {
   #include <SpiceUsr.h>  // Include the CSPICE header
 }
 #include "utility/err.h"
+#include <vector>
 
 class NObject;
 
@@ -82,6 +83,19 @@ public:
         value = Napi::Boolean::New(env, _value);
     }
 };
+
+class NArrayInt : public NValue<Napi::Array> {
+public:    
+    NArrayInt(Napi::Env env, const std::vector<SpiceInt>& ints) {
+        value = Napi::Array::New(env, ints.size());
+        for(int i = 0; i < ints.size(); ++i){
+            value.Set((uint32_t)i, ints[i]);
+        }
+    }
+
+    Napi::Array array() { return value; }
+};
+
 
 class NArrayDouble3 : public NValue<Napi::Array> {
 public:    
@@ -172,7 +186,8 @@ public:
     NObject lat(SpiceDouble radius, SpiceDouble lon, SpiceDouble lat);
     NObject pgr(SpiceDouble lon, SpiceDouble lat, SpiceDouble alt);
     NObject rad(SpiceDouble range, SpiceDouble ra, SpiceDouble dec);
-    NArrayDouble3  rec(ConstSpiceDouble (&rectan)[3]);
+    NArrayDouble3 rec(ConstSpiceDouble (&rectan)[3]);
+    NArrayInt ints(const std::vector<SpiceInt>& ints);
     NObject sph(SpiceDouble r, SpiceDouble colat, SpiceDouble slon);
     NObject q(ConstSpiceDouble (&q)[4]);
     NDouble et(SpiceDouble et);

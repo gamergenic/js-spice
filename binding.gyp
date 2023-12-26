@@ -79,6 +79,7 @@
         "src/source/wrapped/spkezr.cpp",
         "src/source/wrapped/spkgeo.cpp",
         "src/source/wrapped/spkgps.cpp",
+        "src/source/wrapped/spkobj.cpp",
         "src/source/wrapped/spkpos.cpp",
         "src/source/wrapped/str2et.cpp",
         "src/source/wrapped/sxform.cpp",
