@@ -92,10 +92,10 @@ public:
     Napi::Array array() { return value; }
 };
 
-class NArrayDouble3x3 : public NValue<Napi::Array> {
+template<uint32_t m, uint32_t n>
+class NArrayDoubleMxN : public NValue<Napi::Array> {
 public:    
-    NArrayDouble3x3(Napi::Env env, const double (&_value)[3][3]) {
-        const uint32_t m = 3, n = 3;
+    NArrayDoubleMxN(Napi::Env env, const double (&_value)[m][n]) {
         value = Napi::Array::New(env, m);
         for(uint32_t i = 0; i < m; ++i){
             Napi::Array row = Napi::Array::New(env, n);
@@ -108,6 +108,10 @@ public:
 
     Napi::Array array() { return value; }
 };
+
+
+typedef NArrayDoubleMxN<3,3> NArrayDouble3x3;
+typedef NArrayDoubleMxN<6,6> NArrayDouble6x6;
 
 
 class NString : public NValue<Napi::String> {
@@ -176,6 +180,7 @@ public:
     NInt i(SpiceInt i);
     NFlag flag(SpiceBoolean flag);
     NArrayDouble3x3 mat(SpiceDouble (&m)[3][3]);
+    NArrayDouble6x6 statemat(SpiceDouble (&m)[6][6]);
     NString str(ConstSpiceChar* str);
     NElts conics(ConstSpiceDouble (&elts)[8]);
     NElts elms(ConstSpiceDouble (&elms)[10]);

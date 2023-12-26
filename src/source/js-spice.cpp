@@ -37,6 +37,8 @@
 #include "wrapped/oscelt.h"
 #include "wrapped/pgrrec.h"
 #include "wrapped/pi.h"
+#include "wrapped/pxform.h"
+#include "wrapped/pxfrm2.h"
 #include "wrapped/q2m.h"
 #include "wrapped/qxq.h"
 #include "wrapped/rotate.h"
@@ -52,6 +54,7 @@
 #include "wrapped/spkgeo.h"
 #include "wrapped/spkgps.h"
 #include "wrapped/spkpos.h"
+#include "wrapped/sxform.h"
 #include "wrapped/timout.h"
 #include "wrapped/radrec.h"
 #include "wrapped/raxisa.h"
@@ -111,6 +114,8 @@ Napi::Object Init(Napi::Env env, Napi::Object exports) {
   exports.Set("oscelt", Napi::Function::New(env, oscelt));
   exports.Set("pgrrec", Napi::Function::New(env, pgrrec));
   exports.Set("pi",     Napi::Function::New(env, pi));
+  exports.Set("pxform", Napi::Function::New(env, pxform));
+  exports.Set("pxfrm2", Napi::Function::New(env, pxfrm2));
   exports.Set("q2m",    Napi::Function::New(env, q2m));
   exports.Set("qxq",    Napi::Function::New(env, qxq));
   exports.Set("radrec", Napi::Function::New(env, radrec));
@@ -135,6 +140,7 @@ Napi::Object Init(Napi::Env env, Napi::Object exports) {
   exports.Set("spkgeo", Napi::Function::New(env, spkgeo));
   exports.Set("spkgps", Napi::Function::New(env, spkgps));
   exports.Set("spkpos", Napi::Function::New(env, spkpos));
+  exports.Set("sxform", Napi::Function::New(env, sxform));
   exports.Set("timout", Napi::Function::New(env, timout));
   exports.Set("twopi",  Napi::Function::New(env, twopi));
   exports.Set("unload", Napi::Function::New(env, unload));

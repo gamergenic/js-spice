@@ -263,7 +263,19 @@ async function getKernels() {
 
     console.log('---rotate---');
     result = spice.rotate(spice.halfpi(), 1);
+    console.log(JSON.stringify(result));
+    
+    console.log('---pxform---');
+    result = spice.pxform("j2000", "iau_earth", et_now());
     console.log(JSON.stringify(result)); 
+
+    console.log('---pxfrm2---');
+    result = spice.pxfrm2("j2000", "iau_earth", et_now(), et_now() + spice.spd());
+    console.log(JSON.stringify(result));
+    
+    console.log('---sxform---');
+    result = spice.sxform("j2000", "iau_earth", et_now());
+    console.log(JSON.stringify(result));    
 
     // console.log(JSON.stringify(spice.recrad(result.ptarg)));
 

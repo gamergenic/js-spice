@@ -117,6 +117,10 @@ NArrayDouble3x3 Packer::mat(SpiceDouble (&m)[3][3]){
     return NArrayDouble3x3(env, m);    
 }
 
+NArrayDouble6x6 Packer::statemat(SpiceDouble (&m)[6][6]){
+    return NArrayDouble6x6(env, m);    
+}
+
 NState Packer::state(ConstSpiceDouble (&state)[6]){
     return NState(env, state);    
 }
