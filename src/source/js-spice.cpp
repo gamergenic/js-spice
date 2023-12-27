@@ -50,6 +50,7 @@
 #include "wrapped/str2et.h"
 #include "wrapped/spd.h"
 #include "wrapped/sphrec.h"
+#include "wrapped/spkcls.h"
 #include "wrapped/spkcpo.h"
 #include "wrapped/spkcpt.h"
 #include "wrapped/spkcvo.h"
@@ -58,7 +59,9 @@
 #include "wrapped/spkgeo.h"
 #include "wrapped/spkgps.h"
 #include "wrapped/spkobj.h"
+#include "wrapped/spkopn.h"
 #include "wrapped/spkpos.h"
+#include "wrapped/spkw05.h"
 #include "wrapped/sxform.h"
 #include "wrapped/timout.h"
 #include "wrapped/radrec.h"
@@ -138,6 +141,7 @@ Napi::Object Init(Napi::Env env, Napi::Object exports) {
   exports.Set("str2et", Napi::Function::New(env, str2et));
   exports.Set("spd",    Napi::Function::New(env, spd));
   exports.Set("sphrec", Napi::Function::New(env, sphrec));
+  exports.Set("spkcls", Napi::Function::New(env, spkcls));
   exports.Set("spkcpo", Napi::Function::New(env, spkcpo));
   exports.Set("spkcpt", Napi::Function::New(env, spkcpt));
   exports.Set("spkcvo", Napi::Function::New(env, spkcvo));
@@ -146,7 +150,9 @@ Napi::Object Init(Napi::Env env, Napi::Object exports) {
   exports.Set("spkgeo", Napi::Function::New(env, spkgeo));
   exports.Set("spkgps", Napi::Function::New(env, spkgps));
   exports.Set("spkobj", Napi::Function::New(env, spkobj));
+  exports.Set("spkopn", Napi::Function::New(env, spkopn));
   exports.Set("spkpos", Napi::Function::New(env, spkpos));
+  exports.Set("spkw05", Napi::Function::New(env, spkw05));
   exports.Set("sxform", Napi::Function::New(env, sxform));
   exports.Set("timout", Napi::Function::New(env, timout));
   exports.Set("twopi",  Napi::Function::New(env, twopi));

@@ -397,6 +397,24 @@ Unpacker& Unpacker::_unpackstate(SpiceDouble (&state)[6], std::string name){
     return error(stream.str());      
 }
 
+Unpacker& Unpacker::_getarray(Napi::Array& array, std::string name){
+    Napi::Env env = info.Env();
+    Napi::HandleScope scope(env);
+
+    if(remaining() > 0 && next().IsArray()){
+        array = next().As<Napi::Array>();
+        return advance();
+    }
+
+    std::stringstream stream;
+    stream << "expected array ";
+    if(!name.empty()){
+        stream << "'" << name  << "' ";
+    }    
+    stream << "at arg " << nextIndex + 1;
+    return error(stream.str());    
+}
+
 Unpacker Unpack(std::string _name, const Napi::CallbackInfo& _info){
     return Unpacker(_name, _info);
 }

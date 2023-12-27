@@ -461,6 +461,15 @@ result = spice.spkcvo("mercury", et_now(), "J2000", "OBSERVER", "NONE", {r:[1,1,
 result = spice.spkcvt({r:[1,1,1],v:[0,0,0]}, et_now(), "mercury", "J2000", et_now(), "J2000", "OBSERVER", "NONE", "EARTH");
 ```
 
+##### spkw05
+###### Usage
+```js
+let gm = spice.bodvrd("earth", "GM");
+let handle = spice.spkopn("myspk.bsp", "myspk", 80);
+spice.spkw05(handle, 20580, 399, "J2000", first_et, last_et, "foo", gm, samples);
+spice.spkcls(handle);
+```
+
 ##### timout
 
 ###### Usage

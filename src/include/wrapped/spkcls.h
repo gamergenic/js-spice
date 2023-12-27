@@ -1,10 +1,10 @@
 // Copyright Gamergenic, LLC.  See full copyright notice and license in index.js.
 // Author: chucknoble@gamergenic.com|https://www.gamergenic.com
 
-#ifndef _SPKPOS_
-#define _SPKPOS_
+#ifndef _SPKCLS_
+#define _SPKCLS_
 
 #include <napi.h>
-Napi::Value spkpos(const Napi::CallbackInfo& info);
+Napi::Value spkcls(const Napi::CallbackInfo& info);
 
-#endif // _SPKPOS_
+#endif // _SPKCLS_

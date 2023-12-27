@@ -121,7 +121,8 @@ async function getKernels() {
         'spk/satellites/a_old_versions/sat288.bsp',
         'spk/stations/a_old_versions/earthstns_itrf93_050714.bsp',
         'fk/stations/a_old_versions/earth_topo_050714.tf',
-        'pck/a_old_versions/earth_070425_370426_predict.bpc'
+        'pck/a_old_versions/earth_070425_370426_predict.bpc',
+        'pck/gm_de431.tpc'
     ];
 
 
@@ -147,8 +148,8 @@ async function getKernels() {
     console.log(JSON.stringify(ids));
     
     let tle = [
-        "1 43908U 18111AJ  20146.60805006  .00000806  00000-0  34965-4 0  9999",
-        "2 43908  97.2676  47.2136 0020001 220.6050 139.3698 15.24999521 78544"
+        "1 20580U 90037B   23360.59698993  .00006721  00000-0  33737-3 0  9998",
+        "2 20580  28.4702  65.8973 0002029 308.0743 167.6929 15.15322999650654"
     ];
     console.log('---tle---')
     const rslt = spice.getelm(1957, tle);
@@ -161,7 +162,27 @@ async function getKernels() {
     console.log(JSON.stringify(elems));
     console.log(spice.evsgp4(spice.str2et('2020-05-26 02:25:00'), geophs, elems));
 
-    
+    // let samples = [];
+    // let first_et = et_now();
+    // let last_et = first_et + spice.spd();
+
+    // for (let i = 0; i < 24 * 12 +1; i++) {
+    //     let lerp = i / (24 * 12);
+    //     let thiset = first_et + lerp * (last_et - first_et);
+
+    //     let sample = { "et" : thiset };
+    //     sample.state = spice.evsgp4(spice.str2et('2020-05-26 02:25:00'), geophs, elems);
+    //     samples.push(sample);
+    // }
+
+    // let gm = spice.bodvrd("earth", "GM");
+    // let handle = spice.spkopn("data/myspk.bsp", "myspk", 80);
+    // spice.spkw05(handle, 20580, 399, "J2000", first_et, last_et, "foo", gm, samples);
+    // spice.spkcls(handle);
+
+    // spice.furnsh("data/myspk.bsp");
+
+   
     console.log(JSON.stringify(spice.deltet(100,"UTC")));
     console.log(JSON.stringify(spice.et2utc(spice.jyear(),"ISOC", 5)));
     console.log(JSON.stringify(spice.etcal(spice.jyear())));

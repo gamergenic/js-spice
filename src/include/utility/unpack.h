@@ -36,6 +36,7 @@ public:
     Unpacker& geophs(SpiceDouble (&geophs)[8]) { if(!isErred) { return _unpackgeophs(geophs); } return *this; }
     Unpacker& tlelems(SpiceDouble (&tlelems)[10]) { if(!isErred) { return _unpackelems(tlelems); } return *this; }
     Unpacker& state(SpiceDouble (&state)[6], std::string name = "state") { if(!isErred) { return _unpackstate(state, name); } return *this; }
+    Unpacker& getarray(Napi::Array& array, std::string name = "") { if(!isErred) { return _getarray(array, name); } return *this; }
     
     template<typename T>
     Unpacker& punt(T callback){
@@ -89,6 +90,7 @@ private:
     template<int size>
     Unpacker& _unpackelts(SpiceDouble (&elts)[size], std::string (&members)[size], std::string name);
     Unpacker& _unpackstate(SpiceDouble (&state)[6], std::string name);
+    Unpacker& _getarray(Napi::Array& array, std::string name);
 
     const Napi::CallbackInfo& info;
     const std::string name;
