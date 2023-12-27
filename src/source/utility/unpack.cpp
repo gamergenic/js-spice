@@ -4,7 +4,6 @@
 #include "utility/unpack.h"
 #include <iomanip>
 #include <sstream>
-#include <iostream>
 
 Unpacker::Unpacker(std::string _name, const Napi::CallbackInfo& _info) 
     : info(_info), name(_name)
@@ -195,8 +194,6 @@ Unpacker& Unpacker::_unpackdouble3x3(SpiceDouble (&mat)[3][3], std::string name)
         }
     }
 
-    std::cout << dbg.str();
-
     std::stringstream stream;
     stream << "expected 3x3 double-precision numeric array ([[a,b,c],[d,e,f],[g,h,i]]) ";
     if(!name.empty()){
@@ -215,8 +212,6 @@ Unpacker& Unpacker::_unpackdouble(SpiceDouble& value, std::string name){
         return advance();
     }
 
-    std::cout << "_unpackdouble errored" << std::endl;
-
     std::stringstream stream;
     stream << "expected double-precision numeric ";
     if(!name.empty()){
@@ -234,8 +229,6 @@ Unpacker& Unpacker::_unpackint(SpiceInt& value, std::string name){
         value = next().As<Napi::Number>().Int32Value();
         return advance();
     }
-
-    std::cout << "_unpackint errored" << std::endl;
 
     std::stringstream stream;
     stream << "expected int (" << ((sizeof(int)) * 8) << "-bit) ";
@@ -273,8 +266,6 @@ Unpacker& Unpacker::_unpackstring(std::string& value, std::string name){
         value = next().As<Napi::String>().Utf8Value();
         return advance();
     }
-
-    std::cout << "__unpackstring errored" << std::endl;
 
     std::stringstream stream;
     stream << "expected string ";

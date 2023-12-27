@@ -7,7 +7,6 @@
 extern "C" {
   #include <SpiceUsr.h>
 }
-#include <iostream>
 #include <string>
 
 Napi::Value str2et(const Napi::CallbackInfo& info) {

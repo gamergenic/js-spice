@@ -8,7 +8,6 @@ extern "C" {
 }
 #include "utility/pack.h"
 #include "utility/unpack.h"
-#include <iostream>
 
 Napi::Value convrt(const Napi::CallbackInfo& info) {
     Napi::Env env = info.Env();
@@ -28,7 +27,7 @@ Napi::Value convrt(const Napi::CallbackInfo& info) {
         })){
         return env.Null();
     }
-    std::cout << "convrt exit" << std::endl;
+
 
     const ConstSpiceChar* in = in_str.c_str();
     const ConstSpiceChar* out = out_str.c_str();

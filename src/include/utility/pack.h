@@ -88,8 +88,8 @@ class NArrayInt : public NValue<Napi::Array> {
 public:    
     NArrayInt(Napi::Env env, const std::vector<SpiceInt>& ints) {
         value = Napi::Array::New(env, ints.size());
-        for(int i = 0; i < ints.size(); ++i){
-            value.Set((uint32_t)i, ints[i]);
+        for(uint32_t i = 0; i < ints.size(); ++i){
+            value.Set(i, ints[i]);
         }
     }
 
