@@ -49,6 +49,15 @@ public:
         return *this;
     }
 
+    NObject& with(ConstSpiceDouble (&value)[3], std::string name){
+        Napi::Array array = Napi::Array::New(obj().Env(), 3);
+        for(uint32_t i = 0; i < 3; ++i){
+            array.Set(i, value[i]);
+        }
+        obj().Set(name, array);
+        return *this;
+    }
+
     Napi::Object obj() { return value; }
 };
 
@@ -206,6 +215,7 @@ public:
     NObject lat(SpiceDouble radius, SpiceDouble lon, SpiceDouble lat);
     NObject pgr(SpiceDouble lon, SpiceDouble lat, SpiceDouble alt);
     NObject rad(SpiceDouble range, SpiceDouble ra, SpiceDouble dec);
+    NObject plane(ConstSpicePlane& plane);
     NArrayDouble3 rec(ConstSpiceDouble (&rectan)[3]);
     NArrayInt ints(const std::vector<SpiceInt>& ints);
     NObject sph(SpiceDouble r, SpiceDouble colat, SpiceDouble slon);

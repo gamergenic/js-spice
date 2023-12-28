@@ -41,12 +41,18 @@
 #include "wrapped/mxm.h"
 #include "wrapped/mxmt.h"
 #include "wrapped/mxv.h"
+#include "wrapped/nvc2pl.h"
+#include "wrapped/nvp2pl.h"
 #include "wrapped/oscelt.h"
 #include "wrapped/pckfrm.h"
 #include "wrapped/pgrrec.h"
 #include "wrapped/pi.h"
+#include "wrapped/pl2nvc.h"
+#include "wrapped/pl2nvp.h"
+#include "wrapped/pl2psv.h"
 #include "wrapped/prop2b.h"
 #include "wrapped/pxform.h"
+#include "wrapped/psv2pl.h"
 #include "wrapped/pxfrm2.h"
 #include "wrapped/q2m.h"
 #include "wrapped/qxq.h"
@@ -134,11 +140,17 @@ Napi::Object Init(Napi::Env env, Napi::Object exports) {
   exports.Set("mxm",    Napi::Function::New(env, mxm));
   exports.Set("mxmt",   Napi::Function::New(env, mxmt));
   exports.Set("mxv",    Napi::Function::New(env, mxv));
+  exports.Set("nvc2pl", Napi::Function::New(env, nvc2pl));
+  exports.Set("nvp2pl", Napi::Function::New(env, nvp2pl));
   exports.Set("oscelt", Napi::Function::New(env, oscelt));
   exports.Set("pckfrm", Napi::Function::New(env, pckfrm));
   exports.Set("pgrrec", Napi::Function::New(env, pgrrec));
   exports.Set("pi",     Napi::Function::New(env, pi));
+  exports.Set("pl2nvc", Napi::Function::New(env, pl2nvc));
+  exports.Set("pl2nvp", Napi::Function::New(env, pl2nvp));
+  exports.Set("pl2psv", Napi::Function::New(env, pl2psv));
   exports.Set("prop2b", Napi::Function::New(env, prop2b));
+  exports.Set("psv2pl", Napi::Function::New(env, psv2pl));
   exports.Set("pxform", Napi::Function::New(env, pxform));
   exports.Set("pxfrm2", Napi::Function::New(env, pxfrm2));
   exports.Set("q2m",    Napi::Function::New(env, q2m));

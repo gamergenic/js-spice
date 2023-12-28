@@ -11,6 +11,7 @@ extern "C" {
 #include <string>
 #include <vector>
 #include <utility>
+#include <sstream>
 
 class Unpacker {
 
@@ -25,6 +26,7 @@ public:
     Unpacker& rad(SpiceDouble& range, SpiceDouble& ra, SpiceDouble& dec) { if(!isErred) { return _unpackdouble3("range", "ra", "dec", range, ra, dec); } return *this; }
     Unpacker& rec(SpiceDouble (&rec)[3], std::string name = "") { if(!isErred) { return _rec(rec, name); } return *this; }
     Unpacker& sph(SpiceDouble& r, SpiceDouble& colat, SpiceDouble& slon) { if(!isErred) { return _unpackdouble3("r", "colat", "slon", r, colat, slon); } return *this; }
+    Unpacker& plane(SpicePlane& spiceplane, std::string name="plane") { if(!isErred) { return _unpackplane(spiceplane, name); } return *this; }
     Unpacker& q(SpiceDouble (&q)[4], std::string name = "") { if(!isErred) { return _unpackquat(q, name); } return *this; }
     Unpacker& d(SpiceDouble& d, std::string name = "") { if(!isErred) { return _unpackdouble(d, name); } return *this; }
     Unpacker& et(SpiceDouble& et) { if(!isErred) { return _unpackdouble(et, "et"); } return *this; }
@@ -91,6 +93,7 @@ private:
     Unpacker& _unpackdouble3(const char* name1, const char* name2, const char* name3, SpiceDouble& v1, SpiceDouble& v2, SpiceDouble& v3);
     Unpacker& _unpackdouble3x3(SpiceDouble (&m)[3][3], std::string name);
     Unpacker& _unpackdouble(SpiceDouble& value, std::string name);
+    Unpacker& _unpackplane(SpicePlane& spiceplane, std::string);
     Unpacker& _unpackquat(SpiceDouble (&quat)[4], std::string name);
     Unpacker& _unpackbool(SpiceBoolean& value, std::string name);
     Unpacker& _unpackint(SpiceInt& value, std::string name);
@@ -121,6 +124,16 @@ private:
             isErred = true;
         }
         return *this;
+    }
+
+    Unpacker& typeError(std::string argType, std::string argName=""){
+        std::stringstream stream;
+        stream << "expected " << argType << " ";
+        if(!argName.empty()){
+            stream << "'" << argName << "' ";
+        }    
+        stream << "at arg " << nextIndex + 1;
+        return error(stream.str());
     }
 };
 

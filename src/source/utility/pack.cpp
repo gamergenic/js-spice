@@ -67,6 +67,19 @@ NObject Packer::rad(SpiceDouble range, SpiceDouble ra, SpiceDouble dec){
     return result;
 }
 
+NObject Packer::plane(ConstSpicePlane& plane){
+    NObject result(env);
+
+    Napi::Array normal = Napi::Array::New(env, 3);
+    normal.Set((uint32_t)0, plane.normal[0]);
+    normal.Set((uint32_t)1, plane.normal[1]);
+    normal.Set((uint32_t)2, plane.normal[2]);
+    result.obj().Set("normal", normal);
+    result.obj().Set("constant", plane.constant);
+
+    return result;
+}
+
 NArrayDouble3 Packer::rec(ConstSpiceDouble (&rectan)[3]){
     return NArrayDouble3(env, rectan);    
 }

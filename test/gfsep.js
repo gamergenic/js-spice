@@ -13,7 +13,7 @@ async function getKernels() {
 
   async function loadAndProcessFiles(files) {
       const operations = files.map(file => {
-          return genericKernels.getGenericKernel(file, `data/naif/generic_kernels/${file}`).then(kernel => {
+          return genericKernels.getGenericKernel(file, `test/data/naif/generic_kernels/${file}`).then(kernel => {
               spice.furnsh(kernel);
           });
       });
