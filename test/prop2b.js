@@ -1,6 +1,5 @@
-// test/test.js
 const expect = require('chai').expect;
-const { spice } = require('..'); // Adjust the path based on your project structure
+const { spice } = require('..');
 
 describe('prop2b', function() {
   it('should accept vec3 as array', function() {

@@ -1,6 +1,5 @@
-// test/test.js
 const expect = require('chai').expect;
-const { spice, genericKernels } = require('..'); // Adjust the path based on your project structure
+const { spice, genericKernels } = require('..');
 
 
 async function getKernels() {
@@ -61,7 +60,7 @@ describe('gfsep', function() {
     expect(spice.timout(actual[0][1],  TIMFMT)).to.be.equal("2007-JAN-11 11:21:20.214305 (TDB)");      
     expect(spice.timout(actual[1][0],  TIMFMT)).to.be.equal("2007-JAN-26 01:43:41.027309 (TDB)");      
     expect(spice.timout(actual[1][1],  TIMFMT)).to.be.equal("2007-JAN-26 01:43:41.027309 (TDB)");      
-    // we don't bother validating 2-10 just because that's 18 more lines.
+    // we don't bother validating 2-10 just because that's 18 more lines of ugly code.
     expect(spice.timout(actual[11][0], TIMFMT)).to.be.equal("2007-JUN-22 16:45:56.506850 (TDB)");      
     expect(spice.timout(actual[11][1], TIMFMT)).to.be.equal("2007-JUN-22 16:45:56.506850 (TDB)");      
   });

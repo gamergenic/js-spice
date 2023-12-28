@@ -99,6 +99,7 @@
         "src/source/wrapped/vcrss.cpp",
         "src/source/wrapped/vdist.cpp",
         "src/source/wrapped/vdot.cpp",
+        "src/source/wrapped/vequ.cpp",
         "src/source/wrapped/vhat.cpp",
         "src/source/wrapped/vnorm.cpp",
         "src/source/wrapped/xpose.cpp",

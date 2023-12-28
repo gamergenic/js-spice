@@ -84,6 +84,7 @@
 #include "wrapped/vcrss.h"
 #include "wrapped/vdist.h"
 #include "wrapped/vdot.h"
+#include "wrapped/vequ.h"
 #include "wrapped/vhat.h"
 #include "wrapped/vnorm.h"
 #include "wrapped/xpose.h"
@@ -171,6 +172,7 @@ Napi::Object Init(Napi::Env env, Napi::Object exports) {
   exports.Set("vcrss",  Napi::Function::New(env, vcrss));
   exports.Set("vdist",  Napi::Function::New(env, vdist));
   exports.Set("vdot",   Napi::Function::New(env, vdot));
+  exports.Set("vequ",   Napi::Function::New(env, vequ));
   exports.Set("vhat",   Napi::Function::New(env, vhat));
   exports.Set("vnorm",  Napi::Function::New(env, vnorm));
   exports.Set("xpose",  Napi::Function::New(env, xpose));

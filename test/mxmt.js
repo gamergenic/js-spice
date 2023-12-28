@@ -1,6 +1,5 @@
-// test/test.js
 const expect = require('chai').expect;
-const { spice } = require('..'); // Adjust the path based on your project structure
+const { spice } = require('..');
 
 describe('mxmt', function() {
   it('identity times matrix should equal transpose', function() {

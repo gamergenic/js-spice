@@ -1,6 +1,5 @@
-// test/test.js
 const expect = require('chai').expect;
-const { spice } = require('..'); // Adjust the path based on your project structure
+const { spice } = require('..');
 
 describe('axisar', function() {
   it('should accept vec3 as array', function() {
@@ -42,7 +41,7 @@ describe('axisar', function() {
     }
   });
   
-  it('should throws an error with no params', function() {
+  it('should throws an error in invoked with no params', function() {
     function test(){
       spice.axisar();
     }
@@ -50,7 +49,7 @@ describe('axisar', function() {
     expect(test).to.throw();
   });
   
-  it('should throws an error with extra params', function() {
+  it('should throws an error if invoked with extra params', function() {
     function test(){
       let axis = {"x": 0, "y": 0, "z": 1};
       let angle = 3.14159;

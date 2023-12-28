@@ -1,6 +1,5 @@
-// test/test.js
 const expect = require('chai').expect;
-const { spice } = require('..'); // Adjust the path based on your project structure
+const { spice } = require('..');
 
 describe('mtxm', function() {
   it('matrix times identity should equal transpose', function() {
