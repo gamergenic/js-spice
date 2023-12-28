@@ -15,9 +15,8 @@ Napi::Value vprjpi(const Napi::CallbackInfo& info) {
 
     SpiceDouble vin[3];
     SpicePlane projpl, invpl;
-    SpicePlane plane;
     if(
-      Unpack("vperp", info)
+      Unpack("vprjpi", info)
       .rec(vin, "vin")
       .plane(projpl, "projpl")
       .plane(invpl, "invpl")
