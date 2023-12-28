@@ -9,6 +9,8 @@ extern "C" {
 }
 #include <napi.h>
 #include <string>
+#include <vector>
+#include <utility>
 
 class Unpacker {
 
@@ -37,20 +39,28 @@ public:
     Unpacker& tlelems(SpiceDouble (&tlelems)[10]) { if(!isErred) { return _unpackelems(tlelems); } return *this; }
     Unpacker& state(SpiceDouble (&state)[6], std::string name = "state") { if(!isErred) { return _unpackstate(state, name); } return *this; }
     Unpacker& getarray(Napi::Array& array, std::string name = "") { if(!isErred) { return _getarray(array, name); } return *this; }
+    Unpacker& windows(std::vector<std::pair<SpiceDouble, SpiceDouble>>& cnfine_vector, SpiceDouble& totalWindow, std::string name = "cnfine") { if(!isErred) { return _windows(cnfine_vector, totalWindow, name); } return *this; }
     
     template<typename T>
-    Unpacker& punt(T callback){
+    Unpacker& punt(T callback, bool ignoreMissing = false){
         if(!isErred) {
-            int unpacked = callback(next(), *this);
-            return advance(unpacked);
+            if(remaining() > 0){
+                int unpacked = callback(next(), *this);
+                return advance(unpacked);
+            }
+            else {
+                if(!ignoreMissing){
+                    return error("expected additional parameter(s)");
+                }
+            }
         }
         return *this;
     }
 
     template<typename T>
-    bool check(T handleError){
+    bool check(T handleError, bool ignoreExtras = false){
         if(!isErred){
-            if(remaining()){
+            if(!ignoreExtras && remaining()){
                 error("unexpected additional parameters");
             }
         }
@@ -72,8 +82,8 @@ public:
         error(err);
     }
 
-
-    static Unpacker end;
+    int32_t remaining() { return info.Length() - nextIndex; }
+    const Napi::Value next(int32_t plus = 0) { return info[nextIndex + plus]; }
 
 private:
     Unpacker& _rec(SpiceDouble (&rec)[3], std::string name);
@@ -91,6 +101,8 @@ private:
     Unpacker& _unpackelts(SpiceDouble (&elts)[size], std::string (&members)[size], std::string name);
     Unpacker& _unpackstate(SpiceDouble (&state)[6], std::string name);
     Unpacker& _getarray(Napi::Array& array, std::string name);
+    Unpacker& _windows(std::vector<std::pair<SpiceDouble, SpiceDouble>>& cnfine_vector, SpiceDouble& TotalWindow, std::string name);
+
 
     const Napi::CallbackInfo& info;
     const std::string name;
@@ -100,8 +112,6 @@ private:
     bool isErred { false };
     bool isErrHandled { false };
 
-    int32_t remaining() { return info.Length() - nextIndex; }
-    const Napi::Value next(int32_t plus = 0) { return info[nextIndex + plus]; }
     Unpacker& advance(int32_t plus = 1) { nextIndex += plus; return *this; }
 
     Unpacker& error(std::string message){

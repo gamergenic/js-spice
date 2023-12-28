@@ -2,6 +2,7 @@
 // Author: chucknoble@gamergenic.com|https://www.gamergenic.com
 
 #include "utility/unpack.h"
+#include <utility>
 #include <iomanip>
 #include <sstream>
 
@@ -404,6 +405,85 @@ Unpacker& Unpacker::_getarray(Napi::Array& array, std::string name){
     }    
     stream << "at arg " << nextIndex + 1;
     return error(stream.str());    
+}
+
+
+Unpacker& Unpacker::_windows(std::vector<std::pair<SpiceDouble, SpiceDouble>>& cnfine_vector, SpiceDouble& totalWindow, std::string name){
+    Napi::Env env = info.Env();
+    Napi::HandleScope scope(env);
+
+    if(remaining() > 0 && next().IsArray()){
+        Napi::Array  cnfine_array = next().As<Napi::Array>();
+
+        totalWindow = 0;
+        std::vector<std::pair<SpiceDouble, SpiceDouble>> cnfine_temp;
+        
+        for(uint32_t i = 0; i < cnfine_array.Length(); ++i){
+            Napi::Value val = cnfine_array.Get(i);
+            double start, stop;
+            if (val.IsArray()){
+                Napi::Array arr = val.As<Napi::Array>();
+
+                bool bArrayIsValid = true;
+                bArrayIsValid &= arr.Length() == 2;
+                if(bArrayIsValid){
+                    Napi::Value startValue = arr.Get((uint32_t)0);
+                    Napi::Value stopValue = arr.Get((uint32_t)1);
+                    bArrayIsValid &= startValue.IsNumber();
+                    bArrayIsValid &= stopValue.IsNumber();
+                    if(bArrayIsValid){
+                        start = startValue.As<Napi::Number>().DoubleValue();
+                        stop = stopValue.As<Napi::Number>().DoubleValue();
+                    }
+                }
+                if(!bArrayIsValid){
+                    return error(name + " expected confinement window array child array [x, y]");
+                }
+            }
+            else if(val.IsObject()){
+                Napi::Object obj = val.As<Napi::Object>();
+                bool bObjectIsValid = true;
+                bObjectIsValid &= obj.HasOwnProperty("start");
+                bObjectIsValid &= obj.HasOwnProperty("stop");
+                if(bObjectIsValid){
+                    Napi::Value startValue = obj.Get("start");
+                    bObjectIsValid &= startValue.IsNumber();
+                    if(bObjectIsValid){
+                        start = startValue.As<Napi::Number>().DoubleValue();
+                    }
+                }
+                if(bObjectIsValid){
+                    Napi::Value stopValue = obj.Get("stop");
+                    bObjectIsValid &= stopValue.IsNumber();
+                    if(bObjectIsValid){
+                        stop = stopValue.As<Napi::Number>().DoubleValue();
+                    }
+                }
+                if(!bObjectIsValid){
+                    return error(name + " expected confinement window array member object { start: x, stop: y }");
+                }
+            }
+            else {
+                return error(name + " expected confinement window array member as object { start: x, stop: y} or array [x, y]");
+            }
+            if(start >= stop){
+                return error(name + " expected confinement window start < stop");
+            }
+            cnfine_temp.push_back(std::pair(start, stop));
+            totalWindow += stop - start;
+        }    
+
+        cnfine_vector = cnfine_temp;
+        return advance();
+    }    
+    
+    std::stringstream stream;
+    stream << "expected array ";
+    if(!name.empty()){
+        stream << "'" << name  << "' ";
+    }    
+    stream << "at arg " << nextIndex + 1;
+    return error(stream.str());        
 }
 
 Unpacker Unpack(std::string _name, const Napi::CallbackInfo& _info){

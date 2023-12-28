@@ -84,12 +84,32 @@ public:
     }
 };
 
-class NArrayInt : public NValue<Napi::Array> {
+template<typename T>
+class NArray : public NValue<Napi::Array> {
 public:    
-    NArrayInt(Napi::Env env, const std::vector<SpiceInt>& ints) {
-        value = Napi::Array::New(env, ints.size());
-        for(uint32_t i = 0; i < ints.size(); ++i){
-            value.Set(i, ints[i]);
+    NArray(Napi::Env env, const std::vector<T>& vals) {
+        value = Napi::Array::New(env, vals.size());
+        for(uint32_t i = 0; i < vals.size(); ++i){
+            value.Set(i, vals[i]);
+        }
+    }
+
+    Napi::Array array() { return value; }
+};
+
+
+typedef NArray<SpiceInt> NArrayInt;
+typedef NArray<SpiceDouble> NArrayDouble;
+
+class NArrayWindows : public NValue<Napi::Array> {
+public:    
+    NArrayWindows(Napi::Env env, const std::vector<std::pair<double,double>>& vals) {
+        value = Napi::Array::New(env, vals.size());
+        for(uint32_t i = 0; i < vals.size(); ++i){
+            Napi::Array member = Napi::Array::New(env, 2);
+            member.Set((uint32_t)0, Napi::Number::New(env, vals[i].first));
+            member.Set((uint32_t)1, Napi::Number::New(env, vals[i].second));
+            value.Set(i, member);
         }
     }
 
@@ -203,6 +223,7 @@ public:
     NElts conics(ConstSpiceDouble (&elts)[8]);
     NElts elms(ConstSpiceDouble (&elms)[10]);
     NElts geophs(ConstSpiceDouble (&elms)[8]);
+    NArrayWindows windows(const std::vector<std::pair<double,double>>& cnfine);
 private:
     Napi::Env env;
 };

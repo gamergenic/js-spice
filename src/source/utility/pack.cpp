@@ -151,6 +151,10 @@ NElts Packer::geophs(ConstSpiceDouble (&elts)[8]){
     return NElts(env, members, elts);
 }
 
+NArrayWindows Packer::windows(const std::vector<std::pair<double,double>>& cnfine){
+    return NArrayWindows(env, cnfine);
+}
+
 Packer Pack(const Napi::CallbackInfo& _info){
     return Packer(_info.Env());
 }

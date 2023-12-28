@@ -2,7 +2,7 @@
 
 javascript wrapper for NASA/NAIF SPICE spaceflight geometry toolkit
 
-See this project for an example of a web server that uses this module:
+See this project for an example of a web server that uses this module:  
 https://github.com/gamergenic/earth-moon-sun
 
 ## Please excuse the mess while we remodel
@@ -291,8 +291,8 @@ https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/req/gf.html#Natural%20satellit
         of the search interval.
         */
         
-        const et0 = now();
-        const et1 = now() + spice.spd() * 5;
+        const et0 = et_now();
+        const et1 = et_now() + spice.spd() * 5;
         const cnfine = [[et0, et1]];
 
         /*
