@@ -106,6 +106,7 @@
         "src/source/wrapped/vnorm.cpp",
         "src/source/wrapped/vminus.cpp",
         "src/source/wrapped/vpack.cpp",
+        "src/source/wrapped/vperp.cpp",
         "src/source/wrapped/xpose.cpp",
          ],
       "dependencies": [
