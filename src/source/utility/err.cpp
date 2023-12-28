@@ -27,6 +27,8 @@ bool ErrorCheck(Napi::Env env)
             }
         }
 
+        reset_c();
+
         Napi::Error::New(env, szBuffer).ThrowAsJavaScriptException();
         return true;
     }

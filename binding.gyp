@@ -39,6 +39,7 @@
         "src/source/wrapped/georec.cpp",
         "src/source/wrapped/getelm.cpp",
         "src/source/wrapped/gfposc.cpp",
+        "src/source/wrapped/gfsep.cpp",
         "src/source/wrapped/halfpi.cpp",
         "src/source/wrapped/ident.cpp",
         "src/source/wrapped/invert.cpp",

@@ -16,7 +16,7 @@ Napi::Value prop2b(const Napi::CallbackInfo& info) {
     SpiceDouble gm, pvinit[6], dt;
     if(
       Unpack("prop2b", info)
-      .gm(dt)
+      .gm(gm)
       .state(pvinit, "pvinit")
       .dt(dt)
       .check( [=](const std::string& error) {

@@ -24,6 +24,7 @@
 #include "wrapped/georec.h"
 #include "wrapped/getelm.h"
 #include "wrapped/gfposc.h"
+#include "wrapped/gfsep.h"
 #include "wrapped/halfpi.h"
 #include "wrapped/ident.h"
 #include "wrapped/invert.h"
@@ -110,6 +111,7 @@ Napi::Object Init(Napi::Env env, Napi::Object exports) {
   exports.Set("georec", Napi::Function::New(env, georec));
   exports.Set("getelm", Napi::Function::New(env, getelm));
   exports.Set("gfposc", Napi::Function::New(env, gfposc));
+  exports.Set("gfsep",  Napi::Function::New(env, gfsep));
   exports.Set("halfpi", Napi::Function::New(env, halfpi));
   exports.Set("ident",  Napi::Function::New(env, ident));
   exports.Set("invert", Napi::Function::New(env, invert));
