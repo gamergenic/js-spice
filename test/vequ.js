@@ -1,6 +1,6 @@
 const expect = require('chai').expect;
 const { spice } = require('..');
-const expectAlmostEqual = require('./expectAlmostEqual');
+const expectAlmostEqual = require('./utility/expectAlmostEqual');
 
 describe('vequ', function() {
   it('should make one double precision 3-dimensional vector equal to another', function() {

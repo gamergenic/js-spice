@@ -1,6 +1,6 @@
 const expect = require('chai').expect;
 const { spice } = require('..');
-const expectAlmostEqual = require('./expectAlmostEqual');
+const expectAlmostEqual = require('./utility/expectAlmostEqual');
 
 describe('vpack', function() {
   it('should pack three scalar components into a vector array [x,y,z].', function() {

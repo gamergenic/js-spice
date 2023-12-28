@@ -1,6 +1,6 @@
 const expect = require('chai').expect;
 const { spice } = require('..');
-const expectAlmostEqual = require('./expectAlmostEqual');
+const expectAlmostEqual = require('./utility/expectAlmostEqual');
 
 describe('pl2psv', function() {
   it('should return a point and two orthogonal spanning vectors that generate a specified plane.', function() {

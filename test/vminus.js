@@ -1,6 +1,6 @@
 const expect = require('chai').expect;
 const { spice } = require('..');
-const expectAlmostEqual = require('./expectAlmostEqual');
+const expectAlmostEqual = require('./utility/expectAlmostEqual');
 
 describe('vminus', function() {
   it('should negate a double precision 3-dimensional vector.', function() {

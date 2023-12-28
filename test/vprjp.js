@@ -1,6 +1,6 @@
 const expect = require('chai').expect;
 const { spice } = require('..');
-const expectAlmostEqual = require('./expectAlmostEqual');
+const expectAlmostEqual = require('./utility/expectAlmostEqual');
 
 describe('vprjp', function() {
   it('should project a vector onto a specified plane, orthogonally.', function() {

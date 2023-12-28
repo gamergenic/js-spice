@@ -12,9 +12,16 @@ This module is currently a work in progress, not yet (adequately) tested, and as
 
 ## Installation
 
+When js-spice is deemed complete-ish, you can add the module to your project using npm.
+
 ```bash
 npm install js-spice
 ```
+
+However, it's not currently registered.  So, that won't work.  You can add it as a submodule linked to the github location.  See "Adding js-spice as a git submodule to a host app" below.  That'll work.
+
+Currently, you'll need to let node-gyp build binaries for your platform as pre-built binaries are not hosted anywhere.  After it builds, you should run `npm test` and verify the existing tests all passed.
+
 
 ## Usage
 
