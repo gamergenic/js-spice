@@ -1,5 +1,6 @@
 const expect = require('chai').expect;
 const { spice } = require('..');
+const expectAlmostEqual = require('./expectAlmostEqual');
 
 describe('vpack', function() {
   it('should pack three scalar components into a vector array [x,y,z].', function() {
@@ -7,9 +8,8 @@ describe('vpack', function() {
     let actual = spice.vpack(-1, -2, -3);
     let expected = [-1, -2, -3];
 
-    expect(-1).to.be.closeTo(expected[0], 0.0001);
-    expect(-2).to.be.closeTo(expected[1], 0.0001);
-    expect(-3).to.be.closeTo(expected[2], 0.0001);
+    const tolerance = 1e-5; // Define a suitable tolerance
+    expectAlmostEqual(actual, expected, tolerance);      
   });
 
   it('should throw an error if invoked with an extra arg', function() {

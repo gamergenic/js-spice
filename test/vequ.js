@@ -1,5 +1,6 @@
 const expect = require('chai').expect;
 const { spice } = require('..');
+const expectAlmostEqual = require('./expectAlmostEqual');
 
 describe('vequ', function() {
   it('should make one double precision 3-dimensional vector equal to another', function() {
@@ -9,9 +10,8 @@ describe('vequ', function() {
 
     let expected = [1, 2, 3];
 
-    expect(actual[0]).to.be.closeTo(expected[0], 0.0001);
-    expect(actual[1]).to.be.closeTo(expected[1], 0.0001);
-    expect(actual[2]).to.be.closeTo(expected[2], 0.0001);
+    const tolerance = 1e-5; // Define a suitable tolerance
+    expectAlmostEqual(actual, expected, tolerance);        
   });
 
   it('should make one double precision 3-dimensional vector equal to another (object vector)', function() {
@@ -21,9 +21,8 @@ describe('vequ', function() {
 
     let expected = [1, 2, 3];
 
-    expect(actual[0]).to.be.closeTo(expected[0], 0.0001);
-    expect(actual[1]).to.be.closeTo(expected[1], 0.0001);
-    expect(actual[2]).to.be.closeTo(expected[2], 0.0001);
+    const tolerance = 1e-5; // Define a suitable tolerance
+    expectAlmostEqual(actual, expected, tolerance);        
   });
 
   it('should make one double precision 3-dimensional vector equal to another (x, y, z as args)', function() {
@@ -31,9 +30,8 @@ describe('vequ', function() {
 
     let expected = [1, 2, 3];
 
-    expect(actual[0]).to.be.closeTo(expected[0], 0.0001);
-    expect(actual[1]).to.be.closeTo(expected[1], 0.0001);
-    expect(actual[2]).to.be.closeTo(expected[2], 0.0001);
+    const tolerance = 1e-5; // Define a suitable tolerance
+    expectAlmostEqual(actual, expected, tolerance);        
   });
 
 
