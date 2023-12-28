@@ -5,7 +5,7 @@ describe('axisar', function() {
   it('should construct a rotation matrix that rotates vectors by a specified \
 angle about a specified axis.', function() {
     let axis = [0,0,1];
-    let angle = 3.14159;
+    let angle = 3.1415926536;
 
     let actual = spice.axisar(axis, angle);
 
@@ -19,7 +19,7 @@ angle about a specified axis.', function() {
 
   it('should accept axis as {x:,y:,z:} object', function() {
     let axis = {"x": 0, "y": 0, "z": 1};
-    let angle = 3.14159;
+    let angle = 3.1415926536;
 
     let actual = spice.axisar(axis, angle);
 
