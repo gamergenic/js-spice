@@ -2,7 +2,7 @@ const expect = require('chai').expect;
 const { spice } = require('..');
 
 describe('vequ', function() {
-  it('Make one double precision 3-dimensional vector equal to another', function() {
+  it('should make one double precision 3-dimensional vector equal to another', function() {
     let vin = [1, 2, 3];
 
     let actual = spice.vequ(vin);
@@ -14,7 +14,7 @@ describe('vequ', function() {
     expect(actual[2]).to.be.closeTo(expected[2], 0.0001);
   });
 
-  it('Make one double precision 3-dimensional vector equal to another (object vector)', function() {
+  it('should make one double precision 3-dimensional vector equal to another (object vector)', function() {
     let vin = { "x": 1, "y": 2, "z": 3};
 
     let actual = spice.vequ(vin);
@@ -26,7 +26,7 @@ describe('vequ', function() {
     expect(actual[2]).to.be.closeTo(expected[2], 0.0001);
   });
 
-  it('Make one double precision 3-dimensional vector equal to another (x, y, z as args)', function() {
+  it('should make one double precision 3-dimensional vector equal to another (x, y, z as args)', function() {
     let actual = spice.vequ(1, 2, 3);
 
     let expected = [1, 2, 3];

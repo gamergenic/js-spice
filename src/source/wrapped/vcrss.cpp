@@ -2,7 +2,6 @@
 // Author: chucknoble@gamergenic.com|https://www.gamergenic.com
 
 #include "wrapped/vcrss.h"
-#include "utility/err.h"
 extern "C" {
   #include <SpiceUsr.h>
 }
