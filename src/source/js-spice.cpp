@@ -35,7 +35,10 @@
 #include "wrapped/latrec.h"
 #include "wrapped/m2q.h"
 #include "wrapped/m2eul.h"
+#include "wrapped/mtxm.h"
+#include "wrapped/mtxv.h"
 #include "wrapped/mxm.h"
+#include "wrapped/mxmt.h"
 #include "wrapped/mxv.h"
 #include "wrapped/oscelt.h"
 #include "wrapped/pckfrm.h"
@@ -118,7 +121,10 @@ Napi::Object Init(Napi::Env env, Napi::Object exports) {
   exports.Set("latrec", Napi::Function::New(env, latrec));
   exports.Set("m2eul",  Napi::Function::New(env, m2eul));
   exports.Set("m2q",    Napi::Function::New(env, m2q));
+  exports.Set("mtxm",   Napi::Function::New(env, mtxm));
+  exports.Set("mtxv",   Napi::Function::New(env, mtxv));
   exports.Set("mxm",    Napi::Function::New(env, mxm));
+  exports.Set("mxmt",   Napi::Function::New(env, mxmt));
   exports.Set("mxv",    Napi::Function::New(env, mxv));
   exports.Set("oscelt", Napi::Function::New(env, oscelt));
   exports.Set("pckfrm", Napi::Function::New(env, pckfrm));
