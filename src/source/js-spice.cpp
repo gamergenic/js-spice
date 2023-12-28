@@ -86,6 +86,7 @@
 #include "wrapped/vdot.h"
 #include "wrapped/vequ.h"
 #include "wrapped/vhat.h"
+#include "wrapped/vlcom3.h"
 #include "wrapped/vnorm.h"
 #include "wrapped/xpose.h"
 
@@ -174,6 +175,7 @@ Napi::Object Init(Napi::Env env, Napi::Object exports) {
   exports.Set("vdot",   Napi::Function::New(env, vdot));
   exports.Set("vequ",   Napi::Function::New(env, vequ));
   exports.Set("vhat",   Napi::Function::New(env, vhat));
+  exports.Set("vlcom3", Napi::Function::New(env, vlcom3));
   exports.Set("vnorm",  Napi::Function::New(env, vnorm));
   exports.Set("xpose",  Napi::Function::New(env, xpose));
   return exports;

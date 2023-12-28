@@ -37,7 +37,7 @@ describe('vequ', function() {
   });
 
 
-  it('should throws an error if invoked with no params', function() {
+  it('should throws an error if invoked with no arg', function() {
     function test(){
       spice.vequ();
     }
@@ -45,7 +45,7 @@ describe('vequ', function() {
     expect(test).to.throw();
   });
   
-  it('should throws an error if invoked with extra params', function() {
+  it('should throws an error if invoked with extra args', function() {
     function test(){
       let vin = {"x": 0, "y": 0, "z": 1};
       spice.vequ(vin, vin);

@@ -27,7 +27,9 @@ async function getKernels() {
 getKernels();
 
 describe('gfsep', function() {
-  it('should find 12 results', function() {
+  it('Determine time intervals when the angular separation between \
+the position vectors of two target bodies relative to an observer \
+satisfies a numerical relationship.', function() {
     // taken from:
     // https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/gfsep_c.html
     const targ1 = "MOON";
