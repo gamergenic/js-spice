@@ -2,7 +2,7 @@ const expect = require('chai').expect;
 const { spice } = require('..');
 
 describe('vminus', function() {
-  it('Should negate a double precision 3-dimensional vector.', function() {
+  it('should negate a double precision 3-dimensional vector.', function() {
 
     let v1 = [1, 2, 3];
     let actual = spice.vminus(v1);

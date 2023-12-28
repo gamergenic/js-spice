@@ -90,6 +90,7 @@
 #include "wrapped/vlcom3.h"
 #include "wrapped/vminus.h"
 #include "wrapped/vnorm.h"
+#include "wrapped/vpack.h"
 #include "wrapped/xpose.h"
 
 Napi::Object Init(Napi::Env env, Napi::Object exports) {
@@ -181,6 +182,7 @@ Napi::Object Init(Napi::Env env, Napi::Object exports) {
   exports.Set("vlcom3", Napi::Function::New(env, vlcom3));
   exports.Set("vminus", Napi::Function::New(env, vminus));
   exports.Set("vnorm",  Napi::Function::New(env, vnorm));
+  exports.Set("vpack",  Napi::Function::New(env, vpack));
   exports.Set("xpose",  Napi::Function::New(env, xpose));
   return exports;
 }
