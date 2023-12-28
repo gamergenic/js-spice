@@ -1,22 +1,21 @@
 const expect = require('chai').expect;
 const { spice } = require('..');
 
-describe('vlcom3', function() {
-  it('should compute the vector linear combination of three double precision 3-dimensional vectors.', function() {
+describe('vlcom', function() {
+  it('should compute a vector linear combination of two double precision, 3-dimensional vectors.',
+  function() {
     const a = 1;
     const v1 = [1, 2, 3];
     const b = 2;
     const v2 = [4, 5, 6];
-    const c = 3;
-    const v3 = [7, 8, 9];
 
-    let actual = spice.vlcom3(a, v1, b, v2, c, v3);
+    let actual = spice.vlcom(a, v1, b, v2);
 
-    let expected = [1*1+2*4+3*7, 1*2+2*5+3*8, 1*3+2*6+3*9];
+    let expected = [1*1+2*4, 1*2+2*5, 1*3+2*6];
 
-    expect(actual[0]).to.be.closeTo(expected[0], 0.0001);
-    expect(actual[1]).to.be.closeTo(expected[1], 0.0001);
-    expect(actual[2]).to.be.closeTo(expected[2], 0.0001);
+    expect(actual[0]).to.be.closeTo(expected[0], 0.00001);
+    expect(actual[1]).to.be.closeTo(expected[1], 0.00001);
+    expect(actual[2]).to.be.closeTo(expected[2], 0.00001);
   });
 
   it('should throw an error if invoked with a missing arg', function() {
@@ -24,10 +23,8 @@ describe('vlcom3', function() {
         const a = 1;
         const v1 = [1, 2, 3];
         const b = 2;
-        const v2 = [4, 5, 6];
-        const c = 3;
     
-        spice.vlcom3(a, v1, b, v2, c);
+        spice.vlcom(a, v1, b);
     }
 
     expect(test).to.throw();
@@ -37,31 +34,25 @@ describe('vlcom3', function() {
     function test(){
         const a = 1;
         const v1 = [1, 2, 3];
-        const b = 2;
+        const b = true;
         const v2 = [4, 5, 6];
-        const c = true;
-        const v3 = [7, 8, 9];
     
-        spice.vlcom3(a, v1, b, v2, c, v3);
+        spice.vlcom(a, v1, b, v2);
     }
 
     expect(test).to.throw();
   });
 
-  
   it('should throw an error if invoked with an extra arg', function() {
     function test(){
         const a = 1;
         const v1 = [1, 2, 3];
         const b = 2;
         const v2 = [4, 5, 6];
-        const c = 3;
-        const v3 = [7, 8, 9];
     
-        spice.vlcom3(a, v1, b, v2, c, v3, false);
+        spice.vlcom(a, v1, b, v2, false);
     }
 
     expect(test).to.throw();
   });   
-  
 });

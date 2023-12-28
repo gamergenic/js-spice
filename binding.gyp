@@ -101,6 +101,7 @@
         "src/source/wrapped/vdot.cpp",
         "src/source/wrapped/vequ.cpp",
         "src/source/wrapped/vhat.cpp",
+        "src/source/wrapped/vlcom.cpp",
         "src/source/wrapped/vlcom3.cpp",
         "src/source/wrapped/vnorm.cpp",
         "src/source/wrapped/xpose.cpp",
