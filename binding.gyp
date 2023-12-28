@@ -116,6 +116,8 @@
         "src/source/wrapped/vprjp.cpp",
         "src/source/wrapped/vprjpi.cpp",
         "src/source/wrapped/vproj.cpp",
+        "src/source/wrapped/vrel.cpp",
+        "src/source/wrapped/vrotv.cpp",
         "src/source/wrapped/xpose.cpp",
          ],
       "dependencies": [

@@ -101,6 +101,8 @@
 #include "wrapped/vprjp.h"
 #include "wrapped/vprjpi.h"
 #include "wrapped/vproj.h"
+#include "wrapped/vrel.h"
+#include "wrapped/vrotv.h"
 #include "wrapped/xpose.h"
 
 Napi::Object Init(Napi::Env env, Napi::Object exports) {
@@ -203,6 +205,8 @@ Napi::Object Init(Napi::Env env, Napi::Object exports) {
   exports.Set("vprjp",  Napi::Function::New(env, vprjp));
   exports.Set("vprjpi", Napi::Function::New(env, vprjpi));
   exports.Set("vproj",  Napi::Function::New(env, vproj));
+  exports.Set("vrel",   Napi::Function::New(env, vrel));
+  exports.Set("vrotv",  Napi::Function::New(env, vrotv));
   exports.Set("xpose",  Napi::Function::New(env, xpose));
   return exports;
 }
