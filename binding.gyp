@@ -56,6 +56,7 @@
         "src/source/wrapped/pckfrm.cpp",
         "src/source/wrapped/pgrrec.cpp",
         "src/source/wrapped/pi.cpp",
+        "src/source/wrapped/prop2b.cpp",
         "src/source/wrapped/pxform.cpp",
         "src/source/wrapped/pxfrm2.cpp",
         "src/source/wrapped/q2m.cpp",

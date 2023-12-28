@@ -29,6 +29,7 @@ public:
     Unpacker& d(SpiceDouble& d, std::string name = "") { if(!isErred) { return _unpackdouble(d, name); } return *this; }
     Unpacker& et(SpiceDouble& et) { if(!isErred) { return _unpackdouble(et, "et"); } return *this; }
     Unpacker& dt(SpiceDouble& dt) { if(!isErred) { return _unpackdouble(dt, "dt"); } return *this; }
+    Unpacker& gm(SpiceDouble& gm) { if(!isErred) { return _unpackdouble(gm, "gm"); } return *this; }
     Unpacker& angle(SpiceDouble& dt, std::string name = "rads") { if(!isErred) { return _unpackdouble(dt, name); } return *this; }
     Unpacker& flag(SpiceBoolean& _flag, std::string name="") { if(!isErred) { return _unpackbool(_flag, name);  } return *this; }
     Unpacker& str(std::string& _string, std::string name="") { if(!isErred) { return _unpackstring(_string, name); } return *this; }
