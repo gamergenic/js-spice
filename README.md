@@ -31,7 +31,7 @@ const { spice, cacheGenericKernel, getKernels, getGeophysicalConstants, et_now }
 
 ### Features
 
-js-spice is a partial wrapping of the NASA NAIF SPICE toolkit, with additional types that can be used for convenience.  The wrapped functions preserve the documented parameters and usage documented in the official SPICE documentation such that it can be used as a reference source.
+`js-spice` is a partial wrapping of the NASA NAIF SPICE toolkit, with additional types that can be used for convenience.  The wrapped functions preserve the documented parameters and usage documented in the official SPICE documentation such that it can be used as a reference source.
 
 ### Detailed Documentation
 
@@ -119,7 +119,7 @@ Matrices (3D Rotation)
 Where m00...m22 are double-precision numeric values.
 
 
-Planes
+Planes  
 `{"normal": [x, y, z], "constant": c}`  
 
 
