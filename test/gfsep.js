@@ -8,7 +8,12 @@ const kernelsToLoad = [
 ];
 
 describe('gfsep', function() {
-  it('should determine time intervals when the angular separation between \
+    
+    // Allow extra time as this is a computationally expensive operation.
+    // Plus, we may need to download a number of kernels to run the test.  
+    this.timeout(10000);
+    
+    it('should determine time intervals when the angular separation between \
 the position vectors of two target bodies relative to an observer \
 satisfies a numerical relationship.', 
 

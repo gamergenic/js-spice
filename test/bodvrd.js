@@ -9,7 +9,7 @@ const kernelsToLoad = [
 
 describe('bodvrd', function() {
     it('should fetch from the kernel pool the double precision values \
-    of an item associated with a body (EARTH RADII).',
+of an item associated with a body (EARTH RADII).',
         async function() {
 
         // taken from:
