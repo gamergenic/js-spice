@@ -105,6 +105,7 @@
 #include "wrapped/vrotv.h"
 #include "wrapped/vscl.h"
 #include "wrapped/vsep.h"
+#include "wrapped/vsub.h"
 #include "wrapped/xpose.h"
 
 Napi::Object Init(Napi::Env env, Napi::Object exports) {
@@ -211,6 +212,7 @@ Napi::Object Init(Napi::Env env, Napi::Object exports) {
   exports.Set("vrotv",  Napi::Function::New(env, vrotv));
   exports.Set("vscl",   Napi::Function::New(env, vscl));
   exports.Set("vsep",   Napi::Function::New(env, vsep));
+  exports.Set("vsub",   Napi::Function::New(env, vsub));
   exports.Set("xpose",  Napi::Function::New(env, xpose));
   return exports;
 }

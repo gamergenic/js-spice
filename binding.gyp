@@ -120,6 +120,7 @@
         "src/source/wrapped/vrotv.cpp",
         "src/source/wrapped/vscl.cpp",
         "src/source/wrapped/vsep.cpp",
+        "src/source/wrapped/vsub.cpp",
         "src/source/wrapped/xpose.cpp",
          ],
       "dependencies": [
