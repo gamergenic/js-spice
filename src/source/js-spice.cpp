@@ -107,6 +107,8 @@
 #include "wrapped/vsep.h"
 #include "wrapped/vsub.h"
 #include "wrapped/vtmv.h"
+#include "wrapped/vupack.h"
+#include "wrapped/vzero.h"
 #include "wrapped/xpose.h"
 
 Napi::Object Init(Napi::Env env, Napi::Object exports) {
@@ -215,6 +217,8 @@ Napi::Object Init(Napi::Env env, Napi::Object exports) {
   exports.Set("vsep",   Napi::Function::New(env, vsep));
   exports.Set("vsub",   Napi::Function::New(env, vsub));
   exports.Set("vtmv",   Napi::Function::New(env, vtmv));
+  exports.Set("vupack", Napi::Function::New(env, vupack));
+  exports.Set("vzero",  Napi::Function::New(env, vzero));
   exports.Set("xpose",  Napi::Function::New(env, xpose));
   return exports;
 }

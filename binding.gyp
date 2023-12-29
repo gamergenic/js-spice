@@ -122,6 +122,8 @@
         "src/source/wrapped/vsep.cpp",
         "src/source/wrapped/vsub.cpp",
         "src/source/wrapped/vtmv.cpp",
+        "src/source/wrapped/vupack.cpp",
+        "src/source/wrapped/vzero.cpp",
         "src/source/wrapped/xpose.cpp",
          ],
       "dependencies": [
