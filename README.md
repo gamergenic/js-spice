@@ -1,10 +1,5 @@
 # js-spice
 
-javascript wrapper for NASA/NAIF SPICE spaceflight geometry toolkit
-
-See this project for an example of a web server that uses this module:  
-
-
 `js-spice` is a Node.js module that provides a JavaScript interface to NASA/JPL/NAIF's CSPICE toolkit, a collection of functions widely used in the planetary science community for spaceflight geometry calculations. Designed primarily for astrophysicists and developers in the field of space exploration, this module enables the integration of CSPICE's robust space mission analysis capabilities into JavaScript applications.
 
 For an example of `js-spice` usage, refer to our web server project that utilizes the module: [Earth-Moon-Sun Simulation](https://github.com/gamergenic/earth-moon-sun). This project illustrates how js-spice can be used for space-related calculations and simulations in a JavaScript environment.
@@ -51,48 +46,69 @@ To come.
 None.  Native JavaScript types are used.  
 
 Vectors  
-`[x,y,z]`, where `x`, `y`, and `z` are double-precision numerics.
+`[x,y,z]`, where _*x*_, _*y*_, and _*z*_ are double-precision numerics.
 
 Quaternions  
 `{"w":x, "x":x, "y":y, "z":z}`
 
 
 Ephemeris Time  
-`et`, where `et` is a double-precision number.
+`et`, where _*et*_ is a double-precision number.
 
 
 State  
-`{"r": [x,y,z], "v": [dx,dy,dz]}`, where `x`, `y`, `z` and `dx`, `dy`, `dz` are double-precision numbers.
+`{"r": [x,y,z], "v": [dx,dy,dz]}`, where _*x*_, _*y*_, _*z*_ and _*dx*_, _*dy*_, _*dz*_ are double-precision numbers.
+
 
 AZL  
-`{"range": range, "az":az, "el":el};`, where `range`, `az`, and `el` are double-precision numbers.
+`{"range": range, "az":az, "el":el};`, where _*range*_, _*az*_, and _*el*_ are double-precision numbers.
+
 
 CYL  
-`{"r": r, "clon":clon, "z":z}`, where `r`, `clon`, and `z` are double-precision numbers.
+`{"r": r, "clon":clon, "z":z}`, where _*r*_, _*clon*_, and _*z*_ are double-precision numbers.
+
 
 GEO
-`{"lon": lon, "lat": lat, "alt": alt}`, where `lon`, `lat`, and `alt` are double-precision numbers.
+`{"lon": lon, "lat": lat, "alt": alt}`, where _*lon*_, _*lat*_, and _*alt*_ are double-precision numbers.
+
 
 LAT
-`{"radius": radius, "lon": lon, "lat": lat}`, where `radius`, `lon`, and `lat` are double-precision numbers.
+`{"radius": radius, "lon": lon, "lat": lat}`, where _*radius*_, _*lon*_, and _*lat*_ are double-precision numbers.
+
 
 PGR
-`{"lon", "lat", "alt"}`, where `lon`, `lat`, and `alt` are double-precision numbers.
+`{"lon", "lat", "alt"}`, where _*lon*_, _*lat*_, and _*alt*_ are double-precision numbers.
+
 
 RAD
-`{"range", "ra", "dec"}`, where `range`, `ra`, and `dec` are double-precision numbers.
+`{"range", "ra", "dec"}`, where _*range*_, _*ra*_, and _*dec*_ are double-precision numbers.
+
 
 SPH
-`{"r", "colat", "slon"}`, where `r`, `colat`, and `slon` are double-precision numbers.
+`{"r", "colat", "slon"}`, where _*r*_, _*colat*_, and _*slon*_ are double-precision numbers.
+
 
 Osculating elements  
-`{"rp": rp, "ecc": ecc, "inc":inc, "lnode":lnode, "argp":argp, "m0":m0, "t0":t0, "mu":mu}`
+`{"rp": rp, "ecc": ecc, "inc":inc, "lnode":lnode, "argp":argp, "m0":m0, "t0":t0, "mu":mu}`, where all values are double-precision numerics.
+```
+rp      Perifocal distance.
+ecc     Eccentricity.
+inc     Inclination.
+lnode   Longitude of the ascending node.
+argp    Argument of periapse.
+m0      Mean anomaly at epoch.
+t0      Epoch.
+mu      Gravitational parameter.
+```
+
 
 Two-line elements  
 `{"ndt20":ndt20, "ndd60":ndd60, "bstar":bstar, "incl":incl, "node0":node0, "ecc":ecc, "omega":omega, "m0":m0, "n0":n0, "epoch":epoch}`, where all values are double-precision numerics
 
+
 Confinement windows  
-`[[start1, end1], [start2, end2], ...]`, where start1/2, end1/2 are double precision et's.
+`[[start1, end1], [start2, end2], ...]`, where _*start1*_, _*end1*_, ... are double precision et's.
+
 
 Matrices (3D Rotation)  
 ```js
@@ -102,11 +118,13 @@ Matrices (3D Rotation)
 ```
 Where m00...m22 are double-precision numeric values.
 
+
 Planes
 `{"normal": [x, y, z], "constant": c}`  
 
+
 Functions will throw an error when they are unable to decipher input.  The error thrown will explain the expected type for the first incorrect argument detected.
-In some places inputs can be provided in multiple formats but outputs formats for a given type are intended to remain consistent.  For example `spice.recazl()` will *accept* ([x,y,z]), ("x":x, "y":y, "z":z), or (x, y, z) while `spice.azlrec` will only *output* [x,y,z].
+In some places inputs can be provided in multiple formats but outputs formats for a given type are intended to remain consistent.  For example `spice.recazl` will *accept* `([x,y,z])`, `("x":x, "y":y, "z":z)`, or `(x, y, z)` while `spice.azlrec` will only *output* `[x,y,z]`.
 
 #### Functions
 
