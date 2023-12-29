@@ -2,7 +2,7 @@ const expect = require('chai').expect;
 const { spice } = require('..');
 
 describe('etcal', function() {
-  it('Convert from an ephemeris epoch measured in seconds past \
+  it('should convert from an ephemeris epoch measured in seconds past \
 the epoch of J2000 to a calendar string.',
    function() {
 

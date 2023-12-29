@@ -8,7 +8,7 @@ const kernelsToLoad = [
 getKernels(kernelsToLoad);
 
 describe('et2utc', function() {
-  it('Convert an input time from ephemeris seconds past J2000 \
+  it('should convert an input time from ephemeris seconds past J2000 \
 to Calendar, Day-of-Year, or Julian Date format, UTC.',
    function() {
 

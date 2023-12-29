@@ -10,7 +10,7 @@ const kernelsToLoad = [
 getKernels(kernelsToLoad);
 
 describe('gfsep', function() {
-  it('Determine time intervals when the angular separation between \
+  it('should determine time intervals when the angular separation between \
 the position vectors of two target bodies relative to an observer \
 satisfies a numerical relationship.', function() {
     // taken from:
