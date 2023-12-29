@@ -3,33 +3,36 @@
 javascript wrapper for NASA/NAIF SPICE spaceflight geometry toolkit
 
 See this project for an example of a web server that uses this module:  
-https://github.com/gamergenic/earth-moon-sun
-
-## Please excuse the mess while we remodel
-
-This module is currently a work in progress, not yet (adequately) tested, and as you can see from below the docs are mostly scribbled notes of usage instances.   Feel free to experiment with it if you like, but just beware that it's still shifting.
 
 
-## Installation
+`js-spice` is a Node.js module that provides a JavaScript interface to NASA/JPL/NAIF's CSPICE toolkit, a collection of functions widely used in the planetary science community for spaceflight geometry calculations. Designed primarily for astrophysicists and developers in the field of space exploration, this module enables the integration of CSPICE's robust space mission analysis capabilities into JavaScript applications.
 
-When js-spice is deemed complete-ish, you can add the module to your project using npm.
+For an example of `js-spice` usage, refer to our web server project that utilizes the module: [Earth-Moon-Sun Simulation](https://github.com/gamergenic/earth-moon-sun). This project illustrates how js-spice can be used for space-related calculations and simulations in a JavaScript environment.
 
-```bash
-npm install js-spice
-```
+## Ongoing Development Notice
 
-However, it's not currently registered.  So, that won't work.  You can add it as a submodule linked to the github location.  See "Adding js-spice as a git submodule to a host app" below.  That'll work.
+Please note that js-spice is currently under active development. It has not been fully tested and is still evolving. The documentation available at this stage primarily consists of preliminary notes and usage examples. Users are welcome to explore and experiment with the module, but it's important to be aware of its provisional state and ongoing changes.
 
-Currently, you'll need to let node-gyp build binaries for your platform as pre-built binaries are not hosted anywhere.  After it builds, you should run `npm test` to validate the build.  
+## Installation Guide
 
-Note that certain tests require SPICE kernel data files which will be downloaded to the test/data directory on first execution.  The tests will fail until the kernel files are emplaced but should succeed thereafter.
+`js-spice` is still in the development phase and has not yet been officially released on npm. To integrate it into your project, you can't currently use the standard npm installation command. Instead, you can include it by linking directly to the GitHub repository as a git submodule. Detailed instructions for this process can be found in the section "Adding js-spice as a git submodule to a host app."
+
+After adding `js-spice` to your project, you'll need to compile the necessary binaries using `node-gyp`, as pre-compiled binaries are not available. This step ensures the module is tailored to your specific platform. Once the build process is complete, it's important to run npm test to verify the build's integrity.
+
+Keep in mind that some tests require SPICE kernel data files, which are automatically downloaded to the test/data directory upon the first test run. These tests will initially fail if the kernel files are not present but should pass once the files are correctly downloaded and placed.
 
 
 ## Usage
 
 ```js
-const spice = require('js-spice');
+const {spice} = require('js-spice');
 ```
+...for just the spice wrapper.
+
+```js
+const { spice, cacheGenericKernel, getKernels, getGeophysicalConstants, et_now } = require('js-spice');
+```
+...to include functions for downloading and caching kernel files, etc.
 
 ### Features
 
@@ -37,155 +40,73 @@ js-spice is a partial wrapping of the NASA NAIF SPICE toolkit, with additional t
 
 ### Detailed Documentation
 
+To come.
+
 ### API Reference
+
+To come.
 
 #### Types
 
-##### EphemerisTime
+None.  Native JavaScript types are used.  
 
+Vectors  
+`[x,y,z]`, where `x`, `y`, and `z` are double-precision numerics.
+
+Quaternions  
+`{"w":x, "x":x, "y":y, "z":z}`
+
+
+Ephemeris Time  
+`et`, where `et` is a double-precision number.
+
+
+State  
+`{"r": [x,y,z], "v": [dx,dy,dz]}`, where `x`, `y`, `z` and `dx`, `dy`, `dz` are double-precision numbers.
+
+AZL  
+`{"range": range, "az":az, "el":el};`, where `range`, `az`, and `el` are double-precision numbers.
+
+CYL  
+`{"r": r, "clon":clon, "z":z}`, where `r`, `clon`, and `z` are double-precision numbers.
+
+GEO
+`{"lon": lon, "lat": lat, "alt": alt}`, where `lon`, `lat`, and `alt` are double-precision numbers.
+
+LAT
+`{"radius": radius, "lon": lon, "lat": lat}`, where `radius`, `lon`, and `lat` are double-precision numbers.
+
+PGR
+`{"lon", "lat", "alt"}`, where `lon`, `lat`, and `alt` are double-precision numbers.
+
+RAD
+`{"range", "ra", "dec"}`, where `range`, `ra`, and `dec` are double-precision numbers.
+
+SPH
+`{"r", "colat", "slon"}`, where `r`, `colat`, and `slon` are double-precision numbers.
+
+Osculating elements  
+`{"rp": rp, "ecc": ecc, "inc":inc, "lnode":lnode, "argp":argp, "m0":m0, "t0":t0, "mu":mu}`
+
+Two-line elements  
+`{"ndt20":ndt20, "ndd60":ndd60, "bstar":bstar, "incl":incl, "node0":node0, "ecc":ecc, "omega":omega, "m0":m0, "n0":n0, "epoch":epoch}`, where all values are double-precision numerics
+
+Confinement windows  
+`[[start1, end1], [start2, end2], ...]`, where start1/2, end1/2 are double precision et's.
+
+Matrices (3D Rotation)  
 ```js
-const spice = require('js-spice');
-
-const et1 = new spice.EphemerisTime(0);
-const et2 = new spice.EphemerisTime('2023-12-17T07:48:00');
-
-console.log(et1.toString());            // logs '0.000000'
-console.log(et1.toString('C'));         // logs '2000 JAN 01 11:58:56'
-console.log(et2.toString());            // logs '756071349.183489'
-console.log(et2.toString('ISOC', 14));  // logs '2023-12-17T07:48:00.0000000000000'
-
-const et2jsonstr = JSON.stringify(et2);
-console.log(et2jsonstr);                // logs '{"et":756071349.1834894}'
-
-const et2json = JSON.parse(et2jsonstr);
-const et3 = spice.EphemerisTime.fromJson(et2json);
-
-console.log(et3.toString('C'));         // logs '2023 DEC 17 07:48:00'
-
-// Time + Period = Time
-const et4 = et2.add(new spice.EphemerisPeriod.fromDays(1));
-console.log(et4.toJSON());              // { et: 756157749.1834894 }
-const et5 = et2.add(new spice.EphemerisPeriod.fromDays(1));
-console.log(et5.toString('C'));         // logs '2023 DEC 18 07:48:00'
-const et6 = et2.add({"dt" : 60*60*24 });
-console.log(et6.toString('C'));         // logs '2023 DEC 18 07:48:00'
-
-// Time - Time = Period
-const dt1 = et5.subtract(et2);
-console.log(JSON.stringify(dt1));       // logs '{"dt":86400}'
-
-// Time - Period = Time
-const et7 = et5.subtract(dt1);
-console.log(JSON.stringify(et7));       // logs '{"et":756071349.1834894}'
-
-
+[[m00, m01, m02],
+ [m10, m11, m12],
+ [m20, m21, m22]]
 ```
+Where m00...m22 are double-precision numeric values.
 
+Planes
+`{"normal": [x, y, z], "constant": c}`  
 
-##### EphemerisPeriod
-
-```js
-const oneSecond = new spice.EphemerisPeriod.fromSeconds(1);
-const oneMinute = new spice.EphemerisPeriod.fromMinutes(1);
-const oneHour = new spice.EphemerisPeriod.fromHours(1);
-const oneDay = new spice.EphemerisPeriod.fromDays(1);
-const oneYear = new spice.EphemerisPeriod.fromYears(1);
-const oneJulianYear = new spice.EphemerisPeriod.fromJulianYears(1);
-const oneTropicalYear = new spice.EphemerisPeriod.fromTropicalYears(1);
-console.log(oneTropicalYear.getTropicalYears()); // logs '1'
-console.log(oneTropicalYear.getJulianYears());   // logs '0.9999786414784394'
-console.log(oneTropicalYear.getYears());         // logs '0.9999786414784394'
-console.log(oneTropicalYear.getDays());          // logs '365.2421988'
-console.log(oneTropicalYear.getHours());         // logs '8765.812771199999'
-console.log(oneTropicalYear.getMinutes());       // logs '525948.7662719999'
-console.log(oneTropicalYear.getSeconds());       // logs '31556925.97632'
-
-let dt = new spice.EphemerisPeriod(0);
-dt.setYears(1);
-```
-
-
-```js
-console.log(oneMinute.add(oneSecond).toString());                   // logs '61'
-console.log(oneMinute.add({"dt" : -1}).toString());                 // logs '59'
-console.log(oneMinute.add(1).toString());                           // logs '61'
-console.log(oneMinute.subtract(oneSecond).toString());              // logs '59'
-console.log(oneMinute.multiply(2).toString());                      // logs '120.000000'
-console.log(oneMinute.divide(oneSecond));                           // logs '60'
-const seventyFiveSeconds = oneMinute.multiply(1.25);
-console.log(seventyFiveSeconds.mod(oneMinute).toString());          // logs '15.000000'
-console.log(seventyFiveSeconds.mod({"dt" : 60}).toString());        // logs '15.000000'
-```
-
-```js
-// EphemerisPeriod/EphemerisPeriod = dimensionless scalar
-console.log(JSON.stringify(oneMinute.divide({"dt" : 60})));   // logs '1'
-// EphemerisPeriod/dimensionless scalar = EphemerisPeriod
-console.log(JSON.stringify(oneMinute.divide(60)));   // logs '{"dt":1}'
-```
-
-##### Distance
-```js
-let distance = new spice.Distance.fromKilometers(1);
-let meters = new spice.Distance.getMeters();
-distance.setMeters(1000);
-```
-
-```js
-const oneMM = new spice.Distance.fromMillimeters(1);
-const oneCM = new spice.Distance.fromCentimeters(1);
-const oneM = new spice.Distance.fromMeters(1);
-const oneKM = new spice.Distance.fromKilometers(1);
-const oneInch = new spice.Distance.fromInches(1);
-const oneFoot = new spice.Distance.fromFeet(1);
-const oneYard = new spice.Distance.fromYards(1);
-const oneStatuteMile = new spice.Distance.fromStatuteMiles(1);
-const oneNauticalMile = new spice.Distance.fromNauticalMiles(1);
-const oneAU = new spice.Distance.fromAstronomicalUnits(1);
-const oneParsec = new spice.Distance.fromParsecs(1);
-const oneLightSec = new spice.Distance.fromLightSeconds(1);
-const oneLightYear = new spice.Distance.fromLightYears(1);
-console.log(oneParsec.getLightYears());              // logs '3.261563775298437'
-console.log(oneLightYear.getLightSeconds());         // logs '31557600'
-console.log(oneLightYear.getParsecs());              // logs '0.3066013939612445'
-console.log(oneLightYear.getAstronomicalUnits());    // logs '63241.077120753485'
-console.log(oneAU.getNauticalMiles());               // logs '80776388.02035037'
-console.log(oneNauticalMile.getStatuteMiles());      // logs '1.1507794480235425'
-console.log(oneStatuteMile.getYards());              // logs '1760'
-console.log(oneStatuteMile.getFeet());               // logs '5280'
-console.log(oneFoot.getInches());                    // logs '12.000000000000002'
-console.log(oneStatuteMile.getKilometers());         // logs '1.609344'
-console.log(oneKM.getMeters());                      // logs '1000'
-console.log(oneKM.getCentimeters());                 // logs '100000'
-console.log(oneKM.getMillimeters());                 // logs '1000000'
-```
-
-```js
-console.log(oneKM.add(oneM).toString());                        // logs '1.001'
-console.log(oneKM.add({"km" : -0.001 }).toString());            // logs '0.999'
-console.log(oneKM.add(1).toString());                           // logs '2.000000'
-console.log(oneKM.subtract(oneM).toString());                   // logs '0.999'
-console.log(oneKM.multiply(2).toString());                      // logs '2.000000'
-console.log(oneKM.divide(oneM));                                // logs '1000'
-const seventyFiveMeters = new spice.Distance.fromMeters(75);
-const fiftyMeters = new spice.Distance.fromMeters(50);
-console.log(seventyFiveMeters.mod(fiftyMeters).toString());     // logs '0.025000'
-console.log(seventyFiveMeters.mod({"km" : 0.01}).toString());   // logs '0.005000'
-```
-
-```js
-console.log(spice.Distance.isA(oneKM));                        // logs 'true'
-console.log(spice.Distance.isA({"km";}));                      // logs 'false'
-```
-
-##### DistanceVector
-
-```js
-const newVector = new spice.DistanceVector();
-console.log(spice.DistanceVector.isA(newVector));               // logs 'true'
-console.log(spice.Distance.isA(newVector));                     // logs 'false'
-console.log(spice.Distance.isA(newVector.getX()));              // logs 'true'
-```
+Functions will throw an error when they are unable to decipher input.  The error thrown will explain the expected type for the first incorrect argument detected.
+In some places inputs can be provided in multiple formats but outputs formats for a given type are intended to remain consistent.  For example `spice.recazl()` will *accept* ([x,y,z]), ("x":x, "y":y, "z":z), or (x, y, z) while `spice.azlrec` will only *output* [x,y,z].
 
 #### Functions
 

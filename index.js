@@ -33,28 +33,28 @@
 // All that said, go build something awesome with it! :-D.
 
 const spice = require('./build/Release/js-spice');
-const genericKernels = require('./genericKernels');
-const geophysical = require('./geophysical');
+const cacheGenericKernel = require('./js/cacheGenericKernel');
+const getGeophysicalConstants = require('./js/getGeophysicalConstants');
+const getKernels = require('./js/getKernels');
+const et_now = require('./js/et_now');
 
-function et_now(){
-    const etstr = new Date().toISOString();
-    const et = spice.str2et(etstr);
-    return et;
-}
+function setErrorHandlingDefaults(){
+    try{
+        spice.errprt('set', 'short');
+        spice.errdev('set', 'null');
+        spice.erract('set', 'return');
+    }
+    catch(error){
+        console.error('error: ', error);
+    }
+};
 
-try{
-    spice.errprt('set', 'short');
-    spice.errdev('set', 'null');
-    spice.erract('set', 'return');
-}
-catch(error){
-    console.error('error: ', error);
-}
-
+setErrorHandlingDefaults();
 
 module.exports = { 
     spice,
-    genericKernels,
+    cacheGenericKernel,
+    getKernels,
+    getGeophysicalConstants,
     et_now,
-    geophysical
 }

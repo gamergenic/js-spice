@@ -1,20 +1,23 @@
 const expect = require('chai').expect;
-const { spice, genericKernels } = require('..');
-const getKernels = require('./utility/getKernels');
+const { spice, getKernels } = require('..');
 
 const kernelsToLoad = [
   'spk/planets/a_old_versions/de421.bsp',
   'pck/a_old_versions/pck00009.tpc',
   'lsk/a_old_versions/naif0009.tls',
 ];
-getKernels(kernelsToLoad);
 
 describe('gfsep', function() {
   it('should determine time intervals when the angular separation between \
 the position vectors of two target bodies relative to an observer \
-satisfies a numerical relationship.', function() {
+satisfies a numerical relationship.', 
+
+    async function() {
+
     // taken from:
     // https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/gfsep_c.html
+    await getKernels(kernelsToLoad, 'test/data/naif/generic_kernels');
+
     const targ1 = "MOON";
     const shape1 = "SPHERE";
     const frame1 = "NULL"
@@ -38,7 +41,7 @@ satisfies a numerical relationship.', function() {
       abcorr, obsrvr, relate,
       refval, adjust, step, cnfine );
 
-    expect(actual.length).to.be.equal(12);      
+    expect(actual.length).to.be.equal(12);
 
     const TIMFMT = "YYYY-MON-DD HR:MN:SC.###### (TDB) ::TDB ::RND";
     expect(spice.timout(actual[0][0],  TIMFMT)).to.be.equal("2007-JAN-11 11:21:20.214305 (TDB)");      
