@@ -28,7 +28,7 @@ const pipeline = promisify(stream.pipeline);
 async function cacheGenericKernel(urlRelative, dirRelative) {
   // Base URL and directory for downloads
   const baseUrl = 'https://naif.jpl.nasa.gov/pub/naif/generic_kernels/';
-  const baseDir = '../';
+  const baseDir = './';
 
   // Constructing the full URL and file path
   const url = new URL(urlRelative, baseUrl).href;

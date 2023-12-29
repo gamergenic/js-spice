@@ -14,7 +14,7 @@ Please note that js-spice is currently under active development. It has not been
 
 After adding `js-spice` to your project, you'll need to compile the necessary binaries using `node-gyp`, as pre-compiled binaries are not available. This step ensures the module is tailored to your specific platform. Once the build process is complete, it's important to run npm test to verify the build's integrity.
 
-Keep in mind that some tests require SPICE kernel data files, which are automatically downloaded to the test/data directory upon the first test run. These tests will initially fail if the kernel files are not present but should pass once the files are correctly downloaded and placed.
+Keep in mind that some tests require SPICE kernel data files, which are automatically downloaded to the test/data directory upon the first test run.
 
 
 ## Usage
@@ -128,6 +128,8 @@ In some places inputs can be provided in multiple formats but outputs formats fo
 
 #### Functions
 
+Note:  Example usages of js-spice wrappers can be found in the test directory, which is organized by function name.
+
 # pi
     console.log(spice.pi());
 
@@ -216,17 +218,7 @@ https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/req/gf.html#Natural%20satellit
     ];
 
 
-    async function loadAndProcessFiles(files) {
-        const operations = files.map(file => {
-            return genericKernels.getGenericKernel(file, `data/naif/generic_kernels/${file}`).then(kernel => {
-                spice.furnsh(kernel);
-            });
-        });
-    
-        await Promise.all(operations);
-        console.log("done loading kernels");
-    }
-    await loadAndProcessFiles(kernelsToLoad);    
+    await getKernels(kernelsToLoad);   
 
     try{
          /*

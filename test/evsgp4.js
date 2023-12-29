@@ -17,8 +17,6 @@ describe('evsgp4', function() {
 
         const {elems} = spice.getelm(1957, tle);
 
-        console.log(geophs);
-
         const actual = spice.evsgp4(et, geophs, elems);
 
         const expected = {

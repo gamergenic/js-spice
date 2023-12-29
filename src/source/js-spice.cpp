@@ -20,6 +20,7 @@
 #include "wrapped/etcal.h"
 #include "wrapped/eul2m.h"
 #include "wrapped/evsgp4.h"
+#include "wrapped/failed.h"
 #include "wrapped/furnsh.h"
 #include "wrapped/georec.h"
 #include "wrapped/getelm.h"
@@ -33,6 +34,7 @@
 #include "wrapped/j2000.h"
 #include "wrapped/j2100.h"
 #include "wrapped/jyear.h"
+#include "wrapped/kclear.h"
 #include "wrapped/latrec.h"
 #include "wrapped/m2q.h"
 #include "wrapped/m2eul.h"
@@ -56,8 +58,10 @@
 #include "wrapped/pxfrm2.h"
 #include "wrapped/q2m.h"
 #include "wrapped/qxq.h"
+#include "wrapped/reset.h"
 #include "wrapped/rotate.h"
 #include "wrapped/rpd.h"
+#include "wrapped/sigerr.h"
 #include "wrapped/str2et.h"
 #include "wrapped/spd.h"
 #include "wrapped/sphrec.h"
@@ -130,6 +134,7 @@ Napi::Object Init(Napi::Env env, Napi::Object exports) {
   exports.Set("etcal",  Napi::Function::New(env, etcal));
   exports.Set("eul2m",  Napi::Function::New(env, eul2m));
   exports.Set("evsgp4", Napi::Function::New(env, evsgp4));
+  exports.Set("failed", Napi::Function::New(env, failed));
   exports.Set("furnsh", Napi::Function::New(env, furnsh));
   exports.Set("georec", Napi::Function::New(env, georec));
   exports.Set("getelm", Napi::Function::New(env, getelm));
@@ -143,6 +148,7 @@ Napi::Object Init(Napi::Env env, Napi::Object exports) {
   exports.Set("j2000",  Napi::Function::New(env, j2000));
   exports.Set("j2100",  Napi::Function::New(env, j2100));
   exports.Set("jyear",  Napi::Function::New(env, jyear));
+  exports.Set("kclear", Napi::Function::New(env, kclear));
   exports.Set("latrec", Napi::Function::New(env, latrec));
   exports.Set("m2eul",  Napi::Function::New(env, m2eul));
   exports.Set("m2q",    Napi::Function::New(env, m2q));
@@ -175,10 +181,12 @@ Napi::Object Init(Napi::Env env, Napi::Object exports) {
   exports.Set("recpgr", Napi::Function::New(env, recpgr));
   exports.Set("recrad", Napi::Function::New(env, recrad));
   exports.Set("recsph", Napi::Function::New(env, recsph));
+  exports.Set("reset",  Napi::Function::New(env, reset));
   exports.Set("rotate", Napi::Function::New(env, rotate));
   exports.Set("rpd",    Napi::Function::New(env, rpd));
   exports.Set("str2et", Napi::Function::New(env, str2et));
   exports.Set("spd",    Napi::Function::New(env, spd));
+  exports.Set("sigerr", Napi::Function::New(env, sigerr));
   exports.Set("sphrec", Napi::Function::New(env, sphrec));
   exports.Set("spkcls", Napi::Function::New(env, spkcls));
   exports.Set("spkcpo", Napi::Function::New(env, spkcpo));
