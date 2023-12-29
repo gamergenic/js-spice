@@ -110,7 +110,7 @@ Unpacker& Unpacker::_unpackquat(SpiceDouble (&quat)[4], std::string name) {
 
     // Check for all required properties
     std::vector<std::string> properties = {"w", "x", "y", "z"};
-    for (int i = 0; i < properties.size(); ++i) {
+    for (size_t i = 0; i < properties.size(); ++i) {
         if (!inObject.HasOwnProperty(properties[i]) || !inObject.Get(properties[i]).IsNumber()) {
             return errorOut();
         }
@@ -302,7 +302,7 @@ Unpacker& Unpacker::_unpackelts(SpiceDouble (&elts)[size], std::string (&members
             isValid = false;
             break;
         }
-        auto memberValue = inObject.Get(members[i]);
+        Napi::Value memberValue = inObject.Get(members[i]);
         if (!memberValue.IsNumber()) {
             isValid = false;
             break;
