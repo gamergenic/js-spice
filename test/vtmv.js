@@ -7,7 +7,7 @@ describe('vtmv', function() {
 a 3x3 matrix, and a 3-dimensional column vector.',
    function() {
 
-    const v1 = [2, 4, 6];;
+    const v1 = [2, 4, 6];
     const matrix = [[ 0, 1, 0],
                     [-1, 0, 0],
                     [ 0, 0, 1]];
