@@ -11,7 +11,7 @@ async function getKernels(kernelsToLoad) {
       });
   
       await Promise.all(operations);
-      console.log("done loading kernels");
+      // console.log("done loading kernels");
   }
   await loadAndProcessFiles(kernelsToLoad);
 }

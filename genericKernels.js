@@ -32,7 +32,7 @@ async function getGenericKernel(urlRelative, dirRelative) {
     // Check if the file already exists
     try {
       await fsPromises.access(filePath);
-      console.log(`File ${resolvedFilePath} already exists, skipping download.`);
+      // console.log(`File ${resolvedFilePath} already exists, skipping download.`);
       return resolvedFilePath;
     } catch {
       // File does not exist, proceed with download
