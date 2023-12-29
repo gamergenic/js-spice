@@ -20,7 +20,9 @@ npm install js-spice
 
 However, it's not currently registered.  So, that won't work.  You can add it as a submodule linked to the github location.  See "Adding js-spice as a git submodule to a host app" below.  That'll work.
 
-Currently, you'll need to let node-gyp build binaries for your platform as pre-built binaries are not hosted anywhere.  After it builds, you should run `npm test` and verify the existing tests all passed.
+Currently, you'll need to let node-gyp build binaries for your platform as pre-built binaries are not hosted anywhere.  After it builds, you should run `npm test` to validate the build.  
+
+Note that certain tests require SPICE kernel data files which will be downloaded to the test/data directory on first execution.  The tests will fail until the kernel files are emplaced but should succeed thereafter.
 
 
 ## Usage

@@ -1,6 +1,5 @@
 const expect = require('chai').expect;
 const { spice } = require('..');
-const expectAlmostEqual = require('./utility/expectAlmostEqual');
 
 describe('b1950', function() {
   it('should return the Julian Date corresponding to Besselian Date 1950.0.',

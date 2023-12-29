@@ -3,7 +3,7 @@ const { spice } = require('..');
 
 describe('prop2b', function() {
     // from https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/prop2b_c.html
-    it('should Compute the state of a massless body at time t_0 + dt by applying \
+    it('should compute the state of a massless body at time t_0 + dt by applying \
 the two-body force model to a given central mass and a given body \
 state at time t_0.', function() {
         const mu = 3.9860043543609598e5;
@@ -15,8 +15,7 @@ state at time t_0.', function() {
             "r": [0, r/Math.sqrt(2), r/Math.sqrt(2)],
             "v": [0, -speed/Math.sqrt(2), speed/Math.sqrt(2)]
         };
-        const dt = 0;
-    
+        
         let actual = spice.prop2b(mu, pvinit, t);
     
         let expected = {
