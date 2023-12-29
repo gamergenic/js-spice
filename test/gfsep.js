@@ -1,30 +1,13 @@
 const expect = require('chai').expect;
 const { spice, genericKernels } = require('..');
+const getKernels = require('./utility/getKernels');
 
-
-async function getKernels() {
-
-  const kernelsToLoad = [
-      'spk/planets/a_old_versions/de421.bsp',
-      'pck/a_old_versions/pck00009.tpc',
-      'lsk/a_old_versions/naif0009.tls',
-  ];
-
-
-  async function loadAndProcessFiles(files) {
-      const operations = files.map(file => {
-          return genericKernels.getGenericKernel(file, `test/data/naif/generic_kernels/${file}`).then(kernel => {
-              spice.furnsh(kernel);
-          });
-      });
-  
-      await Promise.all(operations);
-      console.log("done loading kernels");
-  }
-  await loadAndProcessFiles(kernelsToLoad);
-}
-
-getKernels();
+const kernelsToLoad = [
+  'spk/planets/a_old_versions/de421.bsp',
+  'pck/a_old_versions/pck00009.tpc',
+  'lsk/a_old_versions/naif0009.tls',
+];
+getKernels(kernelsToLoad);
 
 describe('gfsep', function() {
   it('Determine time intervals when the angular separation between \
