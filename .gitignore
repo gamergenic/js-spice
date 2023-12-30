@@ -158,3 +158,4 @@ js-spice.njsproj.user
 obj/**
 src/boneyard/**
 .vscode/settings.json
+lib/**

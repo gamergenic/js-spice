@@ -32,7 +32,13 @@
 // an issue in this wrapper and not the toolkit it wraps.
 // All that said, go build something awesome with it! :-D.
 
-const spice = require('./build/Release/js-spice');
+//const spice = require('./build/Release/js_spice');
+
+var binary = require('@mapbox/node-pre-gyp');
+var path = require('path');
+var binding_path = binary.find(path.resolve(path.join(__dirname,'./package.json')));
+var spice = require(binding_path);
+
 const cacheGenericKernel = require('./js/cacheGenericKernel');
 const getGeophysicalConstants = require('./js/getGeophysicalConstants');
 const getKernels = require('./js/getKernels');

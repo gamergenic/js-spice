@@ -11,7 +11,7 @@
   },
   "targets": [
     {
-      "target_name": "js-spice",
+      "target_name": "js_spice",
       "sources": [ 
         "src/source/js-spice.cpp",
         "src/source/utility/err.cpp",
@@ -187,6 +187,17 @@
         }],
 
 
+      ]
+    },
+    {
+      "target_name": "action_after_build",
+      "type": "none",
+      "dependencies": [ "<(module_name)" ],
+      "copies": [
+        {
+          "files": [ "<(PRODUCT_DIR)/<(module_name).node" ],
+          "destination": "<(module_path)"
+        }
       ]
     }
   ]
