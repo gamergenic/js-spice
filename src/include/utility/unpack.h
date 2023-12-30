@@ -44,7 +44,7 @@ public:
     Unpacker& getarray(Napi::Array& array, std::string name = "") { if(!isErred) { return _getarray(array, name); } return *this; }
     Unpacker& windows(std::vector<std::pair<SpiceDouble, SpiceDouble>>& cnfine_vector, SpiceDouble& totalWindow, std::string name = "cnfine") { if(!isErred) { return _windows(cnfine_vector, totalWindow, name); } return *this; }
     Unpacker& eul(SpiceDouble& angle3, SpiceDouble& angle2, SpiceDouble& angle1, SpiceInt& axis3, SpiceInt& axis2, SpiceInt& axis1)
-        { if(!isErred) { return _unpackeulers(angle3, angle2, angle1, axis2, axis2, axis1); } return *this; }
+        { if(!isErred) { return _unpackeulers(angle3, angle2, angle1, axis3, axis2, axis1); } return *this; }
     
     template<typename T>
     Unpacker& punt(T callback, bool ignoreMissing = false){
