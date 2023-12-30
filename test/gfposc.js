@@ -5,7 +5,7 @@ describe('gfposc', function() {
 
     // Allow extra time as this is a computationally expensive operation.
     // Plus, we may need to download a number of kernels to run the test.
-    this.timeout(10000);
+    this.timeout(60000);
 
     it('should determine time intervals for which a coordinate of an \
 observer-target position vector satisfies a numerical constraint.',

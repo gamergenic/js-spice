@@ -12,7 +12,9 @@ Please note that js-spice is currently under active development. It has not been
 
 `js-spice` is still in the development phase and has not yet been officially released on npm. To integrate it into your project, you can't currently use the standard npm installation command. Instead, you can include it by linking directly to the GitHub repository as a git submodule. Detailed instructions for this process can be found in the section "Adding js-spice as a git submodule to a host app."
 
-After adding `js-spice` to your project, you'll need to compile the necessary binaries using `node-gyp`, as pre-compiled binaries are not available. This step ensures the module is tailored to your specific platform. Once the build process is complete, it's important to run npm test to verify the build's integrity.
+
+### Testing
+`js-spice` can be tested to verify the build's integrity by navigating to the project's directory and executing `npm test`.
 
 Keep in mind that some tests require SPICE kernel data files, which are automatically downloaded to the test/data directory upon the first test run.
 
