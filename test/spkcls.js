@@ -27,7 +27,7 @@ describe('spkcls', function() {
 
         let handle = spice.spkopn(testFilePath, 'test_spkcls', 80);
         
-        spice.spkw05(handle, -12345, 399, "J2000", 0, spice.spd(), "foo", mu, samples);
+        spice.spkw05(handle, -23456, 399, "J2000", 0, spice.spd(), "foo", mu, samples);
         
         spice.spkcls(handle);
 
@@ -39,7 +39,7 @@ describe('spkcls', function() {
         }        
 
         function spkw05(){
-            spice.spkw05(handle, -12345, 399, "J2000", spice.spd(), 2 * spice.spd(), "bar", mu, samples);
+            spice.spkw05(handle, -23456, 399, "J2000", spice.spd(), 2 * spice.spd(), "bar", mu, samples);
         }
 
         expect(spkw05).to.throw();

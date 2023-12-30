@@ -27,7 +27,7 @@ describe('spkopn', function() {
         let handle = spice.spkopn(testFilePath, 'test_spkopn', 80);
         
         function spkw05(){
-            spice.spkw05(handle, -12345, 399, "J2000", 0, spice.spd(), "foo", mu, samples);
+            spice.spkw05(handle, -45678, 399, "J2000", 0, spice.spd(), "foo", mu, samples);
         }
         expect(spkw05).to.not.throw();
                
