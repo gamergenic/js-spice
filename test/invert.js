@@ -9,11 +9,7 @@ describe('invert', function() {
                 [0.5, 0,  0],
                 [0,   0,  1] ];
 
-    console.log(JSON.stringify(m));
-
     const actual = spice.invert(m);
-
-    console.log(JSON.stringify(actual));
 
     const expected = [  [ 0, 2,  0],
                         [-1, 0,  0],
