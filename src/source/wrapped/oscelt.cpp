@@ -15,7 +15,7 @@ Napi::Value oscelt(const Napi::CallbackInfo& info) {
 
     SpiceDouble state[6], et, mu;
     if(
-      Unpack("conics", info)
+      Unpack("oscelt", info)
       .state(state)
       .et(et)
       .d(mu, "mu")
