@@ -136,7 +136,6 @@ Euler Angles
 }
 ```
 
-
 Functions will throw an error when they are unable to decipher input.  The error thrown will explain the expected type for the first incorrect argument detected.
 In some places inputs can be provided in multiple formats but outputs formats for a given type are intended to remain consistent.  For example `spice.recazl` will *accept* `([x,y,z])`, `("x":x, "y":y, "z":z)`, or `(x, y, z)` while `spice.azlrec` will only *output* `[x,y,z]`.
 
@@ -144,42 +143,31 @@ In some places inputs can be provided in multiple formats but outputs formats fo
 
 Note:  Example usages of js-spice wrappers can be found in the test directory, which is organized by function name.
 
-# pi
-    console.log(spice.pi());
+##### axisar
 
-# halfpi
-    console.log(spice.halfpi());
-    console.log(spice.twopi());
+##### azlrec
+    console.log(spice.azlrec({"range" : 10000, "az" : 2, "el" : -1}, true, true));
 
-# twopi
+##### b1900
 
-# bodvrd
+##### b1950
+
+##### bodvrd
     console.log(spice.bodvrd("earth", "GM"));
     console.log(spice.bodvrd("earth", "RADII"));
 
-# convrt
+##### clight
+
+##### conics
+
+##### convrt
     console.log(spice.convrt(1, "FEET", "INCHES"));
     console.log(spice.convrt([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10], "YARDS", "FEET"));
 
-# azlrec
-    console.log(spice.azlrec({"range" : 10000, "az" : 2, "el" : -1}, true, true));
-
-# cylrec
+##### cylrec
     console.log(spice.cylrec({"r" : 10000, "clon" : 2, "z" : -100 }));
 
-# georec
-    console.log(spice.georec({"lon" : 1, "lat" : -1, "alt" : 1000 }, 10000, 0));
-
-# latrec
-    console.log(spice.latrec({"radius" : 10000, "lon" : 2, "lat" : -1 }));
-
-# sphrec
-    console.log(spice.sphrec({"r" : 10000, "colat" : 2, "slon" : -1 }));
-
-# pgrrec
-    console.log(spice.pgrrec("earth", {"lon" : 1, "lat" : -1, "alt" : 10000 }, 6000, 0));
-
-##### erract
+    ##### erract
 
 ###### Usage
 ```js
@@ -203,6 +191,31 @@ const spice = require('js-spice');
 spice.errprt('set', 'short');
 ```
 
+##### evpsg4
+
+https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/getelm_c.html
+
+###### Usage
+
+```js
+const {spice, geophysical} = require('js-spice');
+
+const tles = [
+        "1 43908U 18111AJ  20146.60805006  .00000806  00000-0  34965-4 0  9999",
+        "2 43908  97.2676  47.2136 0020001 220.6050 139.3698 15.24999521 78544"
+    ];
+// use spice to parse the tle data into useable form (epoch and elements are returned as 'epoch' and 'elems')
+const getelm_result = spice.getelm(1957, tles);
+const elems = getelm_result.elems;
+
+// download https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/geophysical.ker if necessary and furnsh it
+const geophs = await geophysical.getGeophysicalConstants(true);
+
+const stateVector = spice.evsgp4(spice.str2et('2020-05-26 02:25:00'), geophs, elems);
+
+console.log(JSON.stringify(stateVector));
+```
+
 ##### furnsh
 
 ###### Usage
@@ -210,7 +223,6 @@ spice.errprt('set', 'short');
 const spice = require('js-spice');
 spice.furnsh("C:\\naif\\kernels\\Generic\\LSK\\latest_leapseconds.tls");
 ```
-
 
 ##### gfposc
 
@@ -328,44 +340,29 @@ https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/req/gf.html#Natural%20satellit
     }
 ```
 
-##### evpsg4
 
-https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/getelm_c.html
+##### georec
+    console.log(spice.georec({"lon" : 1, "lat" : -1, "alt" : 1000 }, 10000, 0));
 
-###### Usage
+##### latrec
+    console.log(spice.latrec({"radius" : 10000, "lon" : 2, "lat" : -1 }));
 
-```js
-const {spice, geophysical} = require('js-spice');
+##### halfpi
+    console.log(spice.halfpi());
+    console.log(spice.twopi());
 
-const tles = [
-        "1 43908U 18111AJ  20146.60805006  .00000806  00000-0  34965-4 0  9999",
-        "2 43908  97.2676  47.2136 0020001 220.6050 139.3698 15.24999521 78544"
-    ];
-// use spice to parse the tle data into useable form (epoch and elements are returned as 'epoch' and 'elems')
-const getelm_result = spice.getelm(1957, tles);
-const elems = getelm_result.elems;
+##### pgrrec
+    console.log(spice.pgrrec("earth", {"lon" : 1, "lat" : -1, "alt" : 10000 }, 6000, 0));
 
-// download https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/geophysical.ker if necessary and furnsh it
-const geophs = await geophysical.getGeophysicalConstants(true);
+##### pi
+    console.log(spice.pi());
 
-const stateVector = spice.evsgp4(spice.str2et('2020-05-26 02:25:00'), geophs, elems);
 
-console.log(JSON.stringify(stateVector));
-```
+##### sphrec
+    console.log(spice.sphrec({"r" : 10000, "colat" : 2, "slon" : -1 }));
 
-##### unload
-###### Usage
-```js
-const spice = require('js-spice');
-spice.unload("C:\\naif\\kernels\\Generic\\LSK\\latest_leapseconds.tls");
-```
+##### twopi
 
-##### str2et
-###### Usage
-```js
-const spice = require('js-spice');
-spice.unload("C:\\naif\\kernels\\Generic\\LSK\\latest_leapseconds.tls");
-```
 
 ##### spkezr
 https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/spkezr_c.html
@@ -432,6 +429,13 @@ spice.spkw05(handle, 20580, 399, "J2000", first_et, last_et, "foo", gm, samples)
 spice.spkcls(handle);
 ```
 
+##### str2et
+###### Usage
+```js
+const spice = require('js-spice');
+spice.unload("C:\\naif\\kernels\\Generic\\LSK\\latest_leapseconds.tls");
+```
+
 ##### timout
 
 ###### Usage
@@ -439,6 +443,12 @@ spice.spkcls(handle);
 console.log(spice.timout(now(), 'MON DD,YYYY  HR:MN:SC.#### (TDB) ::TDB'));
 ```
 
+##### unload
+###### Usage
+```js
+const spice = require('js-spice');
+spice.unload("C:\\naif\\kernels\\Generic\\LSK\\latest_leapseconds.tls");
+```
 
 ### Adding js-spice as a git submodule to a host app
 
