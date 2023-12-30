@@ -335,6 +335,39 @@ Unpacker& Unpacker::_unpackelems(SpiceDouble (&elems)[10]){
     return _unpackelts(elems, members, "elems");
 }
 
+Unpacker& Unpacker::_unpackeulers(SpiceDouble& angle3, SpiceDouble& angle2, SpiceDouble& angle1, SpiceInt& axis3, SpiceInt& axis2, SpiceInt& axis1){
+    Napi::Env env = info.Env();
+    Napi::HandleScope scope(env);
+
+    auto errorOut = [&]() -> Unpacker& {
+        std::stringstream argName;
+        argName << "object {\"angle3\":a, \"angle2\":b, \"angle1\":c, \"axis3\":e, \"axis2\":e, \"axis1\":f }";
+        return typeError(argName.str(), name);
+    };
+
+    if (remaining() <= 0 || !next().IsObject()) return errorOut();
+    
+    Napi::Object inObject = next().As<Napi::Object>();
+
+    std::vector<std::string> properties = {"angle3", "angle2", "angle1", "axis3", "axis2", "axis1"};
+    Napi::Number values[6];
+    for (size_t i = 0; i < properties.size(); ++i) {
+        if (!inObject.HasOwnProperty(properties[i]) || !inObject.Get(properties[i]).IsNumber()) {
+            return errorOut();
+        }
+        values[i] = inObject.Get(properties[i]).As<Napi::Number>();
+    }
+
+    angle3 = values[0].DoubleValue();
+    angle2 = values[1].DoubleValue();
+    angle1 = values[2].DoubleValue();
+    axis3  = values[3].Int32Value();
+    axis2  = values[4].Int32Value();
+    axis1  = values[5].Int32Value();
+
+    return advance();
+}
+
 
 Unpacker& Unpacker::_unpackstate(SpiceDouble (&state)[6], std::string name) {
     Napi::Env env = info.Env();

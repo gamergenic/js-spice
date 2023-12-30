@@ -234,6 +234,7 @@ public:
     NElts elms(ConstSpiceDouble (&elms)[10]);
     NElts geophs(ConstSpiceDouble (&elms)[8]);
     NArrayWindows windows(const std::vector<std::pair<double,double>>& cnfine);
+    NObject eul(SpiceDouble angle3, SpiceDouble angle2, SpiceDouble angle1, SpiceInt axis3, SpiceInt axis2, SpiceInt axis1);
 private:
     Napi::Env env;
 };

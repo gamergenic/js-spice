@@ -109,6 +109,19 @@ NObject Packer::q(ConstSpiceDouble (&q)[4]){
     return result;
 }
 
+NObject Packer::eul(SpiceDouble angle3, SpiceDouble angle2, SpiceDouble angle1, SpiceInt axis3, SpiceInt axis2, SpiceInt axis1){
+    NObject result(env);
+
+    result.obj().Set("angle3", angle3);
+    result.obj().Set("angle2", angle2);
+    result.obj().Set("angle1", angle1);
+    result.obj().Set("axis3",  axis3);
+    result.obj().Set("axis2",  axis2);
+    result.obj().Set("axis1",  axis1);
+
+    return result;
+}
+
 NDouble Packer::et(SpiceDouble et){
     return NDouble(env, et);
 }

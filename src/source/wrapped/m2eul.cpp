@@ -31,5 +31,8 @@ Napi::Value m2eul(const Napi::CallbackInfo& info) {
     // https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/m2eul_c.html
     m2eul_c(r, axis3, axis2, axis1, &angle3, &angle2, &angle1);
 
-    return Pack(info).d(angle3).as("angle3").with(angle2, "angle2").with(angle1, "angle1").check(); 
+    return Pack(info)
+              // to make it unambiguous we'll need the axes, too.
+              .eul(angle3, angle2, angle1, axis3, axis2, axis1)
+              .check(); 
 }

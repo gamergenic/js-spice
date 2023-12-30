@@ -122,6 +122,18 @@ Where m00...m22 are double-precision numeric values.
 Planes  
 `{"normal": [x, y, z], "constant": c}`  
 
+Euler Angles  
+```js
+{
+    "angle3": angle3,
+    "angle2": angle2,
+    "angle1": angle1,
+    "axis3":  axis3,
+    "axis2":  axis2,
+    "axis1":  axis1
+}
+```
+
 
 Functions will throw an error when they are unable to decipher input.  The error thrown will explain the expected type for the first incorrect argument detected.
 In some places inputs can be provided in multiple formats but outputs formats for a given type are intended to remain consistent.  For example `spice.recazl` will *accept* `([x,y,z])`, `("x":x, "y":y, "z":z)`, or `(x, y, z)` while `spice.azlrec` will only *output* `[x,y,z]`.

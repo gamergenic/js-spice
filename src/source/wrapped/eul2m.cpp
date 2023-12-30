@@ -17,12 +17,7 @@ Napi::Value eul2m(const Napi::CallbackInfo& info) {
     SpiceInt axis3, axis2, axis1;
     if(
       Unpack("eul2m", info)
-      .d(angle3, "angle3")
-      .d(angle2, "angle2")
-      .d(angle1, "angle1")
-      .i(axis3, "axis3")
-      .i(axis2, "axis2")
-      .i(axis1, "axis1")
+      .eul(angle3, angle2, angle1, axis3, axis2, axis1)
       .check( [=](const std::string& error) {
             Napi::TypeError::New(env, error).ThrowAsJavaScriptException();
         })){
