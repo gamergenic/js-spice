@@ -17,7 +17,7 @@ Napi::Value spkobj(const Napi::CallbackInfo& info) {
     std::string spkfnm;
     if(
       Unpack("spkobj", info)
-      .str(spkfnm, "spkobj")
+      .str(spkfnm, "spkfnm")
       .check( [=](const std::string& error) {
             Napi::TypeError::New(env, error).ThrowAsJavaScriptException();
         })){

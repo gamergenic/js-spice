@@ -34,5 +34,5 @@ Napi::Value spkpos(const Napi::CallbackInfo& info) {
     // https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/spkpos_c.html
     spkpos_c(targ.c_str(), et, ref.c_str(), abcorr.c_str(), obs.c_str(), ptarg, &lt);
 
-    return Pack(info).rec(ptarg).as("ptarg").with(lt, "lt").check();
+    return Pack(info).rec(ptarg).as("pos").with(lt, "lt").check();
 }

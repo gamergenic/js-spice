@@ -34,5 +34,5 @@ Napi::Value spkgeo(const Napi::CallbackInfo& info) {
     // https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/spkgeo_c.html
     spkgeo_c(targ, et, ref.c_str(), obs, state, &lt);
 
-    return Pack(info).state(state).as("starg").with(lt, "lt").check();
+    return Pack(info).state(state).as("state").with(lt, "lt").check();
 }

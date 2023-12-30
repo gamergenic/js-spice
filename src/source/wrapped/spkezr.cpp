@@ -34,5 +34,5 @@ Napi::Value spkezr(const Napi::CallbackInfo& info) {
     // https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/spkpos_c.html
     spkezr_c(targ.c_str(), et, ref.c_str(), abcorr.c_str(), obs.c_str(), starg, &lt);
 
-    return Pack(info).state(starg).as("starg").with(lt, "lt").check();
+    return Pack(info).state(starg).as("state").with(lt, "lt").check();
 }

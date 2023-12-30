@@ -370,7 +370,7 @@ https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/spkezr_c.html
 ###### Usage
 ```js
 // init js-spice, load kernels
-let result = spice.spkezr('moon', new spice.EphemerisTime('Dec 17, 2023, 14:10:00'), 'J2000', 'NONE', 'earth');
+let result = spice.spkezr('moon', spice.str2et("2023 DEC 30"), 'J2000', 'NONE', 'earth');
 console.log(result.toString());
 ```
 
@@ -378,7 +378,7 @@ console.log(result.toString());
 ###### Usage
 ```js
 // init js-spice, load kernels
-let result = spice.spkpos('moon', new spice.EphemerisTime('Dec 17, 2023, 14:10:00'), 'J2000', 'NONE', 'earth');
+let result = spice.spkpos('moon', spice.str2et("2023 DEC 30"), 'J2000', 'NONE', 'earth');
 ```
 
 ##### spkgps
