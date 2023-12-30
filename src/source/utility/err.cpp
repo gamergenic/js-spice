@@ -16,7 +16,7 @@ bool ErrorCheck(Napi::Env env)
         char szBuffer[SpiceLongMessageMaxLength];
 
         szBuffer[0] = '\0';
-        getmsg_c("EXPLAIN", sizeof(szBuffer), szBuffer);
+        getmsg_c("DEFAULT", sizeof(szBuffer), szBuffer);
 
         if (!strnlen(szBuffer, sizeof(szBuffer)))
         {
