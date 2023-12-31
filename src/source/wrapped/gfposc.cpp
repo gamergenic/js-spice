@@ -19,7 +19,7 @@ Napi::Value gfposc(const Napi::CallbackInfo& info) {
     std::vector<std::pair<SpiceDouble, SpiceDouble>> cnfine_array;
     SpiceInt nintvls = 0;
     if(
-      Unpack("spkpos", info)
+      Unpack("gfposc", info)
       .str(target, "target")
       .str(frame, "frame")
       .str(abcorr, "abcorr")

@@ -612,40 +612,217 @@ Returns a 3x3 rotation matrix constructed from the specified Euler angles.
 - Throws an error if incorrect arguments are provided.
 
 
-##### evpsg4
+## `evsgp4` Function Documentation
 
-https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/getelm_c.html
+### Functionality
+The `evsgp4` function evaluates NORAD two-line element data for Earth-orbiting spacecraft, computing position and velocity of the spacecraft at a specified ephemeris time.
 
-###### Usage
+### Usage Example
+```javascript
+const { spice, getGeophysicalConstants } = require('js-spice');
 
-```js
-const {spice, geophysical} = require('js-spice');
+const geophs = await getGeophysicalConstants(true, 'pck/geophysical.ker', 'kennel_cache/naif/generic_kernels');
 
-const tles = [
-        "1 43908U 18111AJ  20146.60805006  .00000806  00000-0  34965-4 0  9999",
-        "2 43908  97.2676  47.2136 0020001 220.6050 139.3698 15.24999521 78544"
-    ];
-// use spice to parse the tle data into useable form (epoch and elements are returned as 'epoch' and 'elems')
-const getelm_result = spice.getelm(1957, tles);
-const elems = getelm_result.elems;
+const et = spice.str2et('2020-05-26 02:25:00');
+const tle = [
+    '1 43908U 18111AJ  20146.60805006  .00000806  00000-0  34965-4 0  9999',
+    '2 43908  97.2676  47.2136 0020001 220.6050 139.3698 15.24999521 78544'
+];
+const { elems } = spice.getelm(1957, tle);
 
-// download https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/geophysical.ker if necessary and furnsh it
-const geophs = await geophysical.getGeophysicalConstants(true);
+const state = spice.evsgp4(et, geophs, elems);
 
-const stateVector = spice.evsgp4(spice.str2et('2020-05-26 02:25:00'), geophs, elems);
-
-console.log(JSON.stringify(stateVector));
+// where is it a day later?
+const {r, v} = spice.evsgp4(et + spice.spd(), geophs, elems);
 ```
 
-##### furnsh
+### Parameters
+- `et`: The ephemeris time at which the state is to be computed.
+- `geophs`: An array of geophysical constants.  see
+- `elems`: An array of elements from the NORAD two-line elements.
 
-###### Usage
-```js
-const spice = require('js-spice');
-spice.furnsh("C:\\naif\\kernels\\Generic\\LSK\\latest_leapseconds.tls");
+### Return Value
+Returns an object containing the state (position 'r' and velocity 'v') of the spacecraft.
+
+### Error Handling
+- Throws an error if incorrect arguments are provided.
+
+
+## `failed` Function Documentation
+
+### Functionality
+The `failed` function checks if an error is currently signaled in the CSPICE system.  Note that js-spice wrapped functions, reset the error status before throwing an exception.
+
+### Usage Examples
+
+**Check for No Error:**
+```javascript
+spice.reset();
+const failed = spice.failed();
+// failed will be false
 ```
 
-##### gfposc
+**Check for Signaled Error:**
+```javascript
+spice.sigerr('Houston, we have a problem.');
+const failed = spice.failed();
+// failed will be true
+
+spice.reset(/*Failure is not an option*/);
+```
+
+### Return Value
+Returns a boolean value: `true` if an error is currently signaled, `false` otherwise.
+
+### Notes
+- This function wraps the NAIF SPICE `failed_c` function.
+- No input parameters are required.
+- Does not throw an error.
+
+
+## `furnsh` Function Documentation
+
+### Functionality
+The `furnsh` function furnishes a program with SPICE kernels. It is used to load one or more SPICE kernel files into a program.
+
+### Usage Examples
+
+**Load a Single Kernel File:**
+```javascript
+const singleFilePathStr = './test/data/naif/generic_kernels/pck00009.tpc';
+spice.furnsh(singleFilePathStr);
+```
+
+**Load Multiple Kernel Files:**
+```javascript
+const pathsArray = ['./path/to/kernel1', './path/to/kernel2'];
+spice.furnsh(pathsArray);
+```
+
+**Error Handling Example:**
+```javascript
+spice.furnsh("badpath");
+// the next line will never execute (unless you have a kernel named 'badpath', but you don't.)
+```
+
+### Parameters
+- Can be a single string specifying the path to a kernel file, or an array of strings specifying multiple paths.
+
+### Return Value
+Does not return a value. Kernels are loaded into the program's internal data space.
+
+### Error Handling
+- Throws an error if a kernel file cannot be found or if the input is not a string or an array of strings.
+
+
+## `georec` Function Documentation
+
+### Functionality
+The `georec` function converts geodetic coordinates (longitude, latitude, altitude) to rectangular coordinates.
+
+### Usage Example
+```javascript
+const radius = 6378.2064;
+const f = 1. / 294.9787;
+const pi = 3.1415926536;
+const rpd = pi / 180;
+const geo = {"lon": 90.0 * rpd, "lat": 0, "alt": 0};
+
+const rec = spice.georec(geo, radius, f);
+```
+
+### Parameters
+- `lon`, `lat`, `alt`: Longitude, latitude, and altitude in the geodetic coordinate system.
+- `re`: The equatorial radius of the reference spheroid in kilometers.
+- `f`: The flattening coefficient of the reference spheroid.
+
+### Return Value
+Returns an array representing the rectangular coordinates corresponding to the input geodetic coordinates.
+
+### Error Handling
+- Throws an error if incorrect arguments are provided.
+
+## `getelm` Function Documentation
+
+### Functionality
+The `getelm` function evaluates NORAD two-line element data for Earth-orbiting spacecraft, extracting orbital elements from the two-line element set.
+
+### Usage Example
+```javascript
+const tle = [
+    '1 43908U 18111AJ  20146.60805006  .00000806  00000-0  34965-4 0  9999',
+    '2 43908  97.2676  47.2136 0020001 220.6050 139.3698 15.24999521 78544'
+];
+const {elems} = spice.getelm(1957, tle);
+```
+
+### Parameters
+- `frstyr`: The first two digits of the year corresponding to the earliest representable two-line elements.
+- `tle`: An array containing the two lines of NORAD two-line element data as strings.
+
+### Return Value
+Returns an object containing 'elems', the extracted orbital elements and the epoch of the elements and 'epoch'.  This if of the form:
+
+```javascript
+{
+    elems: 
+    {
+        "ndt20": 2.4422489185892878e-11,
+        "ndd60": 0,
+        "bstar": 0.000034965,
+        "incl":  1.6976398755128366,
+        "node0": 0.8240327717195948,
+        "ecc":   0.0020001,
+        "omega": 3.8502835963620905,
+        "m0":    2.432461887845993,
+        "n0":    0.06654065683196603,
+        "epoch": 643689404.7102276
+    },
+    epoch: 643689404.7102276
+}
+```
+
+### Error Handling
+- Throws an error if incorrect arguments are provided.
+
+## `gfposc` Function Documentation
+
+### Functionality
+The `gfposc` function determines time intervals for which a coordinate of an observer-target position vector satisfies a numerical constraint, typically used for visibility or occultation events.
+
+### Usage Example
+```javascript
+const et0 = spice.str2et("2009 JAN 1");
+const et1 = spice.str2et("2009 JAN 5");
+const cnfine = [[et0, et1]];
+const obsrvr = "DSS-14";
+const target = "SATURN";
+const frame  = "DSS-14_TOPO";
+const crdsys = "LATITUDINAL";
+const coord  = "LATITUDE";
+const relate = ">";
+const refval = 6.0 * spice.rpd();
+const abcorr = "LT+S";
+const step   = spice.spd() / 4;
+const adjust = 0.0;
+
+const actual = spice.gfposc(target, frame, abcorr, obsrvr, crdsys, coord, relate, refval, adjust, step, cnfine);
+```
+
+### Parameters
+- `target`, `frame`, `abcorr`, `obsrvr`: Target, frame, aberration correction, and observer names.
+- `crdsys`, `coord`: Coordinate system and coordinate name.
+- `relate`: Relational operator ('<', '>', '=', '>=', '<=', '!=').
+- `refval`: Reference value for the constraint.
+- `adjust`: Adjustment value for absolute extremal searches.
+- `step`: Step size in seconds for the search.
+- `cnfine`: Confinement window for the search.
+
+### Return Value
+Returns an array of time windows when the specified constraint is satisfied.
+
+### Error Handling
+- Throws an error if incorrect arguments are provided.
 
 ###### example
 
@@ -760,6 +937,54 @@ https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/req/gf.html#Natural%20satellit
         console.error(error);
     }
 ```
+
+## `gfsep` Function Documentation
+
+### Functionality
+The `gfsep` function determines time intervals when the angular separation between the position vectors of two target bodies relative to an observer satisfies a numerical relationship. It is commonly used to find events like conjunctions and oppositions.
+
+### Usage Example
+```javascript
+const targ1 = "MOON";
+const shape1 = "SPHERE";
+const frame1 = "NULL";
+const targ2 = "EARTH";
+const shape2 = "SPHERE";
+const frame2 = "NULL";
+const abcorr = "NONE";
+const obsrvr = "SUN";
+const relate = "LOCMAX";
+const step   = 6. * spice.spd();
+const adjust = 0;
+const refval = 0;
+
+const et1 = spice.str2et("2007 JAN 01");
+const et2 = spice.str2et("2007 JUL 01");
+const cnfine = [[et1, et2]];
+
+const timeWindows = spice.gfsep(
+    targ1, shape1, frame1, targ2, shape2, frame2, abcorr, obsrvr, relate, refval, adjust, step, cnfine);
+```
+
+### Parameters
+- `targ1`, `shape1`, `frame1`: The first target, its shape, and frame.
+- `targ2`, `shape2`, `frame2`: The second target, its shape, and frame.
+- `abcorr`, `obsrvr`: Aberration correction and the observer's name.
+- `relate`: The relational condition for the search ('=', '!=', '<', '>', '<=', '>=', 'LOCMAX', 'LOCMIN', 'ABSMAX', 'ABSMIN').
+- `refval`, `adjust`, `step`: Reference value, adjustment value for absolute extremal searches, and the search step size.
+- `cnfine`: The confinement window for the search.
+
+### Return Value
+Returns an array of time windows when the specified condition is satisfied.
+
+### Error Handling
+- Throws an error if incorrect arguments are provided.
+
+
+
+
+
+
 
 
 ##### georec
