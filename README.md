@@ -195,6 +195,10 @@ const rpd = pi / 180;
 const azl = {"range": 1.732, "az": 315 * rpd, "el": -35.264 * rpd};
 
 const rec = spice.azlrec(azl, false, false);
+
+const x = rec[0];
+const y = rec[1];
+const z = rec[2];
 ```
 
 **Azimuth Counter-Clockwise, Elevation Positive-Z:**
@@ -320,7 +324,14 @@ const oscelts = {
     "mu": 398600.435436096
 };
 const et = 0;
+
 let state_at_et = spice.conics(oscelts, et);
+
+// position as an [x, y, z] array
+let r = state_at_et.r;
+
+// velocity as a [dx, dy, dz] array
+let v = state_at_et.v;
 ```
 
 ### Parameters
@@ -417,6 +428,8 @@ The `cylrec` function converts coordinates from cylindrical to rectangular repre
 const pi = 3.1415926536;
 const rpd = pi / 180;
 const cyl = {"r": 1.4142, "clon": 45.0 * rpd, "z": 1.0};
+
+// get rectangular coordinates as [x, y, z] array
 const rec = spice.cylrec(cyl);
 ```
 
@@ -594,16 +607,18 @@ const axis3 = 1;
 const axis2 = 2;
 const axis1 = 3;
 
-const rotationMatrix = spice.eul2m({
+const eulers = {
     angle3, angle2, angle1,
     axis3,  axis2,  axis1
-});
+};
+
+const rotationMatrix = spice.eul2m(eulers);
 ```
 
 ### Parameters
-- An object with the following required keys:
+- An object with the following required key/value pairs:
 - `angle3`, `angle2`, `angle1`: The three Euler angles (in radians).
-- `axis3`, `axis2`, `axis1`: The axes of the rotations.
+- `axis3`, `axis2`, `axis1`: The axes of the rotations (1-3)
 
 ### Return Value
 Returns a 3x3 rotation matrix constructed from the specified Euler angles.
@@ -633,6 +648,8 @@ const { elems } = spice.getelm(1957, tle);
 const state = spice.evsgp4(et, geophs, elems);
 
 // where is it a day later?
+// r = [x, y, z] array
+// v = [dx, dy, dz] array
 const {r, v} = spice.evsgp4(et + spice.spd(), geophs, elems);
 ```
 
@@ -728,6 +745,7 @@ const pi = 3.1415926536;
 const rpd = pi / 180;
 const geo = {"lon": 90.0 * rpd, "lat": 0, "alt": 0};
 
+// get rectancular coordinates as [x, y, z] array
 const rec = spice.georec(geo, radius, f);
 ```
 
@@ -761,7 +779,7 @@ const {elems} = spice.getelm(1957, tle);
 - `tle`: An array containing the two lines of NORAD two-line element data as strings.
 
 ### Return Value
-Returns an object containing 'elems', the extracted orbital elements and the epoch of the elements and 'epoch'.  This if of the form:
+Returns an object containing 'elems', the extracted orbital elements and the epoch of the elements and 'epoch'.  This is of the form:
 
 ```javascript
 {
@@ -806,7 +824,8 @@ const abcorr = "LT+S";
 const step   = spice.spd() / 4;
 const adjust = 0.0;
 
-const actual = spice.gfposc(target, frame, abcorr, obsrvr, crdsys, coord, relate, refval, adjust, step, cnfine);
+// Get the intervals as an array of et pairs [[start1, end1], [start2, end2], ...]
+const timeWindows = spice.gfposc(target, frame, abcorr, obsrvr, crdsys, coord, relate, refval, adjust, step, cnfine);
 ```
 
 ### Parameters
@@ -819,7 +838,7 @@ const actual = spice.gfposc(target, frame, abcorr, obsrvr, crdsys, coord, relate
 - `cnfine`: Confinement window for the search.
 
 ### Return Value
-Returns an array of time windows when the specified constraint is satisfied.
+Returns an array of time windows (et [start, end] arrays) when the specified constraint is satisfied.
 
 ### Error Handling
 - Throws an error if incorrect arguments are provided.
@@ -962,6 +981,7 @@ const et1 = spice.str2et("2007 JAN 01");
 const et2 = spice.str2et("2007 JUL 01");
 const cnfine = [[et1, et2]];
 
+// Get the intervals as an array of et pairs [[start1, end1], [start2, end2], ...]
 const timeWindows = spice.gfsep(
     targ1, shape1, frame1, targ2, shape2, frame2, abcorr, obsrvr, relate, refval, adjust, step, cnfine);
 ```
@@ -981,9 +1001,465 @@ Returns an array of time windows when the specified condition is satisfied.
 - Throws an error if incorrect arguments are provided.
 
 
+## `halfpi` Function Documentation
+
+### Functionality
+The `halfpi` function returns half the value of π (pi). This function is useful in calculations involving radians and degrees, especially in trigonometric functions.
+
+### Usage Example
+```javascript
+const halfpi = spice.halfpi();
+```
+
+### Return Value
+Returns half the value of π as a double.
+
+### Notes
+- This function wraps the NAIF SPICE `halfpi_c` function.
+- No input parameters are required.
+- Does not throw an error.
+
+## `ident` Function Documentation
+
+### Functionality
+The `ident` function returns the 3x3 identity matrix. This matrix is often used in linear algebra and transformations involving coordinates and rotations.
+
+### Usage Example
+```javascript
+// load the identy matrix as [[1, 0, 0], [0, 1, 0], [0, 0, 1]]
+const m_identity = spice.ident();
+```
+
+### Return Value
+Returns the 3x3 identity matrix.
+
+### Notes
+- This function wraps the NAIF SPICE `ident_c` function.
+- No input parameters are required.
+- Does not throw an error.
+
+## `invert` Function Documentation
+
+### Functionality
+The `invert` function generates the inverse of a 3x3 matrix. This function is commonly used in linear algebra, especially in transformations and rotations.
+
+### Usage Example
+```javascript
+const m = [[0, -1, 0], [0.5, 0, 0], [0, 0, 1]];
+const inverse = spice.invert(m);
+```
+
+### Parameters
+- `m`: The 3x3 matrix to be inverted.
+
+### Return Value
+Returns the inverse of the given 3x3 matrix.
+
+### Error Handling
+- Throws an error if incorrect arguments are provided.
+
+## `j1900` Function Documentation
+
+### Functionality
+The `j1900` function returns the Julian Date corresponding to the date 1899 DEC 31 12:00:00 (1900 JAN 0.5). This is often used as a standard reference date in astronomical calculations.
+
+### Usage Example
+```javascript
+const j1900 = spice.j1900();
+```
+
+### Return Value
+Returns the Julian Date of 1899 DEC 31 12:00:00 as a double.
+
+### Notes
+- This function wraps the NAIF SPICE `j1900_c` function.
+- No input parameters are required.
+- Does not throw an error.
+
+## `j1950` Function Documentation
+
+### Functionality
+The `j1950` function returns the Julian Date corresponding to the date 1950 JAN 01 00:00:00 (1950 JAN 1.0). This date is often used as a standard epoch in astronomical calculations.
+
+### Usage Example
+```javascript
+const actual = spice.j1950();
+```
+
+### Return Value
+Returns the Julian Date of 1950 JAN 01 00:00:00 as a double.
+
+### Notes
+- This function wraps the NAIF SPICE `j1950_c` function.
+- No input parameters are required.
+- Does not throw an error.
+
+## `j2000` Function Documentation
+
+### Functionality
+The `j2000` function returns the Julian Date corresponding to the date 2000 JAN 01 12:00:00 (2000 JAN 1.5). This is a key reference date in astronomical and space mission calculations.
+
+### Usage Example
+```javascript
+const j2000 = spice.j2000();
+```
+
+### Return Value
+Returns the Julian Date of 2000 JAN 01 12:00:00 as a double.
+
+### Notes
+- This function wraps the NAIF SPICE `j2000_c` function.
+- No input parameters are required.
+- Does not throw an error.
+
+## `j2100` Function Documentation
+
+### Functionality
+The `j2100` function returns the Julian Date corresponding to the date 2100 JAN 01 12:00:00 (2100 JAN 1.5). This date is often used in long-term astronomical and space mission calculations.
+
+### Usage Example
+```javascript
+const j2100 = spice.j2100();
+```
+
+### Return Value
+Returns the Julian Date of 2100 JAN 01 12:00:00 as a double.
+
+### Notes
+- This function wraps the NAIF SPICE `j2100_c` function.
+- No input parameters are required.
+- Does not throw an error.
+
+## `jyear` Function Documentation
+
+### Functionality
+The `jyear` function returns the number of seconds in a Julian year. This is a key constant in time system conversions and astronomical calculations.
+
+### Usage Example
+```javascript
+const jyear = spice.jyear();
+```
+
+### Return Value
+Returns the number of seconds in a Julian year as a double.
+
+### Notes
+- This function wraps the NAIF SPICE `jyear_c` function.
+- No input parameters are required.
+- Does not throw an error.
+
+## `kclear` Function Documentation
+
+### Functionality
+The `kclear` function clears all loaded SPICE kernels from the program's internal data space. It is often used in unit testing and when resetting the kernel pool is necessary.
+
+### Usage Example
+```javascript
+spice.kclear();
+```
+
+### Notes
+- This function wraps the NAIF SPICE `kclear_c` function.
+- No input parameters are required.
+- Does not throw an error.
 
 
+## `latrec` Function Documentation
 
+### Functionality
+The `latrec` function converts from latitudinal coordinates (radius, longitude, latitude) to rectangular coordinates.
+
+### Usage Example
+```javascript
+const lat = {"radius": 403626.33912495, "lon": -98.34959789 * spice.rpd(), "lat": -18.26566077 * spice.rpd()};
+const rec = spice.latrec(lat);
+
+const x = rec[0];
+const y = rec[1];
+const z = rec[2];
+```
+
+### Parameters
+- `radius`: The distance of the point from the origin.
+- `lon`: The longitude of the point in radians.
+- `lat`: The latitude of the point in radians.
+
+### Return Value
+Returns an array representing the rectangular coordinates corresponding to the input latitudinal coordinates.
+
+### Error Handling
+- Throws an error if incorrect arguments are provided.
+
+## `m2eul` Function Documentation
+
+### Functionality
+The `m2eul` function factors a rotation matrix as a product of three rotations about specified coordinate axes.
+
+### Usage Example
+```javascript
+const r = [[0, 1, 0], [-1, 0, 0], [0, 0, 1]];
+const axis3 = 1;
+const axis2 = 2;
+const axis1 = 3;
+
+const eulers = spice.m2eul(r, axis3, axis2, axis1);
+```
+
+### Parameters
+- `r`: The rotation matrix to be factored.
+- `axis3`, `axis2`, `axis1`: The axes of the rotations.
+
+### Return Value
+Returns an object containing the Euler angles and axes associated with the factored rotation.
+- An object with the following key/value pairs:
+- `angle3`, `angle2`, `angle1`: The three Euler angles (in radians).
+- `axis3`, `axis2`, `axis1`: The axes of the rotations (1-3)
+
+### Error Handling
+- Throws an error if incorrect arguments are provided.
+
+## `m2q` Function Documentation
+
+### Functionality
+The `m2q` function finds a unit quaternion corresponding to a specified rotation matrix. Quaternions are used in rotations and orientation calculations in three-dimensional space.
+
+### Usage Example
+```javascript
+let pi = 3.1415926536;
+const r = spice.rotate(pi/2, 3);
+const quat = spice.m2q(r);
+
+const qx = quat.x;
+const qy = quat.y;
+const qz = quat.z;
+const qw = quat.w;
+```
+
+### Parameters
+- `r`: The rotation matrix to be converted into a quaternion.
+
+### Return Value
+Returns a unit quaternion corresponding to the given rotation matrix.
+
+### Error Handling
+- Throws an error if incorrect arguments are provided.
+
+
+## `mtxm` Function Documentation
+
+### Functionality
+The `mtxm` function multiplies the transpose of the first input matrix with the second input matrix. This operation is commonly used in linear algebra, particularly in transformations and rotations.
+
+### Usage Example
+```javascript
+let m1 = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]; // This matrix will be transposed
+let m2 = [[1, 0, 0], [0, 1, 0], [0, 0, 1]]; // This matrix remains as is
+let m1t_x_m2 = spice.mtxm(m1, m2); // Multiplication after transposing m1
+```
+
+### Parameters
+- `m1`: The first 3x3 matrix to be transposed and then multiplied.
+- `m2`: The second 3x3 matrix.
+
+### Return Value
+Returns the product of the transposed first matrix and the second matrix as a 3x3 matrix.
+
+### Error Handling
+- Throws an error if incorrect arguments are provided.
+
+## `mtxv` Function Documentation
+
+### Functionality
+The `mtxv` function multiplies the transpose of a 3x3 matrix with a 3-dimensional vector. This operation is commonly used in coordinate transformations and vector rotations.
+
+### Usage Example
+```javascript
+let m = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]; // The matrix to be transposed
+let v = [1, 0, 0]; // The vector
+
+let mt_x_v = spice.mtxv(m, v); // Multiplication after transposing m
+
+const x = mt_x_v[0];
+const y = mt_x_v[1];
+const z = mt_x_v[2];
+```
+
+### Parameters
+- `m`: The 3x3 matrix to be transposed.
+- `v`: The 3-dimensional vector.
+
+### Return Value
+Returns the product of the transposed matrix and the vector as a 3-dimensional vector.
+
+### Error Handling
+- Throws an error if incorrect arguments are provided.
+
+## `mxm` Function Documentation
+
+### Functionality
+The `mxm` function multiplies two 3x3 matrices. This operation is widely used in linear algebra, particularly in transformations and rotations.
+
+### Usage Example
+```javascript
+let m1 = [[1, 2, 3], [4, 5, 6], [7, 8, 9]];
+let m2 = [[1, 0, 0], [0, 1, 0], [0, 0, 1]];
+
+// the result will be in the same form as m1, m2 above
+let m_x_m = spice.mxm(m1, m2);
+```
+
+### Parameters
+- `m1`, `m2`: The two 3x3 matrices to be multiplied.
+
+### Return Value
+Returns the product of the two matrices as a 3x3 matrix.
+
+### Error Handling
+- Throws an error if incorrect arguments are provided.
+
+
+## `mxmt` Function Documentation
+
+### Functionality
+The `mxmt` function multiplies the first 3x3 matrix with the transpose of the second 3x3 matrix. This operation is used in linear algebra, particularly in coordinate transformations and rotations.
+
+### Usage Example
+```javascript
+let m1 = [[1, 0, 0], [0, 1, 0], [0, 0, 1]]; // First matrix
+let m2 = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]; // Second matrix, to be transposed
+let m_x_mt = spice.mxmt(m1, m2); // Multiplication with transpose of m2
+```
+
+### Parameters
+- `m1`: The first 3x3 matrix.
+- `m2`: The second 3x3 matrix, which will be transposed.
+
+### Return Value
+Returns the product of the first matrix and the transpose of the second matrix as a 3x3 matrix.
+
+### Error Handling
+- Throws an error if incorrect arguments are provided.
+
+## `mxv` Function Documentation
+
+### Functionality
+The `mxv` function multiplies a 3x3 matrix with a 3-dimensional vector. This operation is commonly used in coordinate transformations and vector rotations.
+
+### Usage Example
+```javascript
+let m = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]; // The matrix
+let v = [1, 0, 0]; // The vector
+
+let m_x_v = spice.mxv(m, v); // Multiplication of matrix and vector
+
+// result was [x, y, z] array
+const x = m_x_v[0];
+const y = m_x_v[1];
+const z = m_x_v[2];
+```
+
+### Parameters
+- `m`: The 3x3 matrix.
+- `v`: The 3-dimensional vector.
+
+### Return Value
+Returns the product of the matrix and the vector as a 3-dimensional vector.
+
+### Error Handling
+- Throws an error if incorrect arguments are provided.
+
+## `nvc2pl` Function Documentation
+
+### Functionality
+The `nvc2pl` function creates a SPICE plane from a specified normal vector and a constant. This is often used in geometric computations involving planes.
+
+### Usage Example
+```javascript
+const normal = [1, 2, 3];
+const constant = 4;
+
+// plane will be of the form { "normal": [1, 2, 3], "constant": 4}
+// and ready to be passed into functions such as vprjp.
+const plane = spice.nvc2pl(normal, constant);
+```
+
+### Parameters
+- `normal`: A 3-dimensional normal vector.
+- `konst`: A scalar constant.
+
+### Return Value
+Returns a SPICE plane defined by the normal vector and the constant.
+
+### Error Handling
+- Throws an error if incorrect arguments are provided.
+
+## `nvp2pl` Function Documentation
+
+### Functionality
+The `nvp2pl` function creates a SPICE plane from a specified normal vector and a point. This function is useful in geometric computations involving planes.
+
+### Usage Example
+```javascript
+const normal = [1, 2, 3];
+const point = [1, 2, 3];
+
+// plane will be of the form { "normal": [1, 2, 3], "constant": 4}
+// and ready to be passed into functions such as vprjp.
+const plane = spice.nvp2pl(normal, point);
+```
+
+### Parameters
+- `normal`: A 3-dimensional normal vector.
+- `point`: A 3-dimensional point vector.
+
+### Return Value
+Returns a SPICE plane defined by the normal vector and the point.
+
+### Error Handling
+- Throws an error if incorrect arguments are provided.
+
+
+## `oscelt` Function Documentation
+
+### Functionality
+The `oscelt` function computes the set of osculating conic orbital elements corresponding to the state (position and velocity) of a body. This is essential in celestial mechanics and orbital calculations.
+
+### Usage Example
+```javascript
+const mu = 3.9860043543609598e5;
+const r = 1e8;
+const speed = Math.sqrt(mu/r);
+const pvinit = {
+    "r": [0, r/Math.sqrt(2), r/Math.sqrt(2)],
+    "v": [0, -speed/Math.sqrt(2), speed/Math.sqrt(2)]
+};
+const et = 0;
+
+const elts = spice.oscelt(pvinit, et, mu);
+```
+
+### Parameters
+- `state`: The state vector (position and velocity) of the body.
+- `et`: The ephemeris time.
+- `mu`: The gravitational parameter (GM) of the primary body.
+
+### Return Value
+Returns the set of osculating conic orbital elements as an object of the form:
+```javascript
+{
+    "rp": 1e8,
+    "ecc": 0,
+    "inc": 1.5707963267948966,
+    "lnode": 1.5707963267948966,
+    "argp": 0,
+    "m0": 0.7853981633974484,
+    "t0": 0,
+    "mu": 398600.435436096
+};
+```
+
+### Error Handling
+- Throws an error if incorrect arguments are provided.
 
 
 
