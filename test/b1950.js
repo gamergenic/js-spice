@@ -6,7 +6,7 @@ describe('b1950', function() {
    function() {
 
     // From:
-    // https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/b1900_c.html
+    // https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/b1950_c.html
     const actual = spice.b1950();
 
     const expected = 2433282.42345905;

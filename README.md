@@ -213,7 +213,129 @@ Returns an array of rectangular coordinates corresponding to the input azimuthal
 ### Error Handling
 - Throws an error if incorrect arguments are provided.
 
----
+## `b1900` Function Documentation
+
+### Functionality
+The `b1900` function returns the Julian Date corresponding to Besselian Date 1900.0.
+
+### Usage Example
+```javascript
+const actual = spice.b1900();
+```
+
+### Return Value
+Returns the Julian Date corresponding to Besselian Date 1900.0 as a double.
+
+### Notes
+- This function wraps the NAIF SPICE `b1900_c` function.
+- No input parameters are required.
+- Does not throw an error.
+
+## `b1950` Function Documentation
+
+### Functionality
+The `b1950` function returns the Julian Date corresponding to Besselian Date 1950.0.
+
+### Usage Example
+```javascript
+const actual = spice.b1950();
+```
+
+### Return Value
+Returns the Julian Date corresponding to Besselian Date 1950.0 as a double.
+
+### Notes
+- This function wraps the NAIF SPICE `b1950_c` function.
+- No input parameters are required.
+- Does not throw an error.
+
+## `bodvrd` Function Documentation
+
+### Functionality
+The `bodvrd` function fetches from the kernel pool the double precision values of an item associated with a body, such as radii or axis lengths.
+
+### Usage Examples
+
+**Fetching Earth Radii:**
+```javascript
+const actual = spice.bodvrd("EARTH", "RADII");
+```
+
+**Fetching Radii with Body ID:**
+```javascript
+const actual = spice.bodvrd("399", "RADII");
+```
+
+**Fetching 1-Dimensional Value:**
+```javascript
+const actual = spice.bodvrd("EARTH", "LONG_AXIS");
+```
+
+### Parameters
+- `bodynm`: Name of the celestial body (e.g., "EARTH") or body ID (e.g., "399").
+- `item`: The item for which values are requested (e.g., "RADII", "LONG_AXIS").
+- `maxn` (optional): Maximum number of values expected.
+
+### Return Value
+Returns an array of double precision values if the result is multi-dimensional, or a single numeric value if the result is 1-dimensional.
+
+### Error Handling
+- Throws an error if incorrect arguments are provided or if the kernel variable is not found.
+
+
+## `clight` Function Documentation
+
+### Functionality
+The `clight` function returns the speed of light in a vacuum, expressed in kilometers per second.
+
+### Usage Example
+```javascript
+const actual = spice.clight();
+```
+
+### Return Value
+Returns the speed of light in vacuum (km/sec) as a double.
+
+### Notes
+- This function wraps the NAIF SPICE `clight_c` function.
+- No input parameters are required.
+- Does not throw an error.
+
+
+## `conics` Function Documentation
+
+### Functionality
+The `conics` function determines the state (position and velocity) of an orbiting body from a set of orbital elements (elliptic, hyperbolic, or parabolic).
+
+### Usage Example
+```javascript
+const oscelts = {
+    "rp": 1e8,
+    "ecc": 0,
+    "inc": 1.5707963267948966,
+    "lnode": 1.5707963267948966,
+    "argp": 0,
+    "m0": 0.7853981633974484,
+    "t0": 0,
+    "mu": 398600.435436096
+};
+const et = 0;
+let actual = spice.conics(oscelts, et);
+```
+
+### Parameters
+- `oscelts`: An object containing orbital elements (rp, ecc, inc, lnode, argp, m0, t0, mu).
+- `et`: The ephemeris time at which the state of the body is to be computed.
+
+### Return Value
+Returns an object containing the state (position 'r' and velocity 'v') of the body.
+
+### Error Handling
+- Throws an error if incorrect arguments are provided.
+
+
+
+
 
 
 ##### b1900
