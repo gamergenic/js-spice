@@ -139,10 +139,8 @@ Euler Angles
 Functions will throw an error when they are unable to decipher input.  The error thrown will explain the expected type for the first incorrect argument detected.
 In some places inputs can be provided in multiple formats but outputs formats for a given type are intended to remain consistent.  For example `spice.recazl` will *accept* `([x,y,z])`, `("x":x, "y":y, "z":z)`, or `(x, y, z)` while `spice.azlrec` will only *output* `[x,y,z]`.
 
----
 
 # Functions
-
 
 ## `axisar` Function Documentation
 
@@ -182,8 +180,6 @@ Returns a 3x3 rotation matrix (2D array) representing the rotation.
 ### Notes
 - This function wraps the NAIF SPICE `axisar_c` function.
 - Be aware of the precision limits due to floating-point arithmetic.
-
----
 
 ## `azlrec` Function Documentation
 
