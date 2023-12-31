@@ -1461,23 +1461,300 @@ Returns the set of osculating conic orbital elements as an object of the form:
 ### Error Handling
 - Throws an error if incorrect arguments are provided.
 
+## `pckfrm` Function Documentation
+
+### Functionality
+The `pckfrm` function retrieves the set of reference frame class ID codes from all frames in a specified binary PCK (Planetary Constants Kernel) file. This is useful in planetary science and navigation.
+
+### Usage Example
+```javascript
+const singleFilePathStr = 'path/to/pck/file.bpc';
+const idCodeArray = spice.pckfrm(singleFilePathStr);
+```
+
+### Parameters
+- `pckfnm`: File path to the binary PCK file.
+
+### Return Value
+Returns an array of reference frame class ID codes found in the specified PCK file.
+
+### Error Handling
+- Throws an error if incorrect arguments are provided or if the file cannot be accessed.
+
+## `pgrrec` Function Documentation
+
+### Functionality
+The `pgrrec` function converts planetographic coordinates to rectangular coordinates. It's essential for working with planetary data in different coordinate systems.
+
+### Usage Example
+```javascript
+const { spice, getKernels } = require('js-spice');
+await getKernels('pck/a_old_versions/pck00008.tpc', 'kernel_cache/data/naif/generic_kernels');
+const re = 3396.190;
+const rp = 3376.200;
+const f = (re - rp) / re;
+const pgr = {"lon": 270.000 * spice.rpd(), "lat": 0, "alt": 0};
+const rec = spice.pgrrec('mars', pgr, re, f);
+
+// rec will be an array of the form [x, y, z]
+```
+
+### Parameters
+- `body`: Name of the body.
+- `lon`, `lat`, `alt`: Longitude, latitude, and altitude.
+- `re`: Equatorial radius of the reference spheroid in kilometers.
+- `f`: Flattening coefficient.
+
+### Return Value
+Returns rectangular coordinates based on the given planetographic coordinates.
+
+### Error Handling
+- Throws an error if incorrect arguments are provided or if the specified body is not recognized.
+
+## `pi` Function Documentation
+
+### Functionality
+The `pi` function returns the mathematical constant π (pi), the ratio of a circle's circumference to its diameter.
+
+### Usage Example
+```javascript
+const actual = spice.pi(); // Returns the value of pi
+```
+
+### Parameters
+This function does not require any parameters.
+
+### Return Value
+Returns the (delicious) value of π (pi).  
+
+[editor's note: please remove 'delicious', astrophysics has no space for humor.]  
+[author's note: No problem, I'll take care of it tomorrow.]
+
+### Error Handling
+- Throws an error if any arguments are provided.
+
+## `pl2nvc` Function Documentation
+
+### Functionality
+The `pl2nvc` function computes a unit normal vector and constant that define a specified plane. This is particularly useful in computational geometry involving planes.
+
+### Usage Example
+```javascript
+const plane = { normal: [1, 2, 3], constant: 4 };
+const {normal, constant} = spice.pl2nvc(plane);
+```
+
+### Parameters
+- `plane`: The plane object defined by its normal vector and a constant representing a SPICE plane.
+
+### Return Value
+Returns an object with the normalized vector and adjusted constant of the plane.
+
+### Error Handling
+- Throws an error if incorrect arguments are provided.
+
+## `pl2nvp` Function Documentation
+
+### Functionality
+The `pl2nvp` function computes a unit normal vector and a point that define a specified plane. This is valuable in spatial geometry and computational mathematics.
+
+### Usage Example
+```javascript
+const plane = { normal: [1, 2, 3], constant: 4 };
+const {normal, point} = spice.pl2nvp(plane);
+```
+
+### Parameters
+- `plane`: A plane object defined by a normal vector and a constant of a SPICE plane.
+
+### Return Value
+Returns an object with a normalized vector and a point that represent the plane.
+
+### Error Handling
+- Throws an error if incorrect arguments are provided or if the plane cannot be properly defined.
 
 
-##### georec
-    console.log(spice.georec({"lon" : 1, "lat" : -1, "alt" : 1000 }, 10000, 0));
+## `pl2psv` Function Documentation
 
-##### latrec
-    console.log(spice.latrec({"radius" : 10000, "lon" : 2, "lat" : -1 }));
+### Functionality
+The `pl2psv` function computes a point and two orthogonal spanning vectors that generate a specified plane. This function is essential in computational geometry to represent planes in three-dimensional space.
 
-##### halfpi
-    console.log(spice.halfpi());
-    console.log(spice.twopi());
+### Usage Example
+```javascript
+const plane = { normal: [1, 2, 3], constant: 4 };
+const {point, span1, span2} = spice.pl2psv(plane);
+```
 
-##### pgrrec
-    console.log(spice.pgrrec("earth", {"lon" : 1, "lat" : -1, "alt" : 10000 }, 6000, 0));
+### Parameters
+- `plane`: A plane object defined by a normal vector and a constant.
 
-##### pi
-    console.log(spice.pi());
+### Return Value
+Returns an object with a point and two spanning vectors representing the plane ('point', 'span1', and 'span2' key/value pairs).
+
+### Error Handling
+- Throws an error if incorrect arguments are provided or if the plane cannot be properly represented.
+
+
+
+## `prop2b` Function Documentation
+
+### Functionality
+The `prop2b` function computes the state (position and velocity) of a massless body at a specified time, using a two-body force model. This is useful for calculating orbits around a central mass.
+
+### Usage Examples
+```javascript
+const gm = 398600.435436096;
+const state = {"r": [7000, 0, 0], "v": [0, 7.546049108166282, 0]};
+const dt = 3600;
+
+let {r, v} = spice.prop2b(gm, state, dt);
+```
+
+### Parameters
+- `gm`: Gravitational constant times the mass of the central body.
+- `state`: Initial state of the body, containing `r` (position vector) and `v` (velocity vector).
+- `dt`: Time increment at which the new state is computed.
+
+### Return Value
+Returns the new state of the body after time `dt`, containing `r` (position) and `v` (velocity) vectors.
+
+### Error Handling
+- Throws an error for degenerate orbits or incorrect dimensions/types of input vectors.
+
+
+## `psv2pl` Function Documentation
+
+### Functionality
+The `psv2pl` function creates a SPICE plane from a point and two spanning vectors.
+
+### Usage Example
+```javascript
+const point = [1, 2, 3];
+const span1 = [1, 1, 0];
+const span2 = [0, 1, 1];
+
+const plane = spice.psv2pl(point, span1, span2);
+
+// 'plane' will be an object of the form {"normal":[x, y, z], "constant":c}, which is
+// the form expected by other js-spice functions.
+```
+
+### Parameters
+- `point`: A three-element array representing a point on the plane.
+- `span1`: A three-element array representing the first spanning vector.
+- `span2`: A three-element array representing the second spanning vector.
+
+### Return Value
+Returns an object representing the plane, with properties for the normalized normal vector and the plane constant.
+
+### Error Handling
+- Throws an error if incorrect arguments are provided.
+
+
+
+## `pxform` Function Documentation
+
+### Functionality
+The `pxform` function calculates the transformation matrix that converts position vectors from one specified reference frame to another at a given epoch.
+
+### Usage Example
+```javascript
+const et = 0; // Epoch in ephemeris seconds past J2000
+const r = spice.pxform('IAU_EARTH', 'J2000', et);
+
+// r is now a rotation matrix of the form [[a,b,c],[d,e,f],[g,h,i]]
+```
+
+### Parameters
+- `from`: The name of the frame to transform from.
+- `to`: The name of the frame to transform to.
+- `et`: The epoch of the transformation in ephemeris seconds past J2000.
+
+### Return Value
+Returns a 3x3 transformation matrix.
+
+### Error Handling
+- Throws an error if the specified frames are not recognized or the transformation cannot be computed.
+
+
+## `pxfrm2` Function Documentation
+
+### Functionality
+The `pxfrm2` function returns the matrix that transforms position vectors from one specified frame to another at different epochs. This is particularly useful when dealing with frames that are moving with respect to each other.
+
+### Usage Example
+```javascript
+await getKernels('pck/a_old_versions/pck00009.tpc', 'kernel_cache/data/naif/generic_kernels');
+const et = 0;
+let actual = spice.pxfrm2('IAU_EARTH', 'J2000', et, et);
+```
+
+### Parameters
+- `from`: The name of the frame to transform from.
+- `to`: The name of the frame to transform to.
+- `etfrom`: Epoch in ephemeris seconds past J2000 to evaluate the `from` frame.
+- `etto`: Epoch in ephemeris seconds past J2000 to evaluate the `to` frame.
+
+### Return Value
+Returns a 3x3 matrix representing the rotation from the `from` frame to the `to` frame.
+
+### Error Handling
+- Throws an error if incorrect or invalid frame names are provided, or if the epochs are invalid.
+
+
+# `q2m` Function Documentation
+
+## Functionality
+The `q2m` function calculates the rotation matrix corresponding to a specified unit quaternion. It is typically used to convert quaternion representations of rotations into matrix form, which is more suitable for certain types of calculations.
+
+## Usage Example
+```javascript
+const s = Math.sqrt(2) / 2;
+const q = {"x": 0, "y": 0, "z": -s, "w": s};
+
+const m = spice.q2m(q);
+
+// m now contains a 3x3 array of matrix values.
+```
+
+## Parameters
+- `q`: The input quaternion represented as an object with `x`, `y`, `z`, and `w` components.
+
+## Return Value
+Returns a 3x3 rotation matrix corresponding to the given quaternion.
+
+## Error Handling
+- Throws an error if the input is not a unit quaternion.
+- Handles cases where input quaternion components are not in the expected format.
+
+## Note
+This function is essential for converting quaternion representations, commonly used in spacecraft attitude control and 3D graphics, into rotation matrices that can be easily used for further geometric transformations.
+
+
+
+# `qxq` Function Documentation
+
+## Functionality
+The `qxq` function multiplies two quaternions, `q1` and `q2`. This operation is essential in computational geometry, particularly in spacecraft attitude and orientation calculations.
+
+## Usage Example
+```javascript
+const q1 = {"x":1, "y":0, "z":0, "w":0};
+const q2 = {"x":0, "y":1, "z":0, "w":0};
+
+const q_x_q = spice.qxq(q1, q2);
+```
+
+## Parameters
+- `q1`: The first quaternion.
+- `q2`: The second quaternion.
+
+## Return Value
+Returns the product of the two quaternions as a new quaternion.
+
+## Error Handling
+- Throws an error if incorrect arguments are provided.
+
 
 
 ##### sphrec
