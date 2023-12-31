@@ -139,11 +139,49 @@ Euler Angles
 Functions will throw an error when they are unable to decipher input.  The error thrown will explain the expected type for the first incorrect argument detected.
 In some places inputs can be provided in multiple formats but outputs formats for a given type are intended to remain consistent.  For example `spice.recazl` will *accept* `([x,y,z])`, `("x":x, "y":y, "z":z)`, or `(x, y, z)` while `spice.azlrec` will only *output* `[x,y,z]`.
 
-#### Functions
+# Functions
 
 Note:  Example usages of js-spice wrappers can be found in the test directory, which is organized by function name.
 
-##### axisar
+## `axisar` Function Documentation
+
+### Functionality
+The `axisar` function constructs a rotation matrix for rotating vectors by a specified angle about a specified axis.
+
+### Usage Examples
+
+**Array Axis:**
+```javascript
+let axis = [0, 0, 1];
+let angle = 3.1415926536; // Angle in radians
+let rotationMatrix = spice.axisar(axis, angle);
+```
+
+**Object Axis:**
+```javascript
+axis = {x: 0, y: 0, z: 1};
+rotationMatrix = spice.axisar(axis, angle);
+```
+
+**Separate Axis Arguments:**
+```javascript
+rotationMatrix = spice.axisar(0, 0, 1, angle);
+```
+
+### Parameters
+- `axis`: The axis of rotation. Can be provided as an array `[x, y, z]`, an object `{x:, y:, z:}`, or as separate `x, y, z` arguments.
+- `angle`: The rotation angle in radians.
+
+### Return Value
+Returns a 3x3 rotation matrix (2D array) representing the rotation.
+
+### Error Handling
+- Throws an error if called without any arguments.
+- Throws an error if called with extra arguments.
+
+### Notes
+- This function wraps the NAIF SPICE `axisar_c` function.
+- Be aware of the precision limits due to floating-point arithmetic.
 
 ##### azlrec
     console.log(spice.azlrec({"range" : 10000, "az" : 2, "el" : -1}, true, true));
