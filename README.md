@@ -194,12 +194,12 @@ const pi = 3.1415926536;
 const rpd = pi / 180;
 const azl = {"range": 1.732, "az": 315 * rpd, "el": -35.264 * rpd};
 
-const actual = spice.azlrec(azl, false, false);
+const rec = spice.azlrec(azl, false, false);
 ```
 
 **Azimuth Counter-Clockwise, Elevation Positive-Z:**
 ```javascript
-const actual = spice.azlrec(azl, true, true);
+const rec = spice.azlrec(azl, true, true);
 ```
 
 ### Parameters
@@ -220,7 +220,7 @@ The `b1900` function returns the Julian Date corresponding to Besselian Date 190
 
 ### Usage Example
 ```javascript
-const actual = spice.b1900();
+const b1900 = spice.b1900();
 ```
 
 ### Return Value
@@ -238,7 +238,7 @@ The `b1950` function returns the Julian Date corresponding to Besselian Date 195
 
 ### Usage Example
 ```javascript
-const actual = spice.b1950();
+const b1950 = spice.b1950();
 ```
 
 ### Return Value
@@ -258,17 +258,17 @@ The `bodvrd` function fetches from the kernel pool the double precision values o
 
 **Fetching Earth Radii:**
 ```javascript
-const actual = spice.bodvrd("EARTH", "RADII");
+const earth_radii = spice.bodvrd("EARTH", "RADII");
 ```
 
 **Fetching Radii with Body ID:**
 ```javascript
-const actual = spice.bodvrd("399", "RADII");
+const earth_radii = spice.bodvrd("399", "RADII");
 ```
 
 **Fetching 1-Dimensional Value:**
 ```javascript
-const actual = spice.bodvrd("EARTH", "LONG_AXIS");
+const earth_long_axis = spice.bodvrd("EARTH", "LONG_AXIS");
 ```
 
 ### Parameters
@@ -290,7 +290,7 @@ The `clight` function returns the speed of light in a vacuum, expressed in kilom
 
 ### Usage Example
 ```javascript
-const actual = spice.clight();
+const c = spice.clight();
 ```
 
 ### Return Value
@@ -320,7 +320,7 @@ const oscelts = {
     "mu": 398600.435436096
 };
 const et = 0;
-let actual = spice.conics(oscelts, et);
+let state_at_et = spice.conics(oscelts, et);
 ```
 
 ### Parameters
@@ -334,52 +334,283 @@ Returns an object containing the state (position 'r' and velocity 'v') of the bo
 - Throws an error if incorrect arguments are provided.
 
 
+## `convrt` Function Documentation
 
+### Functionality
+The `convrt` function converts a numerical value from one unit to another (e.g., miles to kilometers, parsecs to lightyears).
 
+### Usage Examples
 
-
-##### b1900
-
-##### b1950
-
-##### bodvrd
-    console.log(spice.bodvrd("earth", "GM"));
-    console.log(spice.bodvrd("earth", "RADII"));
-
-##### clight
-
-##### conics
-
-##### convrt
-    console.log(spice.convrt(1, "FEET", "INCHES"));
-    console.log(spice.convrt([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10], "YARDS", "FEET"));
-
-##### cylrec
-    console.log(spice.cylrec({"r" : 10000, "clon" : 2, "z" : -100 }));
-
-    ##### erract
-
-###### Usage
-```js
-const spice = require('js-spice');
-spice.erract('set', 'return');
+**Miles to Kilometers:**
+```javascript
+const statute_miles = 300.0;
+const km = spice.convrt(distsm, "statute_miles", "km");
 ```
 
-##### errdev
-
-###### Usage
-```js
-const spice = require('js-spice');
-spice.errdev('set', 'null');
+**Parsecs to Lightyears:**
+```javascript
+const parsecs = 1.0;
+const lightyears = spice.convrt(onpars, "PARSECS", "LIGHTYEARS");
 ```
 
-##### errprt
+### Parameters
+- `x`: The numeric value to be converted.
+- `in`: The unit of the input value (e.g., "statute_miles", "PARSECS").
+- `out`: The unit for the output value (e.g., "km", "LIGHTYEARS").
 
-###### Usage
-```js
-const spice = require('js-spice');
-spice.errprt('set', 'short');
+From NAIF SPICE Documentation, the following are recognized units:  
+* Angles:
+  * "RADIANS"
+  * "DEGREES"
+  * "ARCMINUTES"
+  * "ARCSECONDS"
+  * "HOURANGLE"
+  * "MINUTEANGLE"
+  * "SECONDANGLE"
+
+* Metric Distances:
+  * "METERS"
+  * "M"
+  * "KILOMETERS"
+  * "KM"
+  * "CENTIMETERS"
+  * "CM"
+  * "MILLIMETERS"
+  * "MM"
+
+* English Distances:
+  * "FEET"
+  * "INCHES"
+  * "YARDS"
+  * "STATUTE_MILES"
+  * "NAUTICAL_MILES"
+
+* Astrometric Distances:
+  * "AU"
+  * "PARSECS"
+  * "LIGHTSECS"
+  * "LIGHTYEARS" julian lightyears
+
+* Time:
+  * "SECONDS"
+  * "MINUTES"
+  * "HOURS"
+  * "DAYS"
+  * "JULIAN_YEARS"
+  * "TROPICAL_YEARS"
+  * "YEARS" (same as julian years)
+
+### Return Value
+Returns the converted value as a double.
+
+### Error Handling
+- Throws an error if conversion between the specified units is not possible or if units are unrecognized.
+
+
+## `cylrec` Function Documentation
+
+### Functionality
+The `cylrec` function converts coordinates from cylindrical to rectangular representation.
+
+### Usage Example
+```javascript
+const pi = 3.1415926536;
+const rpd = pi / 180;
+const cyl = {"r": 1.4142, "clon": 45.0 * rpd, "z": 1.0};
+const rec = spice.cylrec(cyl);
 ```
+
+### Parameters
+- `cyl`: An object representing cylindrical coordinates with properties `r` (radius), `clon` (longitude in radians), and `z` (height).
+
+### Return Value
+Returns an array representing the rectangular coordinates corresponding to the input cylindrical coordinates.
+
+### Error Handling
+- Throws an error if incorrect arguments are provided.
+
+
+## `deltet` Function Documentation
+
+### Functionality
+The `deltet` function computes the value of Delta ET (ET - UTC) for a given epoch. This function is typically used to convert between Ephemeris Time (ET) and Coordinated Universal Time (UTC).
+
+### Usage Example
+```javascript
+const epoch = 0;
+const eptype = 'UTC';
+const delta = spice.deltet(epoch, eptype);
+```
+
+### Parameters
+- `epoch`: The epoch at which Delta ET is to be computed.
+- `eptype`: The type of the input epoch, typically 'UTC'.
+
+### Return Value
+Returns the value of Delta ET (ET - UTC) as a double.
+
+### Error Handling
+- Throws an error if incorrect arguments are provided.
+
+## `dpr` Function Documentation
+
+### Functionality
+The `dpr` function returns the number of degrees per radian, useful for converting angles from radians to degrees.
+
+### Usage Example
+```javascript
+const degreesPerRadian = spice.dpr();
+```
+
+### Return Value
+Returns the number of degrees per radian as a double.
+
+### Notes
+- This function wraps the NAIF SPICE `dpr_c` function.
+- No input parameters are required.
+- Does not throw an error.
+
+## `erract` Function Documentation
+
+### Functionality
+The `erract` function retrieves or sets the default error action for handling CSPICE errors.
+
+### Usage Example
+```javascript
+const initialValue = spice.erract('GET');
+
+spice.erract('SET', "IGNORE");
+```
+
+### Parameters
+- First argument (string): Specifies the action to be performed ('GET' or 'SET').
+- Second argument (string, optional): Specifies the error action to set ('ABORT', 'IGNORE', 'REPORT', 'RETURN', 'DEFAULT'). Only required when the first argument is 'SET'.
+
+### Return Value
+When used with 'GET', returns the current error action. When used with 'SET', returns the new error action.
+
+### Error Handling
+- Throws an error if incorrect arguments are provided.
+
+
+## `errdev` Function Documentation
+
+### Functionality
+The `errdev` function retrieves or sets the name of the current output device for CSPICE error messages.
+
+### Usage Example
+```javascript
+const initialValue = spice.errdev('GET');
+
+spice.errdev('SET', "./test/temp/tempfile");
+```
+
+### Parameters
+- First argument (string): Specifies the action to be performed ('GET' or 'SET').
+- Second argument (string, optional): The name of the error output device. Only required when the first argument is 'SET'.  Valid values are "SCREEN", "NULL", or a file path.
+
+### Return Value
+When used with 'GET', returns the name of the current error output device. When used with 'SET', returns the new error output device name.
+
+### Error Handling
+- Throws an error if incorrect arguments are provided.
+
+## `errprt` Function Documentation
+
+### Functionality
+The `errprt` function retrieves or sets the list of error message items to be output when a CSPICE error is detected.
+
+### Usage Example
+```javascript
+const initialValue = spice.errprt('GET');
+spice.errprt('SET', "SHORT, LONG");
+```
+
+### Parameters
+- First argument (string): Specifies the action to be performed ('GET' or 'SET').
+- Second argument (string, optional): The list of error message items to output. Only required when the first argument is 'SET'.  For information on valid values consult the NAIF documentation for errprt_c.
+
+### Return Value
+When used with 'GET', returns the current list of error message items. When used with 'SET', returns the new list.
+
+### Error Handling
+- Throws an error if incorrect arguments are provided.
+
+## `et2utc` Function Documentation
+
+### Functionality
+The `et2utc` function converts an input time from ephemeris seconds past J2000 to Calendar, Day-of-Year, or Julian Date format, UTC.
+
+### Usage Example
+```javascript
+const et = -527644192.5403653;
+const calendarFormatted = spice.et2utc(et, "C", 3);
+```
+
+### Parameters
+- `et`: The ephemeris time in seconds past J2000 to be converted.
+- `format`: The format of the output time string ("C" for Calendar, "D" for Day-of-Year, "J" for Julian Date).
+- `prec`: The precision of fractional seconds in the output time string.
+
+### Return Value
+Returns the converted time as a string in the specified format.
+
+### Error Handling
+- Throws an error if incorrect arguments are provided.
+
+## `etcal` Function Documentation
+
+### Functionality
+The `etcal` function converts an ephemeris epoch, measured in seconds past the epoch of J2000, to a calendar string.
+
+### Usage Example
+```javascript
+const et = 0;
+const calendarString = spice.etcal(et);
+```
+
+### Parameters
+- `et`: The ephemeris time in seconds past J2000 to be converted.
+
+### Return Value
+Returns a calendar string corresponding to the input ephemeris time.
+
+### Error Handling
+- Throws an error if incorrect arguments are provided.
+
+
+## `eul2m` Function Documentation
+
+### Functionality
+The `eul2m` function constructs a rotation matrix from a set of Euler angles.
+
+### Usage Example
+```javascript
+let pi = spice.pi();
+const angle3 = 0;
+const angle2 = 0;
+const angle1 = pi / 2;
+const axis3 = 1;
+const axis2 = 2;
+const axis1 = 3;
+
+const rotationMatrix = spice.eul2m({
+    angle3, angle2, angle1,
+    axis3,  axis2,  axis1
+});
+```
+
+### Parameters
+- An object with the following required keys:
+- `angle3`, `angle2`, `angle1`: The three Euler angles (in radians).
+- `axis3`, `axis2`, `axis1`: The axes of the rotations.
+
+### Return Value
+Returns a 3x3 rotation matrix constructed from the specified Euler angles.
+
+### Error Handling
+- Throws an error if incorrect arguments are provided.
+
 
 ##### evpsg4
 
