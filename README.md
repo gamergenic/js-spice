@@ -139,9 +139,10 @@ Euler Angles
 Functions will throw an error when they are unable to decipher input.  The error thrown will explain the expected type for the first incorrect argument detected.
 In some places inputs can be provided in multiple formats but outputs formats for a given type are intended to remain consistent.  For example `spice.recazl` will *accept* `([x,y,z])`, `("x":x, "y":y, "z":z)`, or `(x, y, z)` while `spice.azlrec` will only *output* `[x,y,z]`.
 
+---
+
 # Functions
 
-Note:  Example usages of js-spice wrappers can be found in the test directory, which is organized by function name.
 
 ## `axisar` Function Documentation
 
@@ -176,15 +177,48 @@ rotationMatrix = spice.axisar(0, 0, 1, angle);
 Returns a 3x3 rotation matrix (2D array) representing the rotation.
 
 ### Error Handling
-- Throws an error if called without any arguments.
-- Throws an error if called with extra arguments.
+- Throws an error if encountered.
 
 ### Notes
 - This function wraps the NAIF SPICE `axisar_c` function.
 - Be aware of the precision limits due to floating-point arithmetic.
 
-##### azlrec
-    console.log(spice.azlrec({"range" : 10000, "az" : 2, "el" : -1}, true, true));
+---
+
+## `azlrec` Function Documentation
+
+### Functionality
+The `azlrec` function converts from the range, azimuth, and elevation of a point to rectangular coordinates.
+
+### Usage Examples
+
+**Standard Coordinates:**
+```javascript
+const pi = 3.1415926536;
+const rpd = pi / 180;
+const azl = {"range": 1.732, "az": 315 * rpd, "el": -35.264 * rpd};
+
+const actual = spice.azlrec(azl, false, false);
+```
+
+**Azimuth Counter-Clockwise, Elevation Positive-Z:**
+```javascript
+const actual = spice.azlrec(azl, true, true);
+```
+
+### Parameters
+- `azl`: An object containing `range`, `az` (azimuth), and `el` (elevation) properties.
+- `azccw`: A boolean flag indicating if azimuth is counter-clockwise (true) or clockwise (false).
+- `elplsz`: A boolean flag indicating if elevation is positive towards +Z (true) or towards -Z (false).
+
+### Return Value
+Returns an array of rectangular coordinates corresponding to the input azimuthal coordinates.
+
+### Error Handling
+- Throws an error if incorrect arguments are provided.
+
+---
+
 
 ##### b1900
 
