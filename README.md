@@ -41,7 +41,122 @@ To come.
 
 ### API Reference
 
-To come.
+#### Functions
+
+Wrapped function list:  
+
+[axisar](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/axisar_c.html)  
+[azlrec](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/azlrec_c.html)  
+[b1900](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/b1900_c.html)  
+[b1950](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/b1950_c.html)  
+[bodvrd](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/bodvrd_c.html)  
+[clight](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/clight_c.html)  
+[conics](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/conics_c.html)  
+[convrt](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/convrt_c.html)  
+[cylrec](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/cylrec_c.html)  
+[deltet](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/deltet_c.html)  
+[dpr](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/dpr_c.html)  
+[erract](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/erract_c.html)  
+[errdev](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/errdev_c.html)  
+[errprt](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/errprt_c.html)  
+[et2utc](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/et2utc_c.html)  
+[etcal](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/etcal_c.html)  
+[eul2m](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/eul2m_c.html)  
+[evsgp4](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/evsgp4_c.html)  
+[failed](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/failed_c.html)  
+[furnsh](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/furnsh_c.html)  
+[georec](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/georec_c.html)  
+[getelm](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/getelm_c.html)  
+[gfposc](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/gfposc_c.html)  
+[gfsep](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/gfsep_c.html)  
+[halfpi](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/halfpi_c.html)  
+[ident](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/ident_c.html)  
+[invert](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/invert_c.html)  
+[j1900](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/j1900_c.html)  
+[j1950](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/j1950_c.html)  
+[j2000](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/j2000_c.html)  
+[j2100](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/j2100_c.html)  
+[jyear](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/jyear_c.html)  
+[kclear](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/kclear_c.html)  
+[latrec](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/latrec_c.html)  
+[m2eul](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/m2eul_c.html)  
+[m2q](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/m2q_c.html)  
+[mtxm](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/mtxm_c.html)  
+[mtxv](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/mtxv_c.html)  
+[mxm](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/mxm_c.html)  
+[mxmt](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/mxmt_c.html)  
+[mxv](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/mxv_c.html)  
+[nvc2pl](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/nvc2pl_c.html)  
+[nvp2pl](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/nvp2pl_c.html)  
+[oscelt](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/oscelt_c.html)  
+[pckfrm](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/pckfrm_c.html)  
+[pgrrec](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/pgrrec_c.html)  
+[pi](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/pi_c.html )  
+[pl2nvc](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/pl2nvc_c.html)  
+[pl2nvp](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/pl2nvp_c.html)  
+[pl2psv](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/pl2psv_c.html)  
+[prop2b](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/prop2b_c.html)  
+[psv2pl](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/psv2pl_c.html)  
+[pxform](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/pxform_c.html)  
+[pxfrm2](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/pxfrm2_c.html)  
+[q2m](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/q2m_c.html)  
+[qxq](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/qxq_c.html)  
+[radrec](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/radrec_c.html)  
+[raxisa](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/raxisa_c.html)  
+[recazl](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/recazl_c.html)  
+[reccyl](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/reccyl_c.html)  
+[recgeo](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/recgeo_c.html)  
+[reclat](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/reclat_c.html)  
+[recpgr](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/recpgr_c.html)  
+[recrad](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/recrad_c.html)  
+[recsph](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/recsph_c.html)  
+[reset](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/reset_c.html)  
+[rotate](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/rotate_c.html)  
+[rpd](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/rpd_c.html)  
+[sigerr](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/sigerr_c.html)  
+[spd](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/spd_c.html)  
+[sphrec](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/sphrec_c.html)  
+[spkcls](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/spkcls_c.html)  
+[spkcpo](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/spkcpo_c.html)  
+[spkcpt](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/spkcpt_c.html)  
+[spkcvo](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/spkcvo_c.html)  
+[spkcvt](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/spkcvt_c.html)  
+[spkezr](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/spkezr_c.html)  
+[spkgeo](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/spkgeo_c.html)  
+[spkgps](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/spkgps_c.html)  
+[spkobj](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/spkobj_c.html)  
+[spkopn](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/spkopn_c.html)  
+[spkpos](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/spkpos_c.html)  
+[spkw05](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/spkw05_c.html)  
+[str2et](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/str2et_c.html)  
+[sxform](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/sxform_c.html)  
+[timout](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/timout_c.html)  
+[twopi](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/twopi_c.html)  
+[unload](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/unload_c.html)  
+[vadd](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/vadd_c.html)  
+[vcrss](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/vcrss_c.html)  
+[vdist](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/vdist_c.html)  
+[vdot](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/vdot_c.html)  
+[vequ](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/vequ_c.html)  
+[vhat](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/vhat_c.html)  
+[vlcom](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/vlcom_c.html)  
+[vlcom3](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/vlcom3_c.html)  
+[vminus](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/vminus_c.html)  
+[vnorm](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/vnorm_c.html)  
+[vpack](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/vpack_c.html)  
+[vperp](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/vperp_c.html)  
+[vprjp](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/vprjp_c.html)  
+[vprjpi](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/vprjpi_c.html)  
+[vproj](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/vproj_c.html)  
+[vrel](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/vrel_c.html)  
+[vrotv](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/vrotv_c.html)  
+[vscl](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/vscl_c.html)  
+[vsep](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/vsep_c.html)  
+[vsub](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/vsub_c.html)  
+[vtmv](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/vtmv_c.html)  
+[vupack](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/vupack_c.html)  
+[vzero](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/vzero_c.html)  
+[xpose](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/xpose_c.html)  
 
 #### Types
 
@@ -263,16 +378,19 @@ The `bodvrd` function fetches from the kernel pool the double precision values o
 **Fetching Earth Radii:**
 ```javascript
 const earth_radii = spice.bodvrd("EARTH", "RADII");
+// earth_radii is a 3D numeric array.
 ```
 
 **Fetching Radii with Body ID:**
 ```javascript
 const earth_radii = spice.bodvrd("399", "RADII");
+// earth_radii is a 3D numeric array.
 ```
 
 **Fetching 1-Dimensional Value:**
 ```javascript
 const earth_long_axis = spice.bodvrd("EARTH", "LONG_AXIS");
+// earth_long_axis is a double-precision number.
 ```
 
 ### Parameters
@@ -1685,8 +1803,7 @@ The `pxfrm2` function returns the matrix that transforms position vectors from o
 ### Usage Example
 ```javascript
 await getKernels('pck/a_old_versions/pck00009.tpc', 'kernel_cache/data/naif/generic_kernels');
-const et = 0;
-let actual = spice.pxfrm2('IAU_EARTH', 'J2000', et, et);
+let r = spice.pxfrm2('IAU_EARTH', 'J2000', etfrom, etto);
 ```
 
 ### Parameters
@@ -1702,9 +1819,9 @@ Returns a 3x3 matrix representing the rotation from the `from` frame to the `to`
 - Throws an error if incorrect or invalid frame names are provided, or if the epochs are invalid.
 
 
-# `q2m` Function Documentation
+## `q2m` Function Documentation
 
-## Functionality
+### Functionality
 The `q2m` function calculates the rotation matrix corresponding to a specified unit quaternion. It is typically used to convert quaternion representations of rotations into matrix form, which is more suitable for certain types of calculations.
 
 ## Usage Example
@@ -1717,27 +1834,27 @@ const m = spice.q2m(q);
 // m now contains a 3x3 array of matrix values.
 ```
 
-## Parameters
+### Parameters
 - `q`: The input quaternion represented as an object with `x`, `y`, `z`, and `w` components.
 
-## Return Value
+### Return Value
 Returns a 3x3 rotation matrix corresponding to the given quaternion.
 
-## Error Handling
+### Error Handling
 - Throws an error if the input is not a unit quaternion.
 - Handles cases where input quaternion components are not in the expected format.
 
-## Note
+### Note
 This function is essential for converting quaternion representations, commonly used in spacecraft attitude control and 3D graphics, into rotation matrices that can be easily used for further geometric transformations.
 
 
 
-# `qxq` Function Documentation
+## `qxq` Function Documentation
 
-## Functionality
+### Functionality
 The `qxq` function multiplies two quaternions, `q1` and `q2`. This operation is essential in computational geometry, particularly in spacecraft attitude and orientation calculations.
 
-## Usage Example
+### Usage Example
 ```javascript
 const q1 = {"x":1, "y":0, "z":0, "w":0};
 const q2 = {"x":0, "y":1, "z":0, "w":0};
@@ -1745,109 +1862,111 @@ const q2 = {"x":0, "y":1, "z":0, "w":0};
 const q_x_q = spice.qxq(q1, q2);
 ```
 
-## Parameters
+### Parameters
 - `q1`: The first quaternion.
 - `q2`: The second quaternion.
 
-## Return Value
+### Return Value
 Returns the product of the two quaternions as a new quaternion.
 
-## Error Handling
+### Error Handling
 - Throws an error if incorrect arguments are provided.
 
 
+# recrad Function Documentation
 
-##### sphrec
-    console.log(spice.sphrec({"r" : 10000, "colat" : 2, "slon" : -1 }));
+## Functionality
+`recrad` converts rectangular coordinates to range, right ascension, and declination.
 
-##### twopi
+## Usage Example
+```cpp
+const rec = [0,0.7071067811847432,0.7071067811883519];
+const rad = spice.recrad(rec);
 
-
-##### spkezr
-https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/spkezr_c.html
-
-###### Usage
-```js
-// init js-spice, load kernels
-let result = spice.spkezr('moon', spice.str2et("2023 DEC 30"), 'J2000', 'NONE', 'earth');
-console.log(result.toString());
+// rad is of the form: {"range": 1, "ra":1.5708, "dec":0.785398}
 ```
 
-##### spkpos
-###### Usage
-```js
-// init js-spice, load kernels
-let result = spice.spkpos('moon', spice.str2et("2023 DEC 30"), 'J2000', 'NONE', 'earth');
+## Parameters
+- `rec`: An array representing rectangular coordinates.
+
+## Return Value
+Returns an object containing the range, right ascension, and declination derived from the input rectangular coordinates.
+
+## Error Handling
+This function throws a TypeError if incorrect arguments are provided. It does not throw any SPICE errors.
+
+
+## `raxisa` Function Documentation
+
+### Functionality
+The `raxisa` function computes the axis of the rotation given by an input matrix and the angle of rotation. It is useful for understanding and manipulating rotational transformations.
+
+### Usage Example
+```javascript
+const m = [[0, 1, 0], [-1, 0, 0], [0, 0, 1]];
+const { axis, angle } = spice.raxisa(m);
 ```
 
-##### spkgps
-###### Usage
-```js
-// init js-spice, load kernels
-let result = spice.spkgps(199, et_now(), "J2000", 399);;
+### Parameters
+- `matrix`: A 3x3 rotation matrix.
+
+### Return Value
+An object containing:
+- `axis`: The rotation axis as a 3-element array.
+- `angle`: The rotation angle in radians.
+
+### Error Handling
+This function validates input types and values, and throws a `TypeError` in case of invalid inputs.  It throws a generic error when the input is not a rotation matrix.
+
+
+## recazl
+
+### Functionality
+The `recazl` function converts rectangular coordinates of a point to range, azimuth, and elevation.
+
+### Usage
+```javascript
+const rec = [1, 1, 1];
+const actual = spice.recazl(rec, false, false);
 ```
 
+### Parameters
+- `rectan`: An array of rectangular coordinates of the point.
+- `azccw`: A boolean flag indicating if the azimuth increases in the clockwise direction.
+- `elplsz`: A boolean flag indicating if the elevation increases towards the +Z axis.
 
-##### spkgeo
-###### Usage
-```js
-// init js-spice, load kernels
-let result = spice.spkgeo(199, et_now(), "J2000", 399);
+### Return
+Returns an object containing the range, azimuth, and elevation.
+
+### Error Handling
+This function throws errors if invalid argument types are provided.
+
+
+
+## `reccyl` Function Documentation
+
+### Functionality
+The `reccyl` function converts rectangular coordinates to cylindrical coordinates.
+
+### Usage Example
+```javascript
+const rec = [1, 1, 1];
+const cyl = spice.reccyl(rec);
+
+// expected = {"r": 1.4142, "clon":45.0*rpd, "z":1.0};
 ```
 
-##### spkcpo
-###### Usage
-```js
-result = spice.spkcpo("mercury", et_now(), "J2000", "OBSERVER", "NONE", [1,1,1], "EARTH", "J2000");
-```
+### Parameters
+- `rec`: The rectangular coordinates of the point.
 
-##### spkcpt
-###### Usage
-```js
-result = spice.spkcpt([1,1,1], "mercury", "J2000", et_now(), "J2000", "OBSERVER", "NONE", "EARTH");
-```
+### Return Value
+Returns an object containing the cylindrical coordinates `r` (radius), `clon` (cylindrical longitude), and `z` (height).
 
-##### spkcvo
-###### Usage
-```js
-result = spice.spkcvo("mercury", et_now(), "J2000", "OBSERVER", "NONE", {r:[1,1,1],v:[0,0,0]}, et_now(), "EARTH", "J2000");
-```
+### Error Handling
+This function throws a `TypeError` if incorrect arguments are provided. It does not throw a SPICE error.
 
-##### spkcvt
-###### Usage
-```js
-result = spice.spkcvt({r:[1,1,1],v:[0,0,0]}, et_now(), "mercury", "J2000", et_now(), "J2000", "OBSERVER", "NONE", "EARTH");
-```
 
-##### spkw05
-###### Usage
-```js
-let gm = spice.bodvrd("earth", "GM");
-let handle = spice.spkopn("myspk.bsp", "myspk", 80);
-spice.spkw05(handle, 20580, 399, "J2000", first_et, last_et, "foo", gm, samples);
-spice.spkcls(handle);
-```
 
-##### str2et
-###### Usage
-```js
-const spice = require('js-spice');
-spice.unload("C:\\naif\\kernels\\Generic\\LSK\\latest_leapseconds.tls");
-```
-
-##### timout
-
-###### Usage
-```js
-console.log(spice.timout(now(), 'MON DD,YYYY  HR:MN:SC.#### (TDB) ::TDB'));
-```
-
-##### unload
-###### Usage
-```js
-const spice = require('js-spice');
-spice.unload("C:\\naif\\kernels\\Generic\\LSK\\latest_leapseconds.tls");
-```
 
 ### Adding js-spice as a git submodule to a host app
 
