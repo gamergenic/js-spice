@@ -6,7 +6,7 @@ For an example of `js-spice` usage, refer to our web server project that utilize
 
 ## Installation Guide
 
-To install js-spice to your node.js project:
+To install js-spice to your node.js project:  
 `npm install @gamergenic/js-spice`
 
 ### Tests
@@ -17,12 +17,12 @@ Keep in mind that some tests require SPICE kernel data files, which are automati
 ## Usage
 
 ```js
-const {spice} = require('js-spice');
+const {spice} = require('@gamergenic/js-spice');
 ```
 ...for just the spice wrapper.
 
 ```js
-const { spice, cacheGenericKernel, getKernels, getGeophysicalConstants, et_now } = require('js-spice');
+const { spice, cacheGenericKernel, getKernels, getGeophysicalConstants, et_now } = require('@gamergenic/js-spice');
 ```
 ...to include functions for downloading and caching kernel files, etc.
 
@@ -32,7 +32,7 @@ An example of using SPICE from JavaScript:
 ```js
 
 async function example(){
-    const { spice, getKernels } = require('js-spice');
+    const { spice, getKernels } = require('@gamergenic/js-spice');
 
     const kernelsToLoad = [
         'lsk/a_old_versions/naif0009.tls',
@@ -864,7 +864,7 @@ The `evsgp4` function evaluates NORAD two-line element data for Earth-orbiting s
 
 ### Usage Example
 ```javascript
-const { spice, getGeophysicalConstants } = require('js-spice');
+const { spice, getGeophysicalConstants } = require('@gamergenic/js-spice');
 
 const geophs = await getGeophysicalConstants(true, 'pck/geophysical.ker', 'kennel_cache/naif/generic_kernels');
 
@@ -1718,7 +1718,7 @@ The `pgrrec` function converts planetographic coordinates to rectangular coordin
 
 ### Usage Example
 ```javascript
-const { spice, getKernels } = require('js-spice');
+const { spice, getKernels } = require('@gamergenic/js-spice');
 await getKernels('pck/a_old_versions/pck00008.tpc', 'kernel_cache/data/naif/generic_kernels');
 const re = 3396.190;
 const rp = 3376.200;
@@ -3755,7 +3755,7 @@ The `cacheGenericKernel` function asynchronously downloads a file from a specifi
 
 #### Usage Example
 ```javascript
-const { downloadKernel } = require('js-spice');
+const { downloadKernel } = require('@gamergenic/js-spice');
 
 // Async function to download and cache a kernel
 async function downloadKernel() {
@@ -3802,7 +3802,7 @@ The `et_now` function retrieves the current time in Ephemeris Time (ET) format u
 
 #### Usage Example
 ```javascript
-const {et_now} = require('js-spice');
+const {et_now} = require('@gamergenic/js-spice');
 
 // Retrieve the current time in Ephemeris Time (ET) format
 const currentET = et_now();
@@ -3829,7 +3829,7 @@ The `getGeophysicalConstants` function asynchronously retrieves geophysical cons
 
 #### Usage Example
 ```javascript
-const { getGeophysicalConstants } = require('js-spice');
+const { getGeophysicalConstants } = require('@gamergenic/js-spice');
 
 // Async function to retrieve geophysical constants
 async function retrieveConstants() {
@@ -3874,7 +3874,7 @@ The `getKernels` function asynchronously loads and processes SPICE kernel files,
 #### Usage Example
 
 ```javascript
-const { getKernels } = require('js-spice');
+const { getKernels } = require('@gamergenic/js-spice');
 
 // Async function to load kernel files
 async function loadKernels() {
