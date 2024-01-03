@@ -9,7 +9,7 @@ For an example of `js-spice` usage, refer to our web server project that utilize
 To install js-spice to your node.js project:
 `npm install @gamergenic/js-spice`
 
-### Testing
+### Tests
 `js-spice` can be tested to verify the build's integrity by navigating to the project's directory and executing `npm test`.
 
 Keep in mind that some tests require SPICE kernel data files, which are automatically downloaded to the test/data directory upon the first test run.
@@ -26,61 +26,130 @@ const { spice, cacheGenericKernel, getKernels, getGeophysicalConstants, et_now }
 ```
 ...to include functions for downloading and caching kernel files, etc.
 
+### Example
+
+An example of using SPICE from JavaScript:
+```js
+
+async function example(){
+    const { spice, getKernels } = require('js-spice');
+
+    const kernelsToLoad = [
+        'lsk/a_old_versions/naif0009.tls',
+        'pck/a_old_versions/pck00008.tpc',
+        'spk/planets/a_old_versions/de421.bsp',
+        'spk/satellites/a_old_versions/sat288.bsp',
+        'spk/stations/a_old_versions/earthstns_itrf93_050714.bsp',
+        'fk/stations/a_old_versions/earth_topo_050714.tf',
+        'pck/a_old_versions/earth_070425_370426_predict.bpc',
+    ];
+
+
+    await getKernels(kernelsToLoad);   
+
+    try{
+            /*
+        We'll consider Saturn to be visible from DSS-14 when
+        Saturn has elevation above 6 degrees in the DSS-14
+        topocentric reference frame DSS-14_TOPO. 
+        
+        Create a confinement window for the view period
+        search. This window contains the start and stop times
+        of the search interval.
+        */
+        
+        const et0 = et_now();
+        const et1 = et_now() + spice.spd() * 5;
+        const cnfine = [[et0, et1]];
+
+        /*
+            Set the observer, target and reference frame.
+            */
+        const obsrvr = "DSS-14";
+        const target = "SATURN";
+        const frame  = "DSS-14_TOPO";
+
+        /*
+        The coordinate system is latitudinal; in this system,
+        in the DSS-14_TOPO frame, the coordinate "latitude"
+        is equivalent to elevation.
+        */
+        const crdsys = "LATITUDINAL";
+        const coord  = "LATITUDE";
+
+        /*
+        The relational operator for this search is "greater
+        than" and the reference value is 6 degrees (converted
+        to radians).
+        */
+        const relate = ">";
+        const refval = 6.0 * spice.rpd();
+
+        /*
+        We're looking for the apparent position of Saturn,
+        so apply corrections for light time and stellar
+        aberration.
+        */
+        const abcorr = "LT+S";
+
+        /*
+        Set the step size for this search. The step must
+        be shorter than the shortest interval over which
+        the elevation is increasing or decreasing.
+        We pick a conservative value: 6 hours. Units
+        expected by SPICE are TDB seconds.
+        */
+        const step   =  spice.spd() / 4;
+
+        /*
+        The adjustment value isn't used for this search;
+        set it to 0.
+        */
+        const adjust = 0.0;
+
+        /*
+        The number of intervals will be left as default
+        and the argument omitted.
+
+        Execute the search.
+        */        
+        console.log("\n\nStarting elevation search.\n");
+
+        const result = spice.gfposc(
+            target, frame, abcorr, obsrvr,
+            crdsys, coord, relate, refval,
+            adjust, step,  cnfine);
+
+        console.log("Done.\n");
+
+        /*
+        Display the times of rise and set.
+        */
+        console.log( "\nTimes of Saturn rise/set as seen from DSS-14:\n\n" );
+
+        const timeformat = "YYYY MON DD HR:MN:SC.###### TDB::RND::TDB";
+        if(Array.isArray(result)){
+            result.forEach((window)=>{
+                et0str = spice.timout(window[0], timeformat);
+                et1str = spice.timout(window[1], timeformat);
+                console.log(`${et0str} ${et1str}`);
+            });
+        }
+    }
+    catch(error){
+        console.error(error);
+    }
+}
+
+// run the asynchronous example.
+// the example will download and cache kernel files, then use 'gfposc' to determine
+// Saturn's rise/set time as seen from DSS-14.
+example();
+```
+
 ### Features
 
 `js-spice` is a partial wrapping of the NASA NAIF SPICE toolkit, with additional types that can be used for convenience.  The wrapped functions preserve the documented parameters and usage documented in the official SPICE documentation such that it can be used as a reference source.
-
-### Detailed Documentation
-
-New wrappings are readily addable.  To add one, copy the implementation of an existing function, and it should be readily apparent how to modify the code to wrap the new function.
-
-Example implementation:
-```cpp
-#include "wrapped/spkgeo.h"
-#include "utility/err.h"
-
-extern "C" {
-  #include <SpiceUsr.h>
-}
-#include "utility/pack.h"
-#include "utility/unpack.h"
-
-Napi::Value spkgeo(const Napi::CallbackInfo& info) {
-    Napi::Env env = info.Env();
-    Napi::HandleScope scope(env);
-
-    SpiceInt targ, obs;
-    std::string ref;
-    SpiceDouble et;
-    if(
-        // Unpack js parameters into Spice-worthy representations
-        Unpack("spkgeo", info)
-        .i(targ, "targ")  // "i" = unpack the next param as an integer
-        .et(et)           // "et" = unpack next param as an ephemeris time
-        .str(ref, "ref")  // "str" = unpack next param as a string
-        .i(obs, "obs")    // "i" = unpack next param as integer
-        .check( [=](const std::string& error) {
-                // lambda handler for missing/extra args, incorrect types, etc.
-                Napi::TypeError::New(env, error).ThrowAsJavaScriptException();
-            })){
-            return env.Null();
-    }
-
-    SpiceDouble     state[6];
-    SpiceDouble     lt;
-    // https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/spkgeo_c.html
-    spkgeo_c(targ, et, ref.c_str(), obs, state, &lt);
-
-    // Pack return values as an object containing "state" and "lt" children
-    // where state is a type state ({r: [x, y, z], v: [dx, dy, dz]})
-    // and lt is a double precision numeric.
-    // ...with an error check for SPICE errors
-    return Pack(info).state(state).as("state").with(lt, "lt").check();
-}
-```
-
-The next, after authoring your .h and .cpp wrapper, the .cpp will need added to `binding.gyp`.
-An include statement for the header will need added to `js-spice.cpp` and a line added to export the newly defined function in the bottom half of the file.  An optional unit test can be added to the /test subdirectory.  The module can then be rebuilt.  If you've installed node-gyp globally you can rebuild via `node-gyp clean configure build` from the `js-spice` directory.  If it's not installed, find the binary node-gyp in the node_modules directory under `js-spice` and invoke it via its full path.
 
 ### API Reference
 
@@ -3840,6 +3909,64 @@ loadKernels();
 
 #### External Reference
 - Utilizes the `cacheGenericKernel` function to cache and `spice.furnsh` to process the kernel files.
+
+
+### Extending `js-spice` to wrap additional SPICE functions
+
+Additional SPICE functions can be be wrapped for JavaScript use if you add a C++ implementation.  To add a new function, copy the implementation of an existing function. It should be (mostly) apparent how to modify the code to wrap the new function.
+
+Example implementation:
+```cpp
+#include "wrapped/spkgeo.h"
+#include "utility/err.h"
+
+extern "C" {
+  #include <SpiceUsr.h>
+}
+#include "utility/pack.h"
+#include "utility/unpack.h"
+
+Napi::Value spkgeo(const Napi::CallbackInfo& info) {
+    Napi::Env env = info.Env();
+    Napi::HandleScope scope(env);
+
+    // Parameters that will be passed into SPICE
+    SpiceInt targ, obs;
+    std::string ref;
+    SpiceDouble et;
+    
+    if(
+        // Unpack js parameters into Spice-worthy representations
+        Unpack("spkgeo", info)
+        
+        .i(targ, "targ")  // "i" = unpack the next param as an integer
+        .et(et)           // "et" = unpack next param as an ephemeris time
+        .str(ref, "ref")  // "str" = unpack next param as a string
+        .i(obs, "obs")    // "i" = unpack next param as integer
+        
+        .check( [=](const std::string& error) {
+                // lambda handler for missing/extra args, incorrect types, etc.
+                Napi::TypeError::New(env, error).ThrowAsJavaScriptException();
+            })){
+            return env.Null();
+    }
+
+    SpiceDouble     state[6];
+    SpiceDouble     lt;
+    // https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/spkgeo_c.html
+    spkgeo_c(targ, et, ref.c_str(), obs, state, &lt);
+
+    // Pack return values as an object containing "state" and "lt" children
+    // where state is a type state ({r: [x, y, z], v: [dx, dy, dz]})
+    // and lt is a double precision numeric.
+    // ...with an error check for SPICE errors
+    return Pack(info).state(state).as("state").with(lt, "lt").check();
+}
+```
+
+The next, after authoring your .h and .cpp wrapper, the .cpp will need added to `binding.gyp`.
+An include statement for the header will need added to `js-spice.cpp` and a line added to export the newly defined function in the bottom half of the file.  An optional unit test can be added to the /test subdirectory.  The module can then be rebuilt.  If you've installed node-gyp globally you can rebuild via `node-gyp clean configure build` from the `js-spice` directory.  If it's not installed, find the binary node-gyp in the node_modules directory under `js-spice` and invoke it via its full path.
+
 
 ### License
 MIT License.
