@@ -1873,12 +1873,12 @@ Returns the product of the two quaternions as a new quaternion.
 - Throws an error if incorrect arguments are provided.
 
 
-# recrad Function Documentation
+## `recrad`` Function Documentation
 
-## Functionality
+### Functionality
 `recrad` converts rectangular coordinates to range, right ascension, and declination.
 
-## Usage Example
+### Usage Example
 ```cpp
 const rec = [0,0.7071067811847432,0.7071067811883519];
 const rad = spice.recrad(rec);
@@ -1886,13 +1886,13 @@ const rad = spice.recrad(rec);
 // rad is of the form: {"range": 1, "ra":1.5708, "dec":0.785398}
 ```
 
-## Parameters
+### Parameters
 - `rec`: An array representing rectangular coordinates.
 
-## Return Value
+### Return Value
 Returns an object containing the range, right ascension, and declination derived from the input rectangular coordinates.
 
-## Error Handling
+### Error Handling
 This function throws a TypeError if incorrect arguments are provided. It does not throw any SPICE errors.
 
 
@@ -1966,6 +1966,1162 @@ Returns an object containing the cylindrical coordinates `r` (radius), `clon` (c
 This function throws a `TypeError` if incorrect arguments are provided. It does not throw a SPICE error.
 
 
+## `recgeo` Function Documentation
+
+### Functionality
+The `recgeo` function converts rectangular coordinates to geodetic coordinates, defined by the equatorial radius and flattening coefficient of a reference spheroid.
+
+### Usage Example
+```javascript
+const radius = 6378.2064;
+const f = 1./294.9787;
+const rec = [0.000, 6378.206, 0.000];
+const geo = spice.recgeo(rec, radius, f);
+
+// Expected { "lon": 90.0 * rpd, "lat":0, "alt":0 }
+```
+
+### Parameters
+- `rectan`: Array of rectangular coordinates [X, Y, Z].
+- `re`: Equatorial radius of the reference spheroid (in kilometers).
+- `f`: Flattening coefficient.
+
+### Return Value
+Returns an object containing longitude (`lon`), latitude (`lat`), and altitude (`alt`).
+
+### Error Handling
+This function throws an error if incorrect argument types are provided.
+
+
+## `reclat` Function Documentation
+
+### Functionality
+The `reclat` function converts rectangular coordinates to latitudinal coordinates.
+
+### Usage Example
+```javascript
+const rec = [-55658.44323296, -379226.32931475, -126505.93063865];
+const lat = spice.reclat(rec);
+
+// expected = {"radius": 403626.33912495, "lon":-98.34959789*rpd, "lat":-18.26566077*rpd};
+```
+
+### Parameters
+- `rec`: Array of three elements representing the rectangular coordinates (X, Y, Z).
+
+### Return Value
+Returns an object with latitudinal coordinates:
+- `radius`: The distance of the point from the origin.
+- `lon`: Longitude of the point in radians.
+- `lat`: Latitude of the point in radians.
+
+### Error Handling
+This function throws a `TypeError` if the input arguments are not as expected.
+
+
+
+
+## `recpgr` Function Documentation
+
+### Functionality
+The `recpgr` function converts rectangular coordinates to planetographic coordinates.
+
+### Usage Example
+```javascript
+await getKernels('pck/a_old_versions/pck00008.tpc');       
+
+const re = 3396.190;
+const rp = 3376.200;
+const f = (re-rp)/re;
+
+const rec = [0.000, 3396.190, 0.000];
+const actual = spice.recpgr('mars', rec, re, f);
+
+// expected = {"lon": 270.000 * rpd, "lat":0, "alt":0};
+```
+
+### Parameters
+- `body_str`: Name of the central body.
+- `rectan`: Rectangular coordinates of a point.
+- `re`: Equatorial radius of the reference spheroid in km.
+- `f`: Flattening coefficient.
+
+### Return Value
+Returns planetographic coordinates (longitude, latitude, altitude) of the input point.
+
+### Error Handling
+This function throws an error if invalid arguments are provided.
+
+
+## `recrad` Function Documentation
+
+### Functionality
+The `recrad` function converts rectangular coordinates to spherical coordinates (range, right ascension, and declination).
+
+### Usage Example
+```javascript
+const rec = [0, 0.7071067811847432, 0.7071067811883519];
+const rad = spice.recrad(rec);
+
+// expected = {"range": 1, "ra": 90.0 * rpd, "dec": 45.0 * rpd};
+```
+
+### Parameters
+- `rectan`: Array of rectangular coordinates.
+- `range`: Distance of the point from the origin.
+- `ra`: Right ascension of the point.
+- `dec`: Declination of the point.
+
+### Return Value
+Returns an object containing the spherical coordinates (range, right ascension, and declination).
+
+### Error Handling
+This function throws an error if invalid arguments are provided.
+
+
+## `recsph` Function Documentation
+
+### Functionality
+The `recsph` function converts rectangular coordinates to spherical coordinates.
+
+### Usage Example
+```javascript
+const rec = [0, 0.7071067811847432, 0.7071067811883519];
+const sph = spice.recsph(rec);
+
+// expected = {"r": 1, "colat": 45.0 * rpd, "slon": 90.0 * rpd};
+```
+
+### Parameters
+- `rectan`: Rectangular coordinates of a point.
+
+### Return Value
+Returns spherical coordinates (radius, colatitude, and slon) of the input point.
+
+### Error Handling
+This function does not throw a SPICE error.
+
+
+## `reset` Function Documentation
+
+### Functionality
+The `reset` function is used primarily for unit testing. It clears any SPICE error.
+
+### Usage Example
+```javascript
+// Signal an error
+spice.sigerr('houston, we have a problem.');
+
+// Failure is not an option
+spice.reset();
+```
+
+### Error Handling
+This function does not throw an error.
+
+
+
+## `rotate` Function Documentation
+
+### Functionality
+The `rotate` function calculates the 3x3 rotation matrix generated by a rotation of a specified angle about a specified axis.
+
+### Usage Example
+```javascript
+const r = spice.rotate(3.14159265358979/2, 3);
+
+// expect r = [[0, 1, 0], [-1, 0, 0], [0, 0, 1]];
+```
+
+### Parameters
+- `angle`: The rotation angle in radians.
+- `iaxis`: The axis index about which the rotation is to be performed (1, 2, or 3).
+
+### Return Value
+Returns the resulting 3x3 rotation matrix.
+
+### Error Handling
+This function throws an error if invalid arguments are provided.
+
+# `rpd` Function Documentation
+
+## Functionality
+The `rpd` function returns the number of radians per degree.
+
+## Usage Example
+```javascript
+const degrees_per_radian = spice.rpd();
+```
+
+## Parameters
+This function does not require any parameters.
+
+## Return Value
+Returns the number of radians per degree.
+
+## Error Handling
+This function throws an error if any argument is provided.
+
+
+
+## `sigerr` Function Documentation
+
+### Functionality
+The `sigerr` function is part of a node-gyp implementation that wraps the NASA/NAIF CSPICE Library. It is used to signal an error in the CSPICE system.
+
+### Usage Example
+```javascript
+// Signal a SPICE error with a custom message
+spice.sigerr('houston, we have a problem.');
+
+// Check if an error has been signaled
+const failed = spice.failed();
+
+// we should expect 'failed' to be true now.
+spice.reset();
+
+```
+
+### Parameters
+- `err`: A string message that describes the error. This message is passed to the CSPICE system.
+
+### Error Handling
+- The function will signal an error to the CSPICE system using the provided message.
+- No return value is expected as the primary purpose is to signal the error state.
+
+### Source and Test Files
+- The implementation of `sigerr` can be found in `sigerr.cpp`, which is part of the node-gyp implementation.
+- Unit tests are provided in `Sigerr.js`, demonstrating the usage and expected behavior of the function.
+
+### External Reference
+- For more information on the underlying CSPICE function `sigerr_c`, refer to [NASA/NAIF Toolkit Documentation](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/sigerr_c.html).
+
+
+## `spd` Function Documentation
+
+### Functionality
+The `spd` function is a part of the node-gyp implementation that interfaces with the NASA/NAIF CSPICE Library. This function returns the number of seconds in a day, a fundamental constant in time-related computations in astrophysics and space science.
+
+### Usage Example
+```javascript
+// Call spd to get the number of seconds in a day
+const secondsInADay = spice.spd();
+```
+
+### Parameters
+- The function expects no arguments.
+
+### Return Value
+- Returns the number of seconds in a day, as a numeric value.
+
+### Error Handling
+- Throws an error if any arguments are provided.
+
+### External Reference
+- For more information on the underlying CSPICE function `spd_c`, refer to [NASA/NAIF Toolkit Documentation](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/spd_c.html).
+
+
+## `sphrec` Function Documentation
+
+### Functionality
+The `sphrec` function converts spherical coordinates (radius, colatitude, and longitude) to rectangular (Cartesian) coordinates.
+
+### Usage Example
+```javascript
+// Define spherical coordinates
+const sph = {"r": 1, "colat": 45.0 * (Math.PI / 180), "slon": 90.0 * (Math.PI / 180)};
+
+// Convert to rectangular coordinates
+const rec = spice.sphrec(sph);
+
+// Expect rec = [0, 0.7071, 0.7071]
+```
+
+### Parameters
+- An object `sph` containing the following key/value pairs:
+  - `r`: Radius - distance from the origin.
+  - `colat`: Colatitude - angle measured from the positive Z-axis.
+  - `slon`: Longitude - angle measured from the positive X-axis in the XY-plane.
+
+### Return Value
+- Returns an array of rectangular coordinates `[x, y, z]` corresponding to the input spherical coordinates.
+
+### Error Handling
+- Throws an error if incorrect or insufficient arguments are provided.
+
+### External Reference
+- For more information on the underlying CSPICE function `sphrec_c`, refer to [NASA/NAIF Toolkit Documentation](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/sphrec_c.html).
+
+
+
+## `spkcls` Function Documentation
+
+### Functionality
+The `spkcls` function closes an open SPK (Spacecraft and Planet Kernel) file identified by its handle.
+
+### Usage Example
+```javascript
+
+const handle = spice.spkopenw('new_spk_file.bsp');
+
+spice.spkcls(handle);
+// Further write attempts here would fail, as the spk file was closed.
+```
+
+### Parameters
+- `handle`: An integer representing the handle of the SPK file to be closed.
+
+### Error Handling
+- Throws an error if an incorrect or invalid handle is provided.
+
+### External Reference
+- For more information on the underlying CSPICE function `spkcls_c`, refer to [NASA/NAIF Toolkit Documentation](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/spkcls_c.html).
+
+
+
+## `spkcpo` Function Documentation
+
+### Functionality
+The `spkcpo` function, part of a node-gyp implementation wrapping the NASA/NAIF CSPICE Library, computes the state (position and velocity) of a target body relative to an observer, where the observer's position is specified in a fixed reference frame.
+
+### Usage Example
+```javascript
+// Define parameters for the SPK "computation of position only" function
+const params = {
+    target: 'Mars', 
+    et: 123456789.0, 
+    outref: 'J2000',
+    refloc: 'OBSERVER',
+    abcorr: 'NONE',
+    obspos: [0.0, 0.0, 0.0],
+    obsctr: 'Earth',
+    obsref: 'J2000'
+};
+
+// Compute the state of the target
+const {state, lt} = spice.spkcpo(params);
+
+// state is returned as { "r": r, "v": v}
+```
+
+### Parameters
+- `params`: An object containing the following key/value pairs:
+  - `target`: The target body.
+  - `et`: The ephemeris time at which the state is to be computed.
+  - `outref`: The reference frame in which to express the observer's state.
+  - `refloc`: The location to use for the reference point.
+  - `abcorr`: The aberration correction flag.
+  - `obspos`: The position of the observer in the specified reference frame.
+  - `obsctr`: The center of motion of the observer.
+  - `obsref`: The reference frame of the observer's state.
+
+### Return Value
+- Returns an object containing the target's state and light time (`lt`).
+
+### Error Handling
+- Throws an error if incorrect or insufficient arguments are provided.
+
+### External Reference
+- For more information on the underlying CSPICE function `spkcpo_c`, refer to [NASA/NAIF Toolkit Documentation](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/spkcpo_c.html).
+
+
+
+## `spkcpt` Function Documentation
+
+### Functionality
+The `spkcpt` function, part of a node-gyp implementation wrapping the NASA/NAIF CSPICE Library, computes the state (position and velocity) of a target with constant position in a specified reference frame relative to an observer.
+
+### Usage Example
+```javascript
+// Define parameters for the SPK "computation of position and time" function
+const params = {
+    trgpos: [1.0, 2.0, 3.0], 
+    trgctr: 'Earth', 
+    trgref: 'J2000',
+    et: 123456789.0,
+    outref: 'J2000',
+    refloc: 'OBSERVER',
+    abcorr: 'NONE',
+    obsrvr: 'Mars'
+};
+
+// Compute the state of the target
+const {state, lt} = spice.spkcpt(params);
+```
+
+### Parameters
+- `params`: An object containing the following key/value pairs:
+  - `trgpos`: Target position.
+  - `trgctr`: Target center.
+  - `trgref`: Target reference frame.
+  - `et`: The ephemeris time at which the state is to be computed.
+  - `outref`: The reference frame in which to express the observer's state.
+  - `refloc`: The location to use for the reference point.
+  - `abcorr`: The aberration correction flag.
+  - `obsrvr`: The observer.
+
+### Return Value
+- Returns an object containing the target's state and light time (`lt`).
+
+### Error Handling
+- Throws an error if incorrect or insufficient arguments are provided.
+
+### External Reference
+- For more information on the underlying CSPICE function `spkcpt_c`, refer to [NASA/NAIF Toolkit Documentation](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/spkcpt_c.html).
+
+
+
+## `spkcvo` Function Documentation
+
+### Functionality
+The `spkcvo` function, part of a node-gyp implementation wrapping the NASA/NAIF CSPICE Library, computes the state (position and velocity) of a target body relative to an observer. The observer has a constant velocity in a specified reference frame.
+
+### Usage Example
+```javascript
+// Define parameters for the SPK "computation of velocity only" function
+const params = {
+    target: 'Mars', 
+    et: 123456789.0, 
+    outref: 'J2000',
+    refloc: 'OBSERVER',
+    abcorr: 'NONE',
+    obssta: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+    obsepc: 123456789.0,
+    obsctr: 'Earth',
+    obsref: 'J2000'
+};
+
+// Compute the state of the target
+const {state, lt} = spice.spkcvo(params);
+```
+
+### Parameters
+- `params`: An object containing the following key/value pairs:
+  - `target`: The target body.
+  - `et`: The ephemeris time at which the state is to be computed.
+  - `outref`: The reference frame in which to express the observer's state.
+  - `refloc`: The location to use for the reference point.
+  - `abcorr`: The aberration correction flag.
+  - `obssta`: The state of the observer in the specified reference frame.
+  - `obsepc`: The ephemeris time associated with `obssta`.
+  - `obsctr`: The center of motion of the observer.
+  - `obsref`: The reference frame of the observer's state.
+
+### Return Value
+- Returns an object containing the target's state and light time (`lt`).
+
+### Error Handling
+- Throws an error if incorrect or insufficient arguments are provided.
+
+### External Reference
+- For more information on the underlying CSPICE function `spkcvo_c`, refer to [NASA/NAIF Toolkit Documentation](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/spkcvo_c.html).
+
+
+
+## `spkcvt` Function Documentation
+
+### Functionality
+The `spkcvt` function, part of a node-gyp implementation wrapping the NASA/NAIF CSPICE Library, computes the state (position and velocity) of a target body having constant velocity in a specified reference frame relative to an observer.
+
+### Usage Example
+```javascript
+// Define parameters for the SPK "computation of velocity and time" function
+const params = {
+    trgsta: [1.0, 2.0, 3.0, 0.1, 0.2, 0.3],
+    trgepc: 123456789.0,
+    trgctr: 'Earth',
+    trgref: 'J2000',
+    et: 123456789.0,
+    outref: 'J2000',
+    refloc: 'OBSERVER',
+    abcorr: 'NONE',
+    obsrvr: 'Mars'
+};
+
+// Compute the state of the target
+const {state, lt} = spice.spkcvt(params);
+```
+
+### Parameters
+- `params`: An object containing the following key/value pairs:
+  - `trgsta`: The state of the target.
+  - `trgepc`: The ephemeris time associated with `trgsta`.
+  - `trgctr`: The center of motion of the target.
+  - `trgref`: The reference frame of the target's state.
+  - `et`: The ephemeris time at which the state is to be computed.
+  - `outref`: The reference frame in which to express the observer's state.
+  - `refloc`: The location to use for the reference point.
+  - `abcorr`: The aberration correction flag.
+  - `obsrvr`: The observer.
+
+### Return Value
+- Returns an object containing the target's state and light time (`lt`).
+
+### Error Handling
+- Throws an error if incorrect or insufficient arguments are provided.
+
+### External Reference
+- For more information on the underlying CSPICE function `spkcvt_c`, refer to [NASA/NAIF Toolkit Documentation](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/spkcvt_c.html).
+
+
+## `spkezr` Function Documentation
+
+### Functionality
+The `spkezr` function is a part of the node-gyp implementation wrapping the NASA/NAIF CSPICE Library. It computes the state (position and velocity) of a target body relative to an observing body, corrected for light time and stellar aberration if necessary.
+
+### Usage Example
+```javascript
+// Define parameters for the SPK "state from ephemeris and observer" function
+const params = {
+    targ: 'Mars', 
+    et: 123456789.0, 
+    ref: 'J2000',
+    abcorr: 'NONE',
+    obs: 'Earth'
+};
+
+// Compute the state of the target
+const {state, lt} = spice.spkezr(params);
+```
+
+### Parameters
+- `params`: An object containing the following key/value pairs:
+  - `targ`: The target body.
+  - `et`: The ephemeris time at which the state is to be computed.
+  - `ref`: The reference frame in which to express the state.
+  - `abcorr`: The aberration correction flag.
+  - `obs`: The observing body.
+
+### Return Value
+- Returns an object containing the target's state and light time (`lt`).
+
+### Error Handling
+- Throws an error if incorrect or insufficient arguments are provided.
+
+### External Reference
+- For more information on the underlying CSPICE function `spkezr_c`, refer to [NASA/NAIF Toolkit Documentation](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/spkpos_c.html).
+
+
+## `spkgeo` Function Documentation
+
+### Functionality
+The `spkgeo` function, part of a node-gyp implementation wrapping the NASA/NAIF CSPICE Library, computes the geometric state (position and velocity) of a target body relative to an observing body in a specified reference frame.
+
+### Usage Example
+```javascript
+// Define parameters for the SPK "geometric state" function
+const params = {
+    targ: 499, // Mars
+    et: 123456789.0,
+    ref: 'J2000',
+    obs: 399 // Earth
+};
+
+// Compute the geometric state of the target
+const {state, lt} = spice.spkgeo(params);
+```
+
+### Parameters
+- `params`: An object containing the following key/value pairs:
+  - `targ`: The NAIF ID of the target body.
+  - `et`: The ephemeris time at which the state is to be computed.
+  - `ref`: The reference frame in which to express the state.
+  - `obs`: The NAIF ID of the observing body.
+
+### Return Value
+- Returns an object containing the target's state and light time (`lt`).
+
+### Error Handling
+- Throws an error if incorrect or insufficient arguments are provided.
+
+### External Reference
+- For more information on the underlying CSPICE function `spkgeo_c`, refer to [NASA/NAIF Toolkit Documentation](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/spkgeo_c.html).
+
+
+## `spkgps` Function Documentation
+
+### Functionality
+The `spkgps` function is part of a node-gyp implementation wrapping the NASA/NAIF CSPICE Library. It computes the geometric position of a target body relative to an observing body in a specified reference frame, corrected for light time if necessary.
+
+### Usage Example
+```javascript
+// Define parameters for the SPK "geometric position" function
+const params = {
+    targ: 499, // Mars
+    et: 123456789.0,
+    ref: 'J2000',
+    obs: 399 // Earth
+};
+
+// Compute the geometric position of the target
+const {pos, lt} = spice.spkgps(params);
+
+// Example assertion to check the correctness
+expect(pos).to.be.an('array').with.lengthOf(3);
+expectAlmostEqual(lt, 12345.678, 1e-3);
+```
+
+### Parameters
+- `params`: An object containing the following key/value pairs:
+  - `targ`: The NAIF ID of the target body.
+  - `et`: The ephemeris time at which the position is to be computed.
+  - `ref`: The reference frame in which to express the position.
+  - `obs`: The NAIF ID of the observing body.
+
+### Return Value
+- Returns an object containing the target's position (`pos`) and light time (`lt`).
+
+### Error Handling
+- Throws an error if incorrect or insufficient arguments are provided.
+
+### External Reference
+- For more information on the underlying CSPICE function `spkgps_c`, refer to [NASA/NAIF Toolkit Documentation](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/spkgps_c.html).
+
+
+## `spkobj` Function Documentation
+
+### Functionality
+The `spkobj` function, part of a node-gyp implementation wrapping the NASA/NAIF CSPICE Library, finds the set of ID codes of all objects in a specified SPK (Spacecraft and Planet Kernel) file.
+
+### Usage Example
+```javascript
+// Define the SPK file name
+const spkFileName = 'example.spk';
+
+// Find the set of ID codes in the SPK file
+const objectIds = spice.spkobj(spkFileName);
+
+// An array of ID codes should be returned. e.g, [1, 2, 3, 4, ...]
+```
+
+### Parameters
+- `spkFileName`: A string representing the name of the SPK file.
+
+### Return Value
+- Returns an array of ID codes for all objects found in the specified SPK file.
+
+### Error Handling
+- Throws an error if incorrect arguments are provided or if the SPK file cannot be accessed.
+
+### External Reference
+- For more information on the underlying CSPICE function `spkobj_c`, refer to [NASA/NAIF Toolkit Documentation](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/spkobj_c.html).
+
+
+## `spkopn` Function Documentation
+
+### Functionality
+The `spkopn` function, part of a node-gyp implementation wrapping the NASA/NAIF CSPICE Library, opens a new SPK (Spacecraft and Planet Kernel) file for writing.
+
+### Usage Example
+```javascript
+// Define parameters to create a new SPK file
+const fileName = 'new_spk_file.bsp';
+const internalFileName = 'Internal Name';
+const numberOfCommentCharacters = 1024;
+
+// Create the new SPK file
+const handle = spice.spkopn(fileName, internalFileName, numberOfCommentCharacters);
+
+// if no exception was thrown, handle will return as a 32-bit integer;
+```
+
+### Parameters
+- `fileName`: The name of the new SPK file.
+- `internalFileName`: The internal file name for the SPK file.
+- `numberOfCommentCharacters`: The number of comment characters to allocate.
+
+### Return Value
+- Returns a handle to the newly created SPK file.
+
+### Error Handling
+- Throws an error if incorrect arguments are provided or if the file cannot be opened.
+
+### External Reference
+- For more information on the underlying CSPICE function `spkopn_c`, refer to [NASA/NAIF Toolkit Documentation](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/spkopn_c.html).
+
+
+## `spkpos` Function Documentation
+
+### Functionality
+The `spkpos` function, part of a node-gyp implementation wrapping the NASA/NAIF CSPICE Library, computes the position of a target body relative to an observing body, corrected for light time and stellar aberration if necessary.
+
+### Usage Example
+```javascript
+// Define parameters for the SPK "position" function
+const params = {
+    targ: 'Mars', 
+    et: 123456789.0, 
+    ref: 'J2000',
+    abcorr: 'NONE',
+    obs: 'Earth'
+};
+
+// Compute the position of the target
+const {pos, lt} = spice.spkpos(params);
+```
+
+### Parameters
+- `params`: An object containing the following key/value pairs:
+  - `targ`: The target body.
+  - `et`: The ephemeris time at which the position is to be computed.
+  - `ref`: The reference frame in which to express the position.
+  - `abcorr`: The aberration correction flag.
+  - `obs`: The observing body.
+
+### Return Value
+- Returns an object containing the target's position (`pos`) and light time (`lt`).
+
+### Error Handling
+- Throws an error if incorrect or insufficient arguments are provided.
+
+### External Reference
+- For more information on the underlying CSPICE function `spkpos_c`, refer to [NASA/NAIF Toolkit Documentation](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/spkpos_c.html).
+
+
+## `spkw05` Function Documentation
+
+### Functionality
+The `spkw05` function, part of a node-gyp implementation wrapping the NASA/NAIF CSPICE Library, writes an SPK (Spacecraft and Planet Kernel) segment of type 5, which contains ephemeris data for a specified body.
+
+### Usage Example
+```javascript
+// Define parameters to write an SPK segment of type 5
+const handle = spice.spkopn('new_spk_file.bsp', 'Internal Name', 1024);
+const body = 399; // Earth
+const center = 10; // Sun
+const frame = 'J2000';
+const first = 0.0; // Start time
+const last = 86400.0; // End time
+const segid = 'Segment ID';
+const gm = 398600.435436; // GM for Earth
+const data = [{state: {r: [x, y, z], v: [dx, dy, dz]}, et: et}, ...]; // Ephemeris data
+
+// Write the segment
+spice.spkw05(handle, body, center, frame, first, last, segid, gm, data);
+```
+
+### Parameters
+- `handle`: The handle of the SPK file to which the segment is to be written.
+- `body`: The NAIF ID of the body.
+- `center`: The NAIF ID of the center body.
+- `frame`: The reference frame.
+- `first`, `last`: The start and end times of the segment.
+- `segid`: The segment identifier.
+- `gm`: The gravitational parameter.
+- `data`: An array of state and epoch pairs.
+
+### Return Value
+- The function does not return a value but writes the segment to the SPK file.
+
+### Error Handling
+- Throws an error if incorrect arguments are provided or if there is an issue with writing to the file.
+
+### External Reference
+- For more information on the underlying CSPICE function `spkw05_c`, refer to [NASA/NAIF Toolkit Documentation](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/spkw05_c.html).
+
+
+
+## `str2et` Function Documentation
+
+### Functionality
+The `str2et` function, part of a node-gyp implementation wrapping the NASA/NAIF CSPICE Library, converts a time string to ephemeris time (ET), which is the number of seconds past the J2000 epoch.
+
+### Usage Example
+```javascript
+// Define a time string
+const timeString = 'Jan 1, 2023 12:00:00 TDB';
+
+// Convert the time string to ephemeris time
+const et = spice.str2et(timeString);
+```
+
+### Parameters
+- `timeString`: A string representing a time in any format recognized by SPICE.
+
+### Return Value
+- Returns the ephemeris time (ET) as a numeric value, corresponding to the input time string.
+
+### Error Handling
+- Throws an error if the time string is not in a recognizable format or if other issues occur during conversion.
+
+### External Reference
+- For more information on the underlying CSPICE function `str2et_c`, refer to [NASA/NAIF Toolkit Documentation](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/str2et_c.html).
+
+
+
+## `sxform` Function Documentation
+
+### Functionality
+The `sxform` function, part of a node-gyp implementation wrapping the NASA/NAIF CSPICE Library, computes the state transformation matrix from one reference frame to another at a specified epoch.
+
+### Usage Example
+```javascript
+// Define parameters for the state transformation matrix computation
+const fromFrame = 'IAU_EARTH';
+const toFrame = 'J2000';
+const ephemerisTime = 123456789.0; // Example ephemeris time
+
+// Compute the state transformation matrix
+const stateTransformMatrix = spice.sxform(fromFrame, toFrame, ephemerisTime);
+
+// stateTransformMatrix will be a 6 x 6 array.
+```
+
+### Parameters
+- `fromFrame`: The name of the reference frame to transform from.
+- `toFrame`: The name of the reference frame to transform to.
+- `ephemerisTime`: The ephemeris time at which the transformation is computed.
+
+### Return Value
+- Returns a 6x6 state transformation matrix.
+
+### Error Handling
+- Throws an error if incorrect arguments are provided or if the transformation cannot be computed.
+
+### External Reference
+- For more information on the underlying CSPICE function `sxform_c`, refer to [NASA/NAIF Toolkit Documentation](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/sxform_c.html).
+
+
+## `timout` Function Documentation
+
+### Functionality
+The `timout` function, part of a node-gyp implementation wrapping the NASA/NAIF CSPICE Library, converts an input epoch represented in TDB seconds past the TDB epoch of J2000 to a character string formatted according to a user's format picture.
+
+### Usage Example
+```javascript
+// Define an ephemeris time and a format picture
+const et = 757234367.172871; // Example ephemeris time
+const formatPicture = 'MON DD,YYYY HR:MN:SC.#### (TDB) ::TDB';
+
+// Convert the ephemeris time to a formatted string
+const formattedTime = spice.timout(et, formatPicture);
+
+// formattedTime is now 'DEC 30,2023 18:52:47.1728 (TDB)'
+```
+
+### Parameters
+- `et`: The ephemeris time in TDB seconds past the J2000 epoch.
+- `formatPicture`: A string specifying the format for the output string.
+
+### Return Value
+- Returns a formatted time string according to the specified format.
+
+### Error Handling
+- Throws an error if incorrect arguments are provided or if the formatting fails.
+
+### External Reference
+- For more information on the underlying CSPICE function `timout_c`, refer to [NASA/NAIF Toolkit Documentation](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/timout_c.html).
+
+
+## `twopi` Function Documentation
+
+### Functionality
+The `twopi` function, part of a node-gyp implementation wrapping the NASA/NAIF CSPICE Library, returns the value of \(2\pi\) (twice the value of pi).
+
+### Usage Example
+```javascript
+// Call twopi to get the value of 2*pi
+const twoPiValue = spice.twopi();
+```
+
+### Parameters
+- The function expects no arguments.
+
+### Return Value
+- Returns the numeric value of \(2\pi\).
+
+### Error Handling
+- Throws an error if any arguments are provided.
+
+### External Reference
+- For more information on the underlying CSPICE function `twopi_c`, refer to [NASA/NAIF Toolkit Documentation](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/twopi_c.html).
+
+
+## `unload` Function Documentation
+
+### Functionality
+The `unload` function, part of a node-gyp implementation wrapping the NASA/NAIF CSPICE Library, unloads a SPICE kernel from the kernel pool.
+
+### Usage Example
+```javascript
+// Define the path of the SPICE kernel to unload
+const kernelPath = 'path/to/spice_kernel.bsp';
+
+// Unload the specified kernel
+spice.unload(kernelPath);
+
+```
+
+### Parameters
+- `kernelPath`: A string representing the path to the kernel file to be unloaded.
+
+### Return Value
+- The function does not return a value but unloads the specified kernel from the pool.
+
+### Error Handling
+- Throws an error if incorrect arguments are provided or if the kernel cannot be unloaded.
+
+### External Reference
+- For more information on the underlying CSPICE function `unload_c`, refer to [NASA/NAIF Toolkit Documentation](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/unload_c.html).
+
+
+
+## `vadd` Function Documentation
+
+### Functionality
+The `vadd` function, part of a node-gyp implementation wrapping the NASA/NAIF CSPICE Library, adds two double precision 3-dimensional vectors.
+
+### Usage Example
+```javascript
+// Define two 3-dimensional vectors
+const vector1 = [1, 2, 3];
+const vector2 = [1, 1, 1];
+
+// Perform vector addition
+const resultVector = spice.vadd(vector1, vector2);
+
+// expefcted result: [2, 3, 4];
+```
+
+### Parameters
+- `vector1`: The first 3-dimensional vector.
+- `vector2`: The second 3-dimensional vector.
+
+### Return Value
+- Returns the result of vector addition as a 3-dimensional vector.
+
+### Error Handling
+- Throws an error if incorrect arguments are provided.
+
+### External Reference
+- For more information on the underlying CSPICE function `vadd_c`, refer to [NASA/NAIF Toolkit Documentation](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/vadd_c.html).
+
+
+## `vcrss` Function Documentation
+
+### Functionality
+The `vcrss` function, part of a node-gyp implementation wrapping the NASA/NAIF CSPICE Library, computes the cross product of two 3-dimensional vectors.
+
+### Usage Example
+```javascript
+// Define two 3-dimensional vectors
+const vector1 = [0, 1, 0];
+const vector2 = [1, 0, 0];
+
+// Compute the cross product
+const crossProduct = spice.vcrss(vector1, vector2);
+
+// Expect [0, 0, -1];
+```
+
+### Parameters
+- `vector1`: The first 3-dimensional vector.
+- `vector2`: The second 3-dimensional vector.
+
+### Return Value
+- Returns the cross product of the two vectors as a 3-dimensional vector.
+
+### Error Handling
+- Throws an error if incorrect arguments are provided.
+
+### External Reference
+- For more information on the underlying CSPICE function `vcrss_c`, refer to [NASA/NAIF Toolkit Documentation](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/vcrss_c.html).
+
+
+
+## `vdist` Function Documentation
+
+### Functionality
+The `vdist` function, part of a node-gyp implementation wrapping the NASA/NAIF CSPICE Library, calculates the distance between two 3-dimensional vectors.
+
+### Usage Example
+```javascript
+// Define two 3-dimensional vectors
+const vector1 = [1.0, 0.0, 0.0];
+const vector2 = [0.0, 1.0, 0.0];
+
+// Calculate the distance between the vectors
+const distance = spice.vdist(vector1, vector2);
+
+// expect 1.414214 sqrt(2)
+```
+
+### Parameters
+- `vector1`: The first 3-dimensional vector.
+- `vector2`: The second 3-dimensional vector.
+
+### Return Value
+- Returns the distance between the two vectors as a numeric value.
+
+### Error Handling
+- Throws an error if incorrect arguments are provided.
+
+### External Reference
+- For more information on the underlying CSPICE function `vdist_c`, refer to [NASA/NAIF Toolkit Documentation](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/vdist_c.html).
+
+
+## `vdot` Function Documentation
+
+### Functionality
+The `vdot` function, part of a node-gyp implementation wrapping the NASA/NAIF CSPICE Library, computes the dot product of two double precision, 3-dimensional vectors.
+
+### Usage Example
+```javascript
+// Define two 3-dimensional vectors
+const vector1 = [1, 2, 3];
+const vector2 = [4, 5, 6];
+
+// Compute the dot product
+const dotProduct = spice.vdot(vector1, vector2);
+
+// Exptected result is 1*4 + 2*5 + 3*6 = 32
+```
+
+### Parameters
+- `vector1`: The first 3-dimensional vector.
+- `vector2`: The second 3-dimensional vector.
+
+### Return Value
+- Returns the dot product of the two vectors as a numeric value.
+
+### Error Handling
+- Throws an error if incorrect arguments are provided.
+
+### External Reference
+- For more information on the underlying CSPICE function `vdot_c`, refer to [NASA/NAIF Toolkit Documentation](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/vdot_c.html).
+
+
+## `vequ` Function Documentation
+
+### Functionality
+The `vequ` function, part of a node-gyp implementation wrapping the NASA/NAIF CSPICE Library, makes one double precision 3-dimensional vector equal to another.
+
+### Usage Example
+```javascript
+// Define a 3-dimensional vector
+const vin = [1, 2, 3];
+
+// Make a new vector equal to the original
+const resultVector = spice.vequ(vin);
+
+// expected resultVector = [1, 2, 3];
+```
+
+### Parameters
+- `vin`: The original 3-dimensional vector.
+
+### Return Value
+- Returns a new 3-dimensional vector that is equal to the original vector.
+
+### Error Handling
+- Throws an error if incorrect arguments are provided.
+
+### External Reference
+- For more information on the underlying CSPICE function `vequ_c`, refer to [NASA/NAIF Toolkit Documentation](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/vequ_c.html).
+
+
+## `vhat` Function Documentation
+
+### Functionality
+The `vhat` function, part of a node-gyp implementation wrapping the NASA/NAIF CSPICE Library, finds the unit vector along a double precision 3-dimensional vector.
+
+### Usage Example
+```javascript
+// Define a 3-dimensional vector
+const vector = [5.0, 12.0, 0.0];
+
+// Compute the unit vector
+const unitVector = spice.vhat(vector);
+
+//  expected UnitVector = [0.38461538, 0.92307692, 0.00000000];
+```
+
+### Parameters
+- `vector`: The original 3-dimensional vector.
+
+### Return Value
+- Returns the unit vector along the direction of the original vector.
+
+### Error Handling
+- Throws an error if incorrect arguments are provided.
+
+### External Reference
+- For more information on the underlying CSPICE function `vhat_c`, refer to [NASA/NAIF Toolkit Documentation](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/vhat_c.html).
+
+
+
+## `vlcom` Function Documentation
+
+### Functionality
+The `vlcom` function, part of a node-gyp implementation wrapping the NASA/NAIF CSPICE Library, computes a vector linear combination of two double precision, 3-dimensional vectors.
+
+### Usage Example
+```javascript
+// Define scalar coefficients and 3-dimensional vectors
+const a = 1;
+const v1 = [1, 2, 3];
+const b = 2;
+const v2 = [4, 5, 6];
+
+// Compute the vector linear combination
+const linearCombination = spice.vlcom(a, v1, b, v2);
+
+// expected linearCombination = [1*1 + 2*4, 1*2 + 2*5, 1*3 + 2*6] - [9, 12, 15]
+```
+
+### Parameters
+- `a`: The scalar coefficient for the first vector.
+- `v1`: The first 3-dimensional vector.
+- `b`: The scalar coefficient for the second vector.
+- `v2`: The second 3-dimensional vector.
+
+### Return Value
+- Returns the vector linear combination as a 3-dimensional vector.
+
+### Error Handling
+- Throws an error if incorrect arguments are provided.
+
+### External Reference
+- For more information on the underlying CSPICE function `vlcom_c`, refer to [NASA/NAIF Toolkit Documentation](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/vlcom_c.html).
+
+
+## `vlcom3` Function Documentation
+
+### Functionality
+The `vlcom3` function, part of a node-gyp implementation wrapping the NASA/NAIF CSPICE Library, computes the vector linear combination of three double precision, 3-dimensional vectors.
+
+### Usage Example
+```javascript
+// Define scalar coefficients and 3-dimensional vectors
+const a = 1;
+const v1 = [1, 2, 3];
+const b = 2;
+const v2 = [4, 5, 6];
+const c = 3;
+const v3 = [7, 8, 9];
+
+// Compute the vector linear combination
+const linearCombination = spice.vlcom3(a, v1, b, v2, c, v3);
+// expected linearCombination = [1*1 + 2*4 + 3*7, 1*2 + 2*5 + 3*8, 1*3 + 2*6 + 3*9] - [34, 40, 46]
+
+```
+
+### Parameters
+- `a`, `b`, `c`: The scalar coefficients for the vectors.
+- `v1`, `v2`, `v3`: The 3-dimensional vectors.
+
+### Return Value
+- Returns the vector linear combination as a 3-dimensional vector.
+
+### Error Handling
+- Throws an error if incorrect arguments are provided.
+
+### External Reference
+- For more information on the underlying CSPICE function `vlcom3_c`, refer to [NASA/NAIF Toolkit Documentation](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/vlcom3_c.html).
+
+
+
+---
 
 
 ### Adding js-spice as a git submodule to a host app
