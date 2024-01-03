@@ -4,20 +4,15 @@
 
 For an example of `js-spice` usage, refer to our web server project that utilizes the module: [Earth-Moon-Sun Simulation](https://github.com/gamergenic/earth-moon-sun). This project illustrates how js-spice can be used for space-related calculations and simulations in a JavaScript environment.
 
-## Ongoing Development Notice
-
-Please note that js-spice is currently under active development. It has not been fully tested and is still evolving. The documentation available at this stage primarily consists of preliminary notes and usage examples. Users are welcome to explore and experiment with the module, but it's important to be aware of its provisional state and ongoing changes.
-
 ## Installation Guide
 
-`js-spice` is still in the development phase and has not yet been officially released on npm. To integrate it into your project, you can't currently use the standard npm installation command. Instead, you can include it by linking directly to the GitHub repository as a git submodule. Detailed instructions for this process can be found in the section "Adding js-spice as a git submodule to a host app."
-
+To install js-spice to your node.js project:
+`npm install @gamergenic/js-spice`
 
 ### Testing
 `js-spice` can be tested to verify the build's integrity by navigating to the project's directory and executing `npm test`.
 
 Keep in mind that some tests require SPICE kernel data files, which are automatically downloaded to the test/data directory upon the first test run.
-
 
 ## Usage
 
@@ -37,7 +32,55 @@ const { spice, cacheGenericKernel, getKernels, getGeophysicalConstants, et_now }
 
 ### Detailed Documentation
 
-To come.
+New wrappings are readily addable.  To add one, copy the implementation of an existing function, and it should be readily apparent how to modify the code to wrap the new function.
+
+Example implementation:
+```cpp
+#include "wrapped/spkgeo.h"
+#include "utility/err.h"
+
+extern "C" {
+  #include <SpiceUsr.h>
+}
+#include "utility/pack.h"
+#include "utility/unpack.h"
+
+Napi::Value spkgeo(const Napi::CallbackInfo& info) {
+    Napi::Env env = info.Env();
+    Napi::HandleScope scope(env);
+
+    SpiceInt targ, obs;
+    std::string ref;
+    SpiceDouble et;
+    if(
+        // Unpack js parameters into Spice-worthy representations
+        Unpack("spkgeo", info)
+        .i(targ, "targ")  // "i" = unpack the next param as an integer
+        .et(et)           // "et" = unpack next param as an ephemeris time
+        .str(ref, "ref")  // "str" = unpack next param as a string
+        .i(obs, "obs")    // "i" = unpack next param as integer
+        .check( [=](const std::string& error) {
+                // lambda handler for missing/extra args, incorrect types, etc.
+                Napi::TypeError::New(env, error).ThrowAsJavaScriptException();
+            })){
+            return env.Null();
+    }
+
+    SpiceDouble     state[6];
+    SpiceDouble     lt;
+    // https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/spkgeo_c.html
+    spkgeo_c(targ, et, ref.c_str(), obs, state, &lt);
+
+    // Pack return values as an object containing "state" and "lt" children
+    // where state is a type state ({r: [x, y, z], v: [dx, dy, dz]})
+    // and lt is a double precision numeric.
+    // ...with an error check for SPICE errors
+    return Pack(info).state(state).as("state").with(lt, "lt").check();
+}
+```
+
+The next, after authoring your .h and .cpp wrapper, the .cpp will need added to `binding.gyp`.
+An include statement for the header will need added to `js-spice.cpp` and a line added to export the newly defined function in the bottom half of the file.  An optional unit test can be added to the /test subdirectory.  The module can then be rebuilt.  If you've installed node-gyp globally you can rebuild via `node-gyp clean configure build` from the `js-spice` directory.  If it's not installed, find the binary node-gyp in the node_modules directory under `js-spice` and invoke it via its full path.
 
 ### API Reference
 
@@ -3120,50 +3163,683 @@ const linearCombination = spice.vlcom3(a, v1, b, v2, c, v3);
 - For more information on the underlying CSPICE function `vlcom3_c`, refer to [NASA/NAIF Toolkit Documentation](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/vlcom3_c.html).
 
 
+## `vminus` Function Documentation
 
----
+### Functionality
+The `vminus` function, part of a node-gyp implementation wrapping the NASA/NAIF CSPICE Library, negates a double precision 3-dimensional vector.
 
+### Usage Example
+```javascript
+// Define a 3-dimensional vector
+const vector = [1, 2, 3];
 
-### Adding js-spice as a git submodule to a host app
+// Negate the vector
+const negatedVector = spice.vminus(vector);
 
-Adding the js-spice module to a host application using Git submodules involves a series of steps. Here's a guide to help you through the process:
-
-#### 1 Initialize the Host Application Repository (If Not Already Done):
-* If your host application isn't already a Git repository, initialize it with `git init`.
-
-#### 2 Add the Module as a Submodule:
-* Navigate to the root directory of your host application.
-* Use the command `git submodule add https://github.com/gamergenic/js-spice.git` to add your module as a submodule.
-
-##### 3 Specify the Path for the Submodule:
-* While adding the submodule, you can also specify a path where you want the submodule to be placed. For instance: `git submodule add https://github.com/gamergenic/js-spice.git <desired path>`.
-* If you don't specify a path, the submodule will be placed in a directory with the same name as the repository by default.
-
-#### 4 Initialize and Update the Submodule:
-* Run `git submodule init` to initialize your submodule.
-* Then, run `git submodule update` to fetch all the data from the submodule project and check out the specified commit in your submodule.
-
-#### 5 Commit the Changes in the Host Application:
-* After adding the submodule, you will see changes in your host application's repository. These changes include the addition of the `.gitmodules` file and the submodule's directory.
-* Commit these changes with `git add .` and `git commit -m "Add js-spice as a submodule"`.
-
-#### 6 Clone the Host Application Along with Submodules:
-* If you need to clone the host application repository along with its submodules, use the command `git clone --recurse-submodules <repository URL of host application>`.
-
-#### 7 Update the Submodule:
-* To update the js-spice module to the latest commit available in its repository, navigate to the submodule's directory and run `git pull origin master` (or the branch you wish to pull from).
-* Then, go back to your host application's root directory and commit the changes.
-
-#### 8 Push the Changes to the Host Application Repository:
-* After committing the changes, push them to the host application repository with `git push`.
-Remember, each submodule is essentially a separate Git repository, so you need to commit and push changes within each submodule separately, as well as in the host repository.
-
-#### 9 Updating the js-spice module to latest from your host app:
-```sh
-cd modules/js-spice
-git pull origin main
-npm install
+// expect NegatedVector = [-1, -2, -3];
 ```
+
+### Parameters
+- `vector`: The original 3-dimensional vector.
+
+### Return Value
+- Returns the negated vector as a 3-dimensional vector.
+
+### Error Handling
+- Throws an error if incorrect arguments are provided.
+
+### External Reference
+- For more information on the underlying CSPICE function `vminus_c`, refer to [NASA/NAIF Toolkit Documentation](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/vminus_c.html).
+
+
+
+## `vnorm` Function Documentation
+
+### Functionality
+The `vnorm` function, part of a node-gyp implementation wrapping the NASA/NAIF CSPICE Library, computes the magnitude of a double precision 3-dimensional vector.
+
+### Usage Example
+```javascript
+// Define a 3-dimensional vector
+const vector = [1, 2, 2];
+
+// Compute the magnitude of the vector
+const magnitude = spice.vnorm(vector);
+
+// expect magnitude = sqrt(1^2 + 2^2 + 2^2)
+
+```
+
+### Parameters
+- `vector`: The 3-dimensional vector.
+
+### Return Value
+- Returns the magnitude of the vector as a numeric value.
+
+### Error Handling
+- Throws an error if incorrect arguments are provided.
+
+### External Reference
+- For more information on the underlying CSPICE function `vnorm_c`, refer to [NASA/NAIF Toolkit Documentation](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/vnorm_c.html).
+
+
+
+## `vpack` Function Documentation
+
+### Functionality
+The `vpack` function, part of a node-gyp implementation wrapping the NASA/NAIF CSPICE Library, packs three scalar components into a 3-dimensional vector.
+
+### Usage Example
+```javascript
+// Define three scalar components
+const x = -1;
+const y = -2;
+const z = -3;
+
+// Pack them into a vector
+const vector = spice.vpack(x, y, z);
+
+// expect vector = [-1, -2, -3];
+```
+
+### Parameters
+- `x`: The x-component of the vector.
+- `y`: The y-component of the vector.
+- `z`: The z-component of the vector.
+
+### Return Value
+- Returns a 3-dimensional vector array `[x, y, z]`.
+
+### Error Handling
+- Throws an error if incorrect arguments are provided.
+
+### External Reference
+- For more information on the underlying CSPICE function `vpack_c`, refer to [NASA/NAIF Toolkit Documentation](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/vpack_c.html).
+
+
+## `vpack` Function Documentation
+
+### Functionality
+The `vpack` function, part of a node-gyp implementation wrapping the NASA/NAIF CSPICE Library, packs three scalar components into a 3-dimensional vector.
+
+### Usage Example
+```javascript
+// Define three scalar components
+const x = -1;
+const y = -2;
+const z = -3;
+
+// Pack them into a vector
+const vector = spice.vpack(x, y, z);
+
+// expected vector = [-1, -2, -3];
+```
+
+### Parameters
+- `x`: The x-component of the vector.
+- `y`: The y-component of the vector.
+- `z`: The z-component of the vector.
+
+### Return Value
+- Returns a 3-dimensional vector array `[x, y, z]`.
+
+### Error Handling
+- Throws an error if incorrect arguments are provided.
+
+### External Reference
+- For more information on the underlying CSPICE function `vpack_c`, refer to [NASA/NAIF Toolkit Documentation](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/vpack_c.html).
+
+
+
+## `vprjp` Function Documentation
+
+### Functionality
+The `vprjp` function, part of a node-gyp implementation wrapping the NASA/NAIF CSPICE Library, projects a vector onto a specified plane orthogonally.
+
+### Usage Example
+```javascript
+// Define the normal and origin of a plane
+const norm = [0, 0, 1];
+const orig = [0, 0, 0];
+
+// Create the plane
+const plane = spice.nvp2pl(norm, orig);
+
+// Define a vector
+const vector = [-29703.16955, 879765.72163, -12345.6789];
+
+// Project the vector onto the plane
+const projectedVector = spice.vprjp(vector, plane);
+
+//  expected projectedVector = [-29703.16955, 879765.72163, 0];
+```
+
+### Parameters
+- `vin`: The 3-dimensional vector to be projected.
+- `plane`: The plane onto which the vector is projected, defined by its normal and origin.
+
+### Return Value
+- Returns the orthogonal projection of the vector onto the specified plane.
+
+### Error Handling
+- Throws an error if incorrect arguments are provided.
+
+### External Reference
+- For more information on the underlying CSPICE function `vprjp_c`, refer to [NASA/NAIF Toolkit Documentation](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/vprjp_c.html).
+
+
+## `vprjpi` Function Documentation
+
+### Functionality
+The `vprjpi` function, part of a node-gyp implementation wrapping the NASA/NAIF CSPICE Library, finds the vector in a specified plane that maps to a specified vector in another plane under orthogonal projection.
+
+### Usage Example
+```javascript
+// Define a vector and two planes
+const vin = [0, 1, 0];
+const projpl = spice.nvc2pl([0,0,1], 0); // Plane perpendicular to Z-axis
+const invpl = spice.nvc2pl([0,1,0], 0);  // Plane perpendicular to Y-axis
+
+// Find the vector in the invpl plane that maps to vin in the projpl plane
+const {vout, found} = spice.vprjpi(vin, projpl, invpl);
+
+// expected Vout = [1, 0, 0], found = true
+```
+
+### Parameters
+- `vin`: The 3-dimensional vector.
+- `projpl`: The plane in which `vin` is considered.
+- `invpl`: The plane in which the output vector is to be found.
+
+### Return Value
+- Returns an object containing the resulting vector and a boolean indicating if the vector was found.
+
+### Error Handling
+- Throws an error if incorrect arguments are provided.
+
+### External Reference
+- For more information on the underlying CSPICE function `vprjpi_c`, refer to [NASA/NAIF Toolkit Documentation](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/vprjpi_c.html).
+
+
+## `vproj` Function Documentation
+
+### Functionality
+The `vproj` function, part of a node-gyp implementation wrapping the NASA/NAIF CSPICE Library, computes the projection of one 3-dimensional vector onto another 3-dimensional vector.
+
+### Usage Example
+```javascript
+// Define two 3-dimensional vectors
+const a = [6, 6, 6];
+const b = [2, 0, 0];
+
+// Compute the projection of vector 'a' onto vector 'b'
+const projectedVector = spice.vproj(a, b);
+
+// expected projectedVector = [6, 0, 0]; // Projection of 'a' onto 'b'
+```
+
+### Parameters
+- `a`: The first 3-dimensional vector.
+- `b`: The second 3-dimensional vector, onto which `a` is projected.
+
+### Return Value
+- Returns the projection of `a` onto `b` as a 3-dimensional vector.
+
+### Error Handling
+- Throws an error if incorrect arguments are provided.
+
+### External Reference
+- For more information on the underlying CSPICE function `vproj_c`, refer to [NASA/NAIF Toolkit Documentation](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/vproj_c.html).
+
+
+
+## `vrel` Function Documentation
+
+### Functionality
+The `vrel` function, part of a node-gyp implementation wrapping the NASA/NAIF CSPICE Library, computes the relative difference between two double precision, 3-dimensional vectors.
+
+### Usage Example
+```javascript
+// Define two 3-dimensional vectors
+const v1 = [1, 2, 3];
+const v2 = [4, 5, 6];
+
+// Compute the relative difference between the vectors
+const relativeDifference = spice.vrel(v1, v2);
+
+// expected relativeDifference = 0.592156525463792
+```
+
+### Parameters
+- `v1`: The first 3-dimensional vector.
+- `v2`: The second 3-dimensional vector.
+
+### Return Value
+- Returns the relative difference between `v1` and `v2` as a numeric value.
+
+### Error Handling
+- Throws an error if incorrect arguments are provided.
+
+### External Reference
+- For more information on the underlying CSPICE function `vrel_c`, refer to [NASA/NAIF Toolkit Documentation](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/vrel_c.html).
+
+
+## `vrotv` Function Documentation
+
+### Functionality
+The `vrotv` function, part of a node-gyp implementation wrapping the NASA/NAIF CSPICE Library, rotates a vector about a specified axis vector by a specified angle.
+
+### Usage Example
+```javascript
+// Define a vector, axis of rotation, and rotation angle
+const v = [1, 2, 3];
+const axis = [0, 0, 1]; // Z-axis
+const theta = spice.halfpi(); // 90 degrees
+
+// Rotate the vector about the axis by the angle
+const rotatedVector = spice.vrotv(v, axis, theta);
+
+// expected rotatedVector = [-2, 1, 3];
+```
+
+### Parameters
+- `v`: The 3-dimensional vector to be rotated.
+- `axis`: The 3-dimensional axis vector about which the rotation is performed.
+- `theta`: The rotation angle in radians.
+
+### Return Value
+- Returns the rotated vector as a 3-dimensional vector.
+
+### Error Handling
+- Throws an error if incorrect arguments are provided.
+
+### External Reference
+- For more information on the underlying CSPICE function `vrotv_c`, refer to [NASA/NAIF Toolkit Documentation](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/vrotv_c.html).
+
+
+## `vscl` Function Documentation
+
+### Functionality
+The `vscl` function, part of a node-gyp implementation wrapping the NASA/NAIF CSPICE Library, multiplies a scalar value with a double precision 3-dimensional vector.
+
+### Usage Example
+```javascript
+// Define a scalar and a 3-dimensional vector
+const s = 2;
+const v1 = [1, 2, 3];
+
+// Perform scalar multiplication
+const scaledVector = spice.vscl(s, v1);
+
+// expected scaledVector = [2, 4, 6]
+```
+
+### Parameters
+- `s`: The scalar value.
+- `v1`: The original 3-dimensional vector.
+
+### Return Value
+- Returns the scaled vector as a 3-dimensional array.
+
+### Error Handling
+- Throws an error if incorrect arguments are provided.
+
+### External Reference
+- For more information on the underlying CSPICE function `vscl_c`, refer to [NASA/NAIF Toolkit Documentation](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/vscl_c.html).
+
+
+
+## `vsep` Function Documentation
+
+### Functionality
+The `vsep` function, part of a node-gyp implementation wrapping the NASA/NAIF CSPICE Library, computes the separation angle in radians between two double precision, 3-dimensional vectors.
+
+### Usage Example
+```javascript
+// Define two 3-dimensional vectors
+const v1 = [1, 0, 0];
+const v2 = [0, 1, 0];
+
+// Compute the separation angle between the vectors
+const separationAngle = spice.vsep(v1, v2);
+
+// expected separationAngle = Math.PI / 2 -  90 degrees (in radians)
+```
+
+### Parameters
+- `v1`: The first 3-dimensional vector.
+- `v2`: The second 3-dimensional vector.
+
+### Return Value
+- Returns the separation angle in radians between the two vectors.
+
+### Error Handling
+- Throws an error if incorrect arguments are provided.
+
+### External Reference
+- For more information on the underlying CSPICE function `vsep_c`, refer to [NASA/NAIF Toolkit Documentation](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/vsep_c.html).
+
+
+
+## `vsub` Function Documentation
+
+### Functionality
+The `vsub` function, part of a node-gyp implementation wrapping the NASA/NAIF CSPICE Library, computes the difference between two double precision, 3-dimensional vectors.
+
+### Usage Example
+```javascript
+// Define two 3-dimensional vectors
+const v1 = [1, 2, 3];
+const v2 = [1, 1, 1];
+
+// Compute the difference between the vectors
+const differenceVector = spice.vsub(v1, v2);
+
+// expected differenceVector = [0, 1, 2]
+```
+
+### Parameters
+- `v1`: The first 3-dimensional vector.
+- `v2`: The second 3-dimensional vector.
+
+### Return Value
+- Returns the difference between `v1` and `v2` as a 3-dimensional vector.
+
+### Error Handling
+- Throws an error if incorrect arguments are provided.
+
+### External Reference
+- For more information on the underlying CSPICE function `vsub_c`, refer to [NASA/NAIF Toolkit Documentation](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/vsub_c.html).
+
+
+
+## `vtmv` Function Documentation
+
+### Functionality
+The `vtmv` function, part of a node-gyp implementation wrapping the NASA/NAIF CSPICE Library, multiplies the transpose of a 3-dimensional column vector, a 3x3 matrix, and a 3-dimensional column vector, in that order.
+
+### Usage Example
+```javascript
+// Define a 3-dimensional vector, a 3x3 matrix, and another 3-dimensional vector
+const v1 = [2, 4, 6];
+const matrix = [[0, 1, 0], [-1, 0, 0], [0, 0, 1]];
+const v2 = [1, 1, 1];
+
+// Perform the matrix multiplication
+const result = spice.vtmv(v1, matrix, v2);
+
+// expected result = 4
+```
+
+### Parameters
+- `v1`: The first 3-dimensional column vector.
+- `matrix`: The 3x3 matrix.
+- `v2`: The second 3-dimensional column vector.
+
+### Return Value
+- Returns the result of the matrix multiplication as a numeric value.
+
+### Error Handling
+- Throws an error if incorrect arguments are provided.
+
+### External Reference
+- For more information on the underlying CSPICE function `vtmv_c`, refer to [NASA/NAIF Toolkit Documentation](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/vtmv_c.html).
+
+
+## `vupack` Function Documentation
+
+### Functionality
+The `vupack` function, part of a node-gyp implementation wrapping the NASA/NAIF CSPICE Library, unpacks three scalar components from a double precision, 3-dimensional vector.
+
+### Usage Example
+```javascript
+// Define a 3-dimensional vector
+const v = [1, 2, 3];
+
+// Unpack the scalar components from the vector
+const { x, y, z } = spice.vupack(v);
+
+// expected Components = "x":1, "y":2, "z":3
+```
+
+### Parameters
+- `v`: The 3-dimensional vector to unpack.
+
+### Return Value
+- Returns an object with the scalar components `x`, `y`, and `z` of the vector.
+
+### Error Handling
+- Throws an error if incorrect arguments are provided.
+
+### External Reference
+- For more information on the underlying CSPICE function `vupack_c`, refer to [NASA/NAIF Toolkit Documentation](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/vupack_c.html).
+
+
+## `vzero` Function Documentation
+
+### Functionality
+The `vzero` function, part of a node-gyp implementation wrapping the NASA/NAIF CSPICE Library, checks if a double precision, 3-dimensional vector is the zero vector.
+
+### Usage Example
+```javascript
+// Define a 3-dimensional vector
+const vector = [0, 0, 0];
+
+// Check if the vector is the zero vector
+const isZero = spice.vzero(vector);
+
+// expect isZero === true
+```
+
+### Parameters
+- `vector`: The 3-dimensional vector to check.
+
+### Return Value
+- Returns a boolean value `true` if the vector is the zero vector, otherwise `false`.
+
+### Error Handling
+- Throws an error if incorrect arguments are provided.
+
+### External Reference
+- For more information on the underlying CSPICE function `vzero_c`, refer to [NASA/NAIF Toolkit Documentation](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/vzero_c.html).
+
+
+
+## `xpose` Function Documentation
+
+### Functionality
+The `xpose` function, part of a node-gyp implementation wrapping the NASA/NAIF CSPICE Library, transposes a 3x3 double precision matrix.
+
+### Usage Example
+```javascript
+// Define a 3x3 matrix
+const matrix = [[0, -1, 0], [0.5, 0, 0], [0, 0, 1]];
+
+// Transpose the matrix
+const transposedMatrix = spice.xpose(matrix);
+
+// expected transposedMatrix = [[0, 0.5, 0], [-1, 0, 0], [0, 0, 1]];
+```
+
+### Parameters
+- `matrix`: The 3x3 matrix to be transposed.
+
+### Return Value
+- Returns the transposed 3x3 matrix.
+
+### Error Handling
+- Throws an error if incorrect arguments are provided.
+
+### External Reference
+- For more information on the underlying CSPICE function `xpose_c`, refer to [NASA/NAIF Toolkit Documentation](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/xpose_c.html).
+
+## Utility functions
+
+`js-spice` includes a few utility function that are useful when working with the module and for downloading kernel files.
+
+
+
+### `cacheGenericKernel` Function Documentation
+
+#### Functionality
+The `cacheGenericKernel` function asynchronously downloads a file from a specified URL and saves it to a given directory. This function operates asynchronously and returns a Promise. It should be used with 'await' in an async function context, or with `.then()`/`.catch()` to properly handle the asynchronous operation. The function skips the download if the file already exists. If 'dirRelative' is not provided, the file is saved using 'urlRelative' as a relative path. Upon successful download, or if the file already exists, it returns the absolute path of the file on the local file system.
+
+#### Usage Example
+```javascript
+const { downloadKernel } = require('js-spice');
+
+// Async function to download and cache a kernel
+async function downloadKernel() {
+  const urlRelative = 'path/to/kernel';
+  const dirRelative = 'directory/to/save';
+
+  try {
+    const filePath = await cacheGenericKernel(urlRelative, dirRelative);
+    console.log(`Kernel saved at: ${filePath}`);
+  } catch (error) {
+    console.error(`Error downloading kernel: ${error.message}`);
+  }
+
+  // now you can use the kernel file (supply it to furnsh, etc)
+  // ...
+}
+
+// Call the async function
+downloadKernel();
+```
+
+#### Parameters
+- `urlRelative`: The relative URL path from the base URL.
+- `dirRelative`: (Optional) The relative directory path from the base directory.
+
+#### Return Value
+- Returns a Promise that resolves to the absolute path of the file on the local file system.
+
+#### Error Handling
+- Logs and throws an error if there are issues during the download process.
+
+#### Reminder
+- Remember that this is an asynchronous function. Use `await` within an async function, or `.then()`/`.catch()` for handling the Promise.
+
+#### External Reference
+- Utilizes Axios for HTTP requests and Node.js File System (fs) module for handling files.
+
+
+
+### `et_now` Function Documentation
+
+#### Functionality
+The `et_now` function retrieves the current time in Ephemeris Time (ET) format using the SPICE toolkit. Ephemeris Time is a time scale commonly used in planetary science, especially for solar system dynamics.
+
+#### Usage Example
+```javascript
+const {et_now} = require('js-spice');
+
+// Retrieve the current time in Ephemeris Time (ET) format
+const currentET = et_now();
+
+```
+
+#### Parameters
+- The function expects no arguments.
+
+#### Return Value
+- Returns the current time in Ephemeris Time (ET) format as a numeric value.
+
+#### Error Handling
+- The function relies on SPICE's `str2et` for time conversion, which may throw an error for invalid time formats or other internal issues.
+
+#### External Reference
+- This function utilizes the `str2et` function from the SPICE toolkit for the time conversion. More information on the `str2et` function can be found in the SPICE toolkit documentation.
+
+
+### `getGeophysicalConstants` Function Documentation
+
+#### Functionality
+The `getGeophysicalConstants` function asynchronously retrieves geophysical constants for Earth using the SPICE toolkit. The function operates asynchronously and returns a Promise. It should be used with 'await' in an async function context or with `.then()`/`.catch()` to handle the asynchronous operation properly. If `getCachedKernel` is true, the function ensures the specified kernel file is downloaded and available before fetching constants.
+
+#### Usage Example
+```javascript
+const { getGeophysicalConstants } = require('js-spice');
+
+// Async function to retrieve geophysical constants
+async function retrieveConstants() {
+  try {
+    const constants = await getGeophysicalConstants(true);
+    console.log(`Geophysical Constants: `, constants);
+  } catch (error) {
+    console.error(`Error retrieving constants: ${error.message}`);
+  }
+
+  // geophysical constants should now be downloaded, cached locally, and supplied to furnsh
+}
+
+// Call the async function
+retrieveConstants();
+```
+
+#### Parameters
+- `getCachedKernel`: Flag to determine whether to download and cache the kernel file.
+- `kernelToUse`: (Optional) The kernel file to use. Defaults to 'pck/geophysical.ker'.
+- `kernelCacheLocation`: (Optional) Location to cache the kernel file. Defaults to 'data/naif/generic_kernels/${file}'.
+
+#### Return Value
+- Returns a Promise that resolves to an object containing key geophysical constants such as j2, j3, j4, ke, qo, so, er, ae.
+
+#### Error Handling
+- Logs and throws an error if there are issues during the process.
+
+#### Reminder
+- Remember that this is an asynchronous function. Use `await` within an async function, or `.then()`/`.catch()` for handling the Promise.
+
+#### External Reference
+- Utilizes SPICE toolkit functions for fetching geophysical constants.
+
+
+
+### `getKernels` Function Documentation
+
+#### Functionality
+The `getKernels` function asynchronously loads and processes SPICE kernel files, returning a Promise. It should be used with 'await' or `.then()` to properly handle the asynchronous operation. The function checks if the provided `kernelsToLoad` is a string or an array, and then proceeds to load and process each kernel file. If `kernelCacheLocation` is not provided, it defaults to 'data/naif/generic_kernels'.
+
+#### Usage Example
+
+```javascript
+const { getKernels } = require('js-spice');
+
+// Async function to load kernel files
+async function loadKernels() {
+  const kernels = ['spk/planets.bsp', 'lsk/naif0012.tls'];
+  try {
+    await getKernels(kernels);
+    console.log('Kernels loaded successfully.');
+  } catch (error) {
+    console.error(`Error loading kernels: ${error.message}`);
+  }
+
+  // the kernels should now be downloaded, locally cached, and furnsh'ed.
+  // ...
+}
+
+// Call the async function
+loadKernels();
+```
+
+#### Parameters
+- `kernelsToLoad`: The kernel file(s) to load. Can be a string or an array of strings.
+- `kernelCacheLocation`: (Optional) The location where the kernel cache is stored. Defaults to 'data/naif/generic_kernels' if not specified.
+
+#### Return Value
+- Returns a Promise that resolves when the kernel files are loaded and processed.
+
+#### Error Handling
+- Logs and throws an error if there are issues during the process.
+
+#### Reminder
+- Remember that this is an asynchronous function. Use `await` within an async function, or `.then()` for handling the Promise.
+
+#### External Reference
+- Utilizes the `cacheGenericKernel` function to cache and `spice.furnsh` to process the kernel files.
 
 ### License
 MIT License.
